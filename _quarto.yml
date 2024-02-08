@@ -1,0 +1,33 @@
+
+project:
+  type: website
+
+website:
+  title: "Tutoriels Stats"
+  navbar:
+    background: "#447099"
+    left:
+      - href: index.qmd
+        text: Accueil
+      - text: Probabilité
+        menu:
+          - href: doc/tuto/lois-probabilité-continues.qmd
+            text: "Lois de probabilité continues"
+    right:
+      - icon: github
+        href: https://github.com/ludo2ne/ENSAI-Stats
+        target: "_blank"
+  page-footer:
+    right: |
+      Website built with <a href=https://quarto.org/ target="_blank">Quarto</a><br>
+      <a href=https://github.com/ludo2ne/ENSAI-Stats target="_blank">Source code</a>
+  repo-url: https://github.com/ludo2ne/ENSAI-Stats
+  repo-branch: main
+  reader-mode: true
+
+format:
+  html:
+    theme:
+      dark: solar
+      light: cosmo
+    css: styles.css

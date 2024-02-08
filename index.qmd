@@ -1,0 +1,13 @@
+---
+title: "Tutoriels de Statistique"
+description: "Fiches pour découvrir différentes matières"
+author: "Ludovic Deneuville"
+format: html
+from: markdown+emoji
+---
+
+
+## Objectifs
+
+- introduction à diverses matières
+- en utilisant des exemples de code R ou Python

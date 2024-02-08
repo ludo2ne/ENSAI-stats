@@ -1,0 +1,29 @@
+---
+title: "Lois de probabilité continues"
+description: "Lois usuelles"
+author: "Ludovic Deneuville"
+format:
+  html:
+    toc: true
+    toc-location: left
+    toc-expand: 3
+from: markdown+emoji
+number-sections: true
+---
+
+## Loi Uniforme
+
+
+```{r}
+runif(1, min = 0, max = 1)
+
+curve(dunif(x, min = 0, max = 1), 
+      col = "red", 
+      xlim = c(-0.2, 1.2), 
+      main = "Densité de la loi Uniforme")
+
+curve(punif(x, min = 0, max = 1), 
+      col = "red", 
+      xlim = c(-0.2, 1.2), 
+      main = "Fonction de répartition de la loi Uniforme")
+```
