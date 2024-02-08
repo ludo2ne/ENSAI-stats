@@ -1,0 +1,30 @@
+[
+  {
+    "objectID": "doc/tuto/lois-probabilité-continues.html",
+    "href": "doc/tuto/lois-probabilité-continues.html",
+    "title": "Lois de probabilité continues",
+    "section": "",
+    "text": "runif(1, min = 0, max = 1)\n\n[1] 0.6096471\n\ncurve(dunif(x, min = 0, max = 1), \n      col = \"red\", \n      xlim = c(-0.2, 1.2), \n      main = \"Densité de la loi Uniforme\")\n\n\n\n\n\n\n\ncurve(punif(x, min = 0, max = 1), \n      col = \"red\", \n      xlim = c(-0.2, 1.2), \n      main = \"Fonction de répartition de la loi Uniforme\")"
+  },
+  {
+    "objectID": "doc/tuto/lois-probabilité-continues.html#loi-uniforme",
+    "href": "doc/tuto/lois-probabilité-continues.html#loi-uniforme",
+    "title": "Lois de probabilité continues",
+    "section": "",
+    "text": "runif(1, min = 0, max = 1)\n\n[1] 0.6096471\n\ncurve(dunif(x, min = 0, max = 1), \n      col = \"red\", \n      xlim = c(-0.2, 1.2), \n      main = \"Densité de la loi Uniforme\")\n\n\n\n\n\n\n\ncurve(punif(x, min = 0, max = 1), \n      col = \"red\", \n      xlim = c(-0.2, 1.2), \n      main = \"Fonction de répartition de la loi Uniforme\")"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Tutoriels de Statistique",
+    "section": "",
+    "text": "introduction à diverses matières\nen utilisant des exemples de code R ou Python"
+  },
+  {
+    "objectID": "index.html#objectifs",
+    "href": "index.html#objectifs",
+    "title": "Tutoriels de Statistique",
+    "section": "",
+    "text": "introduction à diverses matières\nen utilisant des exemples de code R ou Python"
+  }
+]
