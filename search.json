@@ -4,14 +4,63 @@
     "href": "doc/tuto/lois-probabilité-continues.html",
     "title": "Lois de probabilité continues",
     "section": "",
-    "text": "runif(1, min = 0, max = 1)\n\n[1] 0.6096471\n\ncurve(dunif(x, min = 0, max = 1), \n      col = \"red\", \n      xlim = c(-0.2, 1.2), \n      main = \"Densité de la loi Uniforme\")\n\n\n\n\n\n\n\ncurve(punif(x, min = 0, max = 1), \n      col = \"red\", \n      xlim = c(-0.2, 1.2), \n      main = \"Fonction de répartition de la loi Uniforme\")"
+    "text": "Loi Normale de moyenne \\(\\mu\\) et de variance \\(\\sigma^2\\)\n\\(X_1 + X_2 \\sim \\mathcal{N}(\\mu_1 + \\mu_2,\\sigma_1^2 + \\sigma_2^2)\\) si\n\n\\(X_1 \\sim \\mathcal{N}(\\mu_1,\\sigma_1^2)\\)\n\\(X_2 \\sim \\mathcal{N}(\\mu_2,\\sigma_2^2)\\)\n\\(X \\perp \\!\\!\\! \\perp Y\\)\n\ndensité : \\(f(t)=\\frac{1}{\\sqrt{2 \\pi \\sigma^2}} e^{-\\frac{1}{2} \\frac{(t-\\mu )^{2}}{\\sigma ^{2}}}\\)\nfonction caractéristique : \\(\\frac{{\\rm e}^{{\\rm i}tb}-{\\rm e}^{{\\rm i}ta}}{{\\rm i}t(b-a)}\\)"
+  },
+  {
+    "objectID": "doc/tuto/lois-probabilité-continues.html#loi-normale",
+    "href": "doc/tuto/lois-probabilité-continues.html#loi-normale",
+    "title": "Lois de probabilité continues",
+    "section": "",
+    "text": "Loi Normale de moyenne \\(\\mu\\) et de variance \\(\\sigma^2\\)\n\\(X_1 + X_2 \\sim \\mathcal{N}(\\mu_1 + \\mu_2,\\sigma_1^2 + \\sigma_2^2)\\) si\n\n\\(X_1 \\sim \\mathcal{N}(\\mu_1,\\sigma_1^2)\\)\n\\(X_2 \\sim \\mathcal{N}(\\mu_2,\\sigma_2^2)\\)\n\\(X \\perp \\!\\!\\! \\perp Y\\)\n\ndensité : \\(f(t)=\\frac{1}{\\sqrt{2 \\pi \\sigma^2}} e^{-\\frac{1}{2} \\frac{(t-\\mu )^{2}}{\\sigma ^{2}}}\\)\nfonction caractéristique : \\(\\frac{{\\rm e}^{{\\rm i}tb}-{\\rm e}^{{\\rm i}ta}}{{\\rm i}t(b-a)}\\)"
   },
   {
     "objectID": "doc/tuto/lois-probabilité-continues.html#loi-uniforme",
     "href": "doc/tuto/lois-probabilité-continues.html#loi-uniforme",
     "title": "Lois de probabilité continues",
-    "section": "",
-    "text": "runif(1, min = 0, max = 1)\n\n[1] 0.6096471\n\ncurve(dunif(x, min = 0, max = 1), \n      col = \"red\", \n      xlim = c(-0.2, 1.2), \n      main = \"Densité de la loi Uniforme\")\n\n\n\n\n\n\n\ncurve(punif(x, min = 0, max = 1), \n      col = \"red\", \n      xlim = c(-0.2, 1.2), \n      main = \"Fonction de répartition de la loi Uniforme\")"
+    "section": "2 Loi Uniforme",
+    "text": "2 Loi Uniforme\nLoi Uniforme continue sur le segment [a,b]\n\\(\\mathbb{E}( \\mathcal{U}[a,b]) = \\frac{a+b}{2}\\)\n\\(\\mathbb{V}( \\mathcal{U}[a,b]) = \\frac{(b-a)^2}{12}\\)\ndensité : \\(\\frac{1}{b-a} \\mathbb{1}_{a \\leq x \\leq b}\\)\nfonction de répartition : \\(F(x)={\\begin{cases}0&{\\text{pour }}x&lt;a\\\\{\\dfrac {x-a}{b-a}}&{\\text{pour }}a\\leq x&lt;b\\\\1&{\\text{pour }}x\\geq b\\end{cases}}\\)\nfonction caractéristique : \\(\\frac{{\\rm e}^{{\\rm i}tb}-{\\rm e}^{{\\rm i}ta}}{{\\rm i}t(b-a)}\\)\nCode R\n\nGénérer un échantillonDensitéFonction de répartition\n\n\nGénérer un échantillon de n valeurs suivant la loi \\(\\mathcal{U}[a,b])\\)\n\nn &lt;- 5\nrunif(n, min = 0, max = 1)\n\n[1] 0.05575976 0.29373572 0.45343730 0.46042415 0.67315267\n\n\n\n\n\ncurve(dunif(x, min = 0, max = 1), \n      col = \"red\", \n      xlim = c(-0.2, 1.2), \n      main = \"Densité de la loi Uniforme\")\n\n\n\n\n\n\n\n\n\n\n\ncurve(punif(x, min = 0, max = 1), \n      col = \"red\", \n      xlim = c(-0.2, 1.2), \n      main = \"Fonction de répartition de la loi Uniforme\")"
+  },
+  {
+    "objectID": "doc/tuto/lois-probabilité-continues.html#loi-du-chi2",
+    "href": "doc/tuto/lois-probabilité-continues.html#loi-du-chi2",
+    "title": "Lois de probabilité continues",
+    "section": "3 Loi du Chi2",
+    "text": "3 Loi du Chi2\nLoi du chi 2 à n degrés de liberté\n\\(\\chi^2(n) \\sim \\sum_{i=1}^{n} X_{i}^{2}\\) avec \\(X_i \\sim \\mathcal{N}(0,1) \\ iid\\)\n\\(\\mathbb{E}(\\chi^2(n)) = n\\)\n\\(\\mathbb{V}(\\chi^2(n)) = 2n\\)\ndensité : \\(\\frac{(1/2)^{{k/2}}}{\\Gamma (k/2)} x^{{k/2-1}} e^{{-x/2}}\\)\nfonction caractéristique : \\((1-2\\,i\\,t)^{{-k/2}}\\)"
+  },
+  {
+    "objectID": "doc/tuto/lois-probabilité-continues.html#loi-de-student",
+    "href": "doc/tuto/lois-probabilité-continues.html#loi-de-student",
+    "title": "Lois de probabilité continues",
+    "section": "4 Loi de Student",
+    "text": "4 Loi de Student\nLoi de Student à n degrés de liberté\n\\(\\mathcal{T}(n) \\sim \\frac{\\mathcal{N}(0,1)}{\\sqrt{\\chi^2(m)/m}}\\)\n\\(\\mathbb{E}(\\mathcal{T}(n)) = 0\\) si \\(n &gt; 1\\)\n\\(\\mathbb{V}(\\mathcal{T}(n)) = \\frac{n}{n-2}\\) si \\(n &gt; 2\\) (\\(+\\infty\\) sinon)\n\\(\\mathcal{T}(n) \\underset{n \\to +\\infty}{\\overset{\\mathcal{L}} \\longrightarrow} \\mathcal{N}(0,1)\\)"
+  },
+  {
+    "objectID": "doc/tuto/lois-probabilité-continues.html#loi-de-fisher-snedecor",
+    "href": "doc/tuto/lois-probabilité-continues.html#loi-de-fisher-snedecor",
+    "title": "Lois de probabilité continues",
+    "section": "5 Loi de Fisher-Snedecor",
+    "text": "5 Loi de Fisher-Snedecor\nLoi de Fisher-Snedecor à n et m degrés de liberté\n\\(\\mathcal{F}(n,m) \\sim \\frac{\\chi^2(n)/n}{\\chi^2(m)/m}\\)\n\\(\\mathbb{E}(\\mathcal{F}(n,m)) = \\frac {m}{m-2}\\) si \\(m &gt; 2\\)\n\\(X \\sim \\mathcal{F}(a,b) \\Rightarrow \\frac{1}{X} \\sim \\mathcal{F}(b,a)\\)\nLien avec la loi de Student : \\(X\\sim \\mathcal{T}(n) \\Rightarrow X^2 \\sim \\mathcal{F}(1,n)\\)\nLien avec la loi Normale : \\(X \\sim \\mathcal{N}(0,1) \\Rightarrow X^2 \\sim \\mathcal{F}(1,\\infty)\\)"
+  },
+  {
+    "objectID": "doc/tuto/lois-probabilité-continues.html#loi-exponentielle",
+    "href": "doc/tuto/lois-probabilité-continues.html#loi-exponentielle",
+    "title": "Lois de probabilité continues",
+    "section": "6 Loi Exponentielle",
+    "text": "6 Loi Exponentielle\nLoi exponentielle de paramètre Lambda\n\\(\\mathbb{E}(\\epsilon(\\lambda)) = \\frac{1}{\\lambda}\\)\n\\(\\mathbb{V}(\\epsilon(\\lambda)) = \\frac{1}{\\lambda^2}\\)\ndensité : \\(\\lambda e^{{-\\lambda x}} \\mathbb{1}_{x \\geq 0}\\)\nfonction de répartition : \\(1-e^{{-\\lambda x}}\\)\nfonction caractéristique : \\(\\left(1-{\\dfrac {it}{\\lambda }}\\right)^{{-1}}\\)"
+  },
+  {
+    "objectID": "doc/tuto/lois-probabilité-continues.html#loi-gamma",
+    "href": "doc/tuto/lois-probabilité-continues.html#loi-gamma",
+    "title": "Lois de probabilité continues",
+    "section": "7 Loi Gamma",
+    "text": "7 Loi Gamma\nLoi Gamma de paramètres alpha et beta\n\\(X \\sim \\Gamma( \\alpha , \\beta)\\)\n\\(\\mathbb{E}(\\Gamma( \\alpha , \\beta)) = \\frac{\\alpha}{\\beta}\\)\n\\(\\mathbb{V}(\\Gamma( \\alpha , \\beta)) = \\frac{\\alpha}{\\beta^2}\\)\ndensité : \\(f ( x , \\alpha, \\beta ) = x^{\\alpha -1} \\frac{\\beta ^\\alpha e^{-\\beta x}}{\\Gamma (\\alpha )} \\mathbb{1}_{x &gt; 0}\\)\nLiens avec d’autres lois : - Si \\(\\alpha = 1 \\sim\\) loi exponentielle - Si \\(\\Gamma (n / 2 , 1/2 ) \\sim\\) loi du \\(\\chi^2\\) à \\(n\\) degrés de liberté\n\n7.1 Fonction Gamma\n\\(\\Gamma(a) = \\int _{0}^{+\\infty }t^{a-1}\\,\\mathrm {e} ^{-t}\\,\\mathrm dt\\)\nProlonge la fonction factorielle à l’ensemble des nombres complexes (sauf entiers négatifs)\n\\(\\Gamma(n+1) = n!\\)\n\\(\\Gamma(x+1) = x\\Gamma(x)\\)\n\n\n7.2 Loi inverse Gamma\nLoi inverse Gamma de paramètres k et \\(\\theta\\)\n\\(X \\sim {{Inv \\ \\Gamma}(k,\\theta )} \\Rightarrow \\frac{1}{X} \\sim \\Gamma ( k , 1 / \\theta )\\)\ndensité : \\(f(x;\\alpha ,\\beta )={\\frac {\\beta ^{\\alpha }}{\\Gamma (\\alpha )}}(1/x)^{\\alpha +1}\\exp \\left(-\\beta /x\\right)\\) pour \\(x &gt; 0\\)\n\\(\\mathbb{E}(Inv \\ \\Gamma( \\alpha , \\beta)) = \\frac{\\beta}{\\alpha-1}\\) pour \\(\\alpha &gt; 1\\)\n\\(\\mathbb{V}(Inv \\ \\Gamma( \\alpha , \\beta)) = \\frac {\\beta ^{2}}{(\\alpha -1)^{2}(\\alpha -2)}\\) pour \\(\\alpha &gt; 2\\)"
+  },
+  {
+    "objectID": "doc/tuto/lois-probabilité-continues.html#loi-beta",
+    "href": "doc/tuto/lois-probabilité-continues.html#loi-beta",
+    "title": "Lois de probabilité continues",
+    "section": "8 Loi Beta",
+    "text": "8 Loi Beta\nLoi Beta de paramètres alpha et beta\n\\(\\mathbb{E}(\\mathrm{B}) = \\frac {\\alpha }{\\alpha +\\beta }\\)\n\\(\\mathbb{V}(\\mathrm{B}) = \\frac {\\alpha \\beta }{(\\alpha +\\beta )^{2}(\\alpha +\\beta +1)}\\)\ndensité : \\(\\frac{x^{\\alpha-1}(1-x)^{\\beta-1}}{\\mathrm{B} (\\alpha ,\\beta )}\\)\n\n8.1 Fonction Beta\n\\(\\mathrm {B} (x,y)=\\int _{0}^{1}t^{x-1}(1-t)^{y-1}\\mathrm {d} t\\)\n\\(\\mathrm {B} (x,y)={\\frac {\\Gamma (x)\\,\\Gamma (y)}{\\Gamma (x+y)}}\\)\n\\(\\mathrm {B} (x,y)=\\mathrm {B} (y,x)\\)\n\\(\\mathrm {B} (x,y+1)=\\frac{y}{x+y}\\mathrm {B} (x,y)\\)"
   },
   {
     "objectID": "index.html",

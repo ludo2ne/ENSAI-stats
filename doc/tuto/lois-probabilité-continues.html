@@ -105,6 +105,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -169,7 +198,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#loi-uniforme" id="toc-loi-uniforme" class="nav-link active" data-scroll-target="#loi-uniforme"><span class="header-section-number">1</span> Loi Uniforme</a></li>
+  <li><a href="#loi-normale" id="toc-loi-normale" class="nav-link active" data-scroll-target="#loi-normale"><span class="header-section-number">1</span> Loi Normale</a></li>
+  <li><a href="#loi-uniforme" id="toc-loi-uniforme" class="nav-link" data-scroll-target="#loi-uniforme"><span class="header-section-number">2</span> Loi Uniforme</a></li>
+  <li><a href="#loi-du-chi2" id="toc-loi-du-chi2" class="nav-link" data-scroll-target="#loi-du-chi2"><span class="header-section-number">3</span> Loi du Chi2</a></li>
+  <li><a href="#loi-de-student" id="toc-loi-de-student" class="nav-link" data-scroll-target="#loi-de-student"><span class="header-section-number">4</span> Loi de Student</a></li>
+  <li><a href="#loi-de-fisher-snedecor" id="toc-loi-de-fisher-snedecor" class="nav-link" data-scroll-target="#loi-de-fisher-snedecor"><span class="header-section-number">5</span> Loi de Fisher-Snedecor</a></li>
+  <li><a href="#loi-exponentielle" id="toc-loi-exponentielle" class="nav-link" data-scroll-target="#loi-exponentielle"><span class="header-section-number">6</span> Loi Exponentielle</a></li>
+  <li><a href="#loi-gamma" id="toc-loi-gamma" class="nav-link" data-scroll-target="#loi-gamma"><span class="header-section-number">7</span> Loi Gamma</a>
+  <ul class="collapse">
+  <li><a href="#fonction-gamma" id="toc-fonction-gamma" class="nav-link" data-scroll-target="#fonction-gamma"><span class="header-section-number">7.1</span> Fonction Gamma</a></li>
+  <li><a href="#loi-inverse-gamma" id="toc-loi-inverse-gamma" class="nav-link" data-scroll-target="#loi-inverse-gamma"><span class="header-section-number">7.2</span> Loi inverse Gamma</a></li>
+  </ul></li>
+  <li><a href="#loi-beta" id="toc-loi-beta" class="nav-link" data-scroll-target="#loi-beta"><span class="header-section-number">8</span> Loi Beta</a>
+  <ul class="collapse">
+  <li><a href="#fonction-beta" id="toc-fonction-beta" class="nav-link" data-scroll-target="#fonction-beta"><span class="header-section-number">8.1</span> Fonction Beta</a></li>
+  </ul></li>
   </ul>
 </nav>
 </nav>
@@ -210,13 +253,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="loi-uniforme" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="loi-uniforme"><span class="header-section-number">1</span> Loi Uniforme</h2>
+<section id="loi-normale" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="loi-normale"><span class="header-section-number">1</span> Loi Normale</h2>
+<p>Loi Normale de moyenne <span class="math inline">\(\mu\)</span> et de variance <span class="math inline">\(\sigma^2\)</span></p>
+<p><span class="math inline">\(X_1 + X_2 \sim \mathcal{N}(\mu_1 + \mu_2,\sigma_1^2 + \sigma_2^2)\)</span> si</p>
+<ul>
+<li><span class="math inline">\(X_1 \sim \mathcal{N}(\mu_1,\sigma_1^2)\)</span></li>
+<li><span class="math inline">\(X_2 \sim \mathcal{N}(\mu_2,\sigma_2^2)\)</span></li>
+<li><span class="math inline">\(X \perp \!\!\! \perp Y\)</span></li>
+</ul>
+<p>densité : <span class="math inline">\(f(t)=\frac{1}{\sqrt{2 \pi \sigma^2}} e^{-\frac{1}{2} \frac{(t-\mu )^{2}}{\sigma ^{2}}}\)</span></p>
+<p>fonction caractéristique : <span class="math inline">\(\frac{{\rm e}^{{\rm i}tb}-{\rm e}^{{\rm i}ta}}{{\rm i}t(b-a)}\)</span></p>
+</section>
+<section id="loi-uniforme" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="loi-uniforme"><span class="header-section-number">2</span> Loi Uniforme</h2>
+<p>Loi Uniforme continue sur le segment [a,b]</p>
+<p><span class="math inline">\(\mathbb{E}( \mathcal{U}[a,b]) = \frac{a+b}{2}\)</span></p>
+<p><span class="math inline">\(\mathbb{V}( \mathcal{U}[a,b]) = \frac{(b-a)^2}{12}\)</span></p>
+<p>densité : <span class="math inline">\(\frac{1}{b-a} \mathbb{1}_{a \leq x \leq b}\)</span></p>
+<p>fonction de répartition : <span class="math inline">\(F(x)={\begin{cases}0&amp;{\text{pour }}x&lt;a\\{\dfrac {x-a}{b-a}}&amp;{\text{pour }}a\leq x&lt;b\\1&amp;{\text{pour }}x\geq b\end{cases}}\)</span></p>
+<p>fonction caractéristique : <span class="math inline">\(\frac{{\rm e}^{{\rm i}tb}-{\rm e}^{{\rm i}ta}}{{\rm i}t(b-a)}\)</span></p>
+<p><strong>Code R</strong></p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Générer un échantillon</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Densité</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Fonction de répartition</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>Générer un échantillon de <em>n</em> valeurs suivant la loi <span class="math inline">\(\mathcal{U}[a,b])\)</span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">runif</span>(<span class="dv">1</span>, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">runif</span>(n, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.6096471</code></pre>
+<pre><code>[1] 0.05575976 0.29373572 0.45343730 0.46042415 0.67315267</code></pre>
 </div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dunif</span>(x, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">1</span>), </span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">col =</span> <span class="st">"red"</span>, </span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.2</span>, <span class="fl">1.2</span>), </span>
@@ -224,10 +296,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="lois-probabilité-continues_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="lois-probabilité-continues_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
+</div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">punif</span>(x, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">1</span>), </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">col =</span> <span class="st">"red"</span>, </span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.2</span>, <span class="fl">1.2</span>), </span>
@@ -235,13 +311,89 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="lois-probabilité-continues_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="lois-probabilité-continues_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+</div>
+</div>
+</div>
+</section>
+<section id="loi-du-chi2" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="loi-du-chi2"><span class="header-section-number">3</span> Loi du Chi2</h2>
+<p>Loi du chi 2 à n degrés de liberté</p>
+<p><span class="math inline">\(\chi^2(n) \sim \sum_{i=1}^{n} X_{i}^{2}\)</span> avec <span class="math inline">\(X_i \sim \mathcal{N}(0,1) \ iid\)</span></p>
+<p><span class="math inline">\(\mathbb{E}(\chi^2(n)) = n\)</span></p>
+<p><span class="math inline">\(\mathbb{V}(\chi^2(n)) = 2n\)</span></p>
+<p>densité : <span class="math inline">\(\frac{(1/2)^{{k/2}}}{\Gamma (k/2)} x^{{k/2-1}} e^{{-x/2}}\)</span></p>
+<p>fonction caractéristique : <span class="math inline">\((1-2\,i\,t)^{{-k/2}}\)</span></p>
+</section>
+<section id="loi-de-student" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="loi-de-student"><span class="header-section-number">4</span> Loi de Student</h2>
+<p>Loi de Student à n degrés de liberté</p>
+<p><span class="math inline">\(\mathcal{T}(n) \sim \frac{\mathcal{N}(0,1)}{\sqrt{\chi^2(m)/m}}\)</span></p>
+<p><span class="math inline">\(\mathbb{E}(\mathcal{T}(n)) = 0\)</span> si <span class="math inline">\(n &gt; 1\)</span></p>
+<p><span class="math inline">\(\mathbb{V}(\mathcal{T}(n)) = \frac{n}{n-2}\)</span> si <span class="math inline">\(n &gt; 2\)</span> (<span class="math inline">\(+\infty\)</span> sinon)</p>
+<p><span class="math inline">\(\mathcal{T}(n) \underset{n \to +\infty}{\overset{\mathcal{L}} \longrightarrow} \mathcal{N}(0,1)\)</span></p>
+</section>
+<section id="loi-de-fisher-snedecor" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="loi-de-fisher-snedecor"><span class="header-section-number">5</span> Loi de Fisher-Snedecor</h2>
+<p>Loi de Fisher-Snedecor à n et m degrés de liberté</p>
+<p><span class="math inline">\(\mathcal{F}(n,m) \sim \frac{\chi^2(n)/n}{\chi^2(m)/m}\)</span></p>
+<p><span class="math inline">\(\mathbb{E}(\mathcal{F}(n,m)) = \frac {m}{m-2}\)</span> si <span class="math inline">\(m &gt; 2\)</span></p>
+<p><span class="math inline">\(X \sim \mathcal{F}(a,b) \Rightarrow \frac{1}{X} \sim \mathcal{F}(b,a)\)</span></p>
+<p>Lien avec la loi de Student : <span class="math inline">\(X\sim \mathcal{T}(n) \Rightarrow X^2 \sim \mathcal{F}(1,n)\)</span></p>
+<p>Lien avec la loi Normale : <span class="math inline">\(X \sim \mathcal{N}(0,1) \Rightarrow X^2 \sim \mathcal{F}(1,\infty)\)</span></p>
+</section>
+<section id="loi-exponentielle" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="loi-exponentielle"><span class="header-section-number">6</span> Loi Exponentielle</h2>
+<p>Loi exponentielle de paramètre Lambda</p>
+<p><span class="math inline">\(\mathbb{E}(\epsilon(\lambda)) = \frac{1}{\lambda}\)</span></p>
+<p><span class="math inline">\(\mathbb{V}(\epsilon(\lambda)) = \frac{1}{\lambda^2}\)</span></p>
+<p>densité : <span class="math inline">\(\lambda e^{{-\lambda x}} \mathbb{1}_{x \geq 0}\)</span></p>
+<p>fonction de répartition : <span class="math inline">\(1-e^{{-\lambda x}}\)</span></p>
+<p>fonction caractéristique : <span class="math inline">\(\left(1-{\dfrac {it}{\lambda }}\right)^{{-1}}\)</span></p>
+</section>
+<section id="loi-gamma" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="loi-gamma"><span class="header-section-number">7</span> Loi Gamma</h2>
+<p>Loi Gamma de paramètres alpha et beta</p>
+<p><span class="math inline">\(X \sim \Gamma( \alpha , \beta)\)</span></p>
+<p><span class="math inline">\(\mathbb{E}(\Gamma( \alpha , \beta)) = \frac{\alpha}{\beta}\)</span></p>
+<p><span class="math inline">\(\mathbb{V}(\Gamma( \alpha , \beta)) = \frac{\alpha}{\beta^2}\)</span></p>
+<p>densité : <span class="math inline">\(f ( x , \alpha, \beta ) = x^{\alpha -1} \frac{\beta ^\alpha e^{-\beta x}}{\Gamma (\alpha )} \mathbb{1}_{x &gt; 0}\)</span></p>
+<p>Liens avec d’autres lois : - Si <span class="math inline">\(\alpha = 1 \sim\)</span> loi exponentielle - Si <span class="math inline">\(\Gamma (n / 2 , 1/2 ) \sim\)</span> loi du <span class="math inline">\(\chi^2\)</span> à <span class="math inline">\(n\)</span> degrés de liberté</p>
+<section id="fonction-gamma" class="level3" data-number="7.1">
+<h3 data-number="7.1" class="anchored" data-anchor-id="fonction-gamma"><span class="header-section-number">7.1</span> Fonction Gamma</h3>
+<p><span class="math inline">\(\Gamma(a) = \int _{0}^{+\infty }t^{a-1}\,\mathrm {e} ^{-t}\,\mathrm dt\)</span></p>
+<p>Prolonge la fonction factorielle à l’ensemble des nombres complexes (sauf entiers négatifs)</p>
+<p><span class="math inline">\(\Gamma(n+1) = n!\)</span></p>
+<p><span class="math inline">\(\Gamma(x+1) = x\Gamma(x)\)</span></p>
+</section>
+<section id="loi-inverse-gamma" class="level3" data-number="7.2">
+<h3 data-number="7.2" class="anchored" data-anchor-id="loi-inverse-gamma"><span class="header-section-number">7.2</span> Loi inverse Gamma</h3>
+<p>Loi inverse Gamma de paramètres k et <span class="math inline">\(\theta\)</span></p>
+<p><span class="math inline">\(X \sim {{Inv \ \Gamma}(k,\theta )} \Rightarrow \frac{1}{X} \sim \Gamma ( k , 1 / \theta )\)</span></p>
+<p>densité : <span class="math inline">\(f(x;\alpha ,\beta )={\frac {\beta ^{\alpha }}{\Gamma (\alpha )}}(1/x)^{\alpha +1}\exp \left(-\beta /x\right)\)</span> pour <span class="math inline">\(x &gt; 0\)</span></p>
+<p><span class="math inline">\(\mathbb{E}(Inv \ \Gamma( \alpha , \beta)) = \frac{\beta}{\alpha-1}\)</span> pour <span class="math inline">\(\alpha &gt; 1\)</span></p>
+<p><span class="math inline">\(\mathbb{V}(Inv \ \Gamma( \alpha , \beta)) = \frac {\beta ^{2}}{(\alpha -1)^{2}(\alpha -2)}\)</span> pour <span class="math inline">\(\alpha &gt; 2\)</span></p>
+</section>
+</section>
+<section id="loi-beta" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="loi-beta"><span class="header-section-number">8</span> Loi Beta</h2>
+<p>Loi Beta de paramètres alpha et beta</p>
+<p><span class="math inline">\(\mathbb{E}(\mathrm{B}) = \frac {\alpha }{\alpha +\beta }\)</span></p>
+<p><span class="math inline">\(\mathbb{V}(\mathrm{B}) = \frac {\alpha \beta }{(\alpha +\beta )^{2}(\alpha +\beta +1)}\)</span></p>
+<p>densité : <span class="math inline">\(\frac{x^{\alpha-1}(1-x)^{\beta-1}}{\mathrm{B} (\alpha ,\beta )}\)</span></p>
+<section id="fonction-beta" class="level3" data-number="8.1">
+<h3 data-number="8.1" class="anchored" data-anchor-id="fonction-beta"><span class="header-section-number">8.1</span> Fonction Beta</h3>
+<p><span class="math inline">\(\mathrm {B} (x,y)=\int _{0}^{1}t^{x-1}(1-t)^{y-1}\mathrm {d} t\)</span></p>
+<p><span class="math inline">\(\mathrm {B} (x,y)={\frac {\Gamma (x)\,\Gamma (y)}{\Gamma (x+y)}}\)</span></p>
+<p><span class="math inline">\(\mathrm {B} (x,y)=\mathrm {B} (y,x)\)</span></p>
+<p><span class="math inline">\(\mathrm {B} (x,y+1)=\frac{y}{x+y}\mathrm {B} (x,y)\)</span></p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
