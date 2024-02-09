@@ -19,7 +19,7 @@ jobs:
       - run: quarto install tinytex
 
       - name: Install Python and Dependencies
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
           cache: 'pip'
@@ -31,16 +31,12 @@ jobs:
         with:
           r-version: '4.3.0'
 
-      - name: Install R Dependencies
-        run: |
-          R -e 'install.packages("rmarkdown")'
-          R -e 'install.packages(c("rmarkdown", "ggplot2"))'
-
-# use renv instead of manually install
-#      - name: Install R Dependencies
-#        uses: r-lib/actions/setup-renv@v2
-#        with:
-#          cache-version: 1
+      - name: Install R packages
+        uses: r-lib/actions/setup-r-dependencies@v2
+          with:
+            packages: |
+              any::rmarkdown 
+              any::ggplot2
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2

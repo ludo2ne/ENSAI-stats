@@ -7,6 +7,11 @@ format:
     toc: true
     toc-location: left
     toc-expand: 3
+    df-print: paged
+    code-fold: true
+fig-width: 6
+fig-height: 4
+fig-align: center
 from: markdown+emoji
 number-sections: true
 ---
@@ -15,62 +20,181 @@ number-sections: true
 
 Loi Normale de moyenne $\mu$ et de variance $\sigma^2$
 
-$X_1 + X_2 \sim \mathcal{N}(\mu_1 + \mu_2,\sigma_1^2 + \sigma_2^2)$ si
+
+:::{.columns}
+
+:::{.column}
+
+Densité : 
+$$f(t)=\frac{1}{\sqrt{2 \pi \sigma^2}} e^{-\frac{1}{2} \frac{(t-\mu )^{2}}{\sigma ^{2}}}$$
+
+Fonction caractéristique : 
+$$\frac{{\textrm e}^{{\textrm i}tb}-{\textrm e}^{{\textrm i}ta}}{{\textrm i}t(b-a)}$$
+
+:::
+:::{.column}
+
+si
 
 - $X_1 \sim \mathcal{N}(\mu_1,\sigma_1^2)$
 - $X_2 \sim \mathcal{N}(\mu_2,\sigma_2^2)$
 - $X \perp \!\!\! \perp Y$
 
-densité : $f(t)=\frac{1}{\sqrt{2 \pi \sigma^2}} e^{-\frac{1}{2} \frac{(t-\mu )^{2}}{\sigma ^{2}}}$
+alors
 
-fonction caractéristique : $\frac{{\rm e}^{{\rm i}tb}-{\rm e}^{{\rm i}ta}}{{\rm i}t(b-a)}$
+$X_1 + X_2 \sim \mathcal{N}(\mu_1 + \mu_2,\sigma_1^2 + \sigma_2^2)$
 
+:::
+:::
+
+::: {.panel-tabset}
+
+### Densité
+
+```{r}
+library(ggplot2)
+
+# Paramètres
+mu <- 0
+sigma2 <- 1
+
+# Générer des données
+x <- seq(mu - 3, mu + 3, length.out = 100)
+f_x <- dnorm(x, mean = mu, sd = sigma2)
+data <- data.frame(x = x, density = f_x)
+
+# Tracer la courbe avec ggplot2
+ggplot(data, aes(x = x, y = density)) +
+  geom_line(color = "darkcyan", linewidth = 1.5) +
+  scale_x_continuous(name = "x", limits = c(-3, 3)) + 
+  scale_y_continuous(name = "f(x)") + 
+  labs(title = "Densité de la loi Normale(0, 1)")
+```
+
+### Fonction de répartition
+
+```{r}
+library(ggplot2)
+
+# Paramètres
+a <- 0
+b <- 1
+
+# Générer des données
+x <- seq(mu - 3, mu + 3, length.out = 100)
+F_x <- pnorm(x, mean = mu, sd = sigma2)
+data <- data.frame(x = x, cdf = F_x)
+
+# Tracer la courbe avec ggplot2
+ggplot(data, aes(x = x, y = cdf)) +
+  geom_line(color = "darkcyan", linewidth = 1.5) +
+  scale_x_continuous(name = "x", limits = c(-3, 3)) + 
+  scale_y_continuous(name = "F(x)") + 
+  labs(title = "Fonction de répartition de la loi Normale(0, 1)")
+```
+
+
+### Générer un échantillon
+
+Générer un échantillon de *n* valeurs suivant la loi $\mathcal{N}[0,1]$
+
+```{r}
+#| code-fold: false
+n <- 5
+ech <- rnorm(n, 0, 1)
+data.frame(ech)
+```
+
+:::
 
 
 ## Loi Uniforme
 
-Loi Uniforme continue sur le segment [a,b]
+Loi uniforme continue sur le segment [a,b]
 
-$\mathbb{E}( \mathcal{U}[a,b]) = \frac{a+b}{2}$
+:::{.columns}
 
-$\mathbb{V}( \mathcal{U}[a,b]) = \frac{(b-a)^2}{12}$
+:::{.column}
 
-densité : $\frac{1}{b-a} \mathbb{1}_{a \leq x \leq b}$
+$$\mathbb{E}( \mathcal{U}[a,b]) = \frac{a+b}{2}$$
 
-fonction de répartition : $F(x)={\begin{cases}0&{\text{pour }}x<a\\{\dfrac {x-a}{b-a}}&{\text{pour }}a\leq x<b\\1&{\text{pour }}x\geq b\end{cases}}$
+$$\mathbb{V}( \mathcal{U}[a,b]) = \frac{(b-a)^2}{12}$$
 
-fonction caractéristique : $\frac{{\rm e}^{{\rm i}tb}-{\rm e}^{{\rm i}ta}}{{\rm i}t(b-a)}$
+Densité : 
+$$f(x)=\frac{1}{b-a} \mathbb{1}_{a \leq x \leq b}(x)$$
+
+:::
+
+:::{.column}
+
+Fonction de répartition : 
+$$F(x)={\begin{cases}0&{\text{pour }}x<a\\{\dfrac {x-a}{b-a}}&{\text{pour }}a\leq x<b\\1&{\text{pour }}x\geq b\end{cases}}$$
+
+Fonction caractéristique : 
+$$\frac{{\textrm e}^{{\textrm i}tb}-{\textrm e}^{{\textrm i}ta}}{{\textrm i}t(b-a)}$$
+
+:::
+:::
 
 **Code R**
 
 
 ::: {.panel-tabset}
 
-#### Générer un échantillon
-
-Générer un échantillon de *n* valeurs suivant la loi $\mathcal{U}[a,b])$
+### Densité
 
 ```{r}
+library(ggplot2)
+
+# Paramètres
+a <- 0
+b <- 1
+
+# Générer des données
+x <- seq(a - 0.1, b + 0.1, length.out = 100)
+f_x <- dunif(x, min = a, max = b)
+data <- data.frame(x = x, density = f_x)
+
+# Tracer la courbe avec ggplot2
+ggplot(data, aes(x = x, y = density)) +
+  geom_line(color = "darkcyan", linewidth = 1.5) +
+  scale_x_continuous(name = "x", breaks = seq(0, 1, by = 0.2), limits = c(-0.1, 1.1)) + 
+  scale_y_continuous(name = "f(x)") + 
+  labs(title = "Densité de la loi Uniforme")
+```
+
+### Fonction de répartition
+
+```{r}
+library(ggplot2)
+
+# Paramètres
+a <- 0
+b <- 1
+
+# Générer des données
+x <- seq(a - 0.1, b + 0.1, length.out = 100)
+F_x <- punif(x, min = a, max = b)
+data <- data.frame(x = x, cdf = F_x)
+
+# Tracer la courbe avec ggplot2
+ggplot(data, aes(x = x, y = cdf)) +
+  geom_line(color = "darkcyan", linewidth = 1.5) +
+  scale_x_continuous(name = "x", breaks = seq(0, 1, by = 0.2), limits = c(-0.1, 1.1)) + 
+  scale_y_continuous(name = "F(x)") + 
+  labs(title = "Fonction de répartition de la loi Uniforme")
+```
+
+
+### Générer un échantillon
+
+Générer un échantillon de *n* valeurs suivant la loi $\mathcal{U}[a,b]$
+
+```{r}
+#| code-fold: false
 n <- 5
-runif(n, min = 0, max = 1)
-```
-
-#### Densité
-
-```{r}
-curve(dunif(x, min = 0, max = 1), 
-      col = "red", 
-      xlim = c(-0.2, 1.2), 
-      main = "Densité de la loi Uniforme")
-```
-
-#### Fonction de répartition
-
-```{r}
-curve(punif(x, min = 0, max = 1), 
-      col = "red", 
-      xlim = c(-0.2, 1.2), 
-      main = "Fonction de répartition de la loi Uniforme")
+ech <- runif(n, min = 0, max = 1)
+data.frame(ech)
 ```
 
 :::
@@ -87,9 +211,9 @@ $\mathbb{E}(\chi^2(n)) = n$
 
 $\mathbb{V}(\chi^2(n)) = 2n$
 
-densité : $\frac{(1/2)^{{k/2}}}{\Gamma (k/2)} x^{{k/2-1}} e^{{-x/2}}$
+Densité : $\frac{(1/2)^{{k/2}}}{\Gamma (k/2)} x^{{k/2-1}} e^{{-x/2}}$
 
-fonction caractéristique : $(1-2\,i\,t)^{{-k/2}}$
+Fonction caractéristique : $(1-2\,i\,t)^{{-k/2}}$
 
 
 
@@ -130,11 +254,11 @@ $\mathbb{E}(\epsilon(\lambda)) = \frac{1}{\lambda}$
 
 $\mathbb{V}(\epsilon(\lambda)) = \frac{1}{\lambda^2}$
 
-densité : $\lambda e^{{-\lambda x}} \mathbb{1}_{x \geq 0}$
+Densité : $\lambda e^{{-\lambda x}} \mathbb{1}_{x \geq 0}$
 
-fonction de répartition : $1-e^{{-\lambda x}}$
+Fonction de répartition : $1-e^{{-\lambda x}}$
 
-fonction caractéristique : $\left(1-{\dfrac {it}{\lambda }}\right)^{{-1}}$
+Fonction caractéristique : $\left(1-{\dfrac {it}{\lambda }}\right)^{{-1}}$
 
 
 ## Loi Gamma
@@ -148,7 +272,7 @@ $\mathbb{E}(\Gamma( \alpha , \beta)) = \frac{\alpha}{\beta}$
 
 $\mathbb{V}(\Gamma( \alpha , \beta)) = \frac{\alpha}{\beta^2}$
 
-densité : $f ( x , \alpha, \beta ) = x^{\alpha -1} \frac{\beta ^\alpha e^{-\beta x}}{\Gamma (\alpha )} \mathbb{1}_{x > 0}$
+Densité : $f ( x , \alpha, \beta ) = x^{\alpha -1} \frac{\beta ^\alpha e^{-\beta x}}{\Gamma (\alpha )} \mathbb{1}_{x > 0}$
 
 Liens avec d'autres lois :
 - Si $\alpha = 1 \sim$ loi exponentielle
@@ -172,7 +296,7 @@ Loi inverse Gamma de paramètres k et $\theta$
 
 $X \sim {{Inv \ \Gamma}(k,\theta )} \Rightarrow \frac{1}{X} \sim \Gamma ( k , 1 / \theta )$
 
-densité : $f(x;\alpha ,\beta )={\frac {\beta ^{\alpha }}{\Gamma (\alpha )}}(1/x)^{\alpha +1}\exp \left(-\beta /x\right)$ pour $x > 0$
+Densité : $f(x;\alpha ,\beta )={\frac {\beta ^{\alpha }}{\Gamma (\alpha )}}(1/x)^{\alpha +1}\exp \left(-\beta /x\right)$ pour $x > 0$
 
 $\mathbb{E}(Inv \ \Gamma( \alpha , \beta)) = \frac{\beta}{\alpha-1}$ pour $\alpha > 1$
 
@@ -187,7 +311,7 @@ $\mathbb{E}(\mathrm{B}) = \frac {\alpha }{\alpha +\beta }$
 
 $\mathbb{V}(\mathrm{B}) = \frac {\alpha \beta }{(\alpha +\beta )^{2}(\alpha +\beta +1)}$
 
-densité : $\frac{x^{\alpha-1}(1-x)^{\beta-1}}{\mathrm{B} (\alpha ,\beta )}$
+Densité : $\frac{x^{\alpha-1}(1-x)^{\beta-1}}{\mathrm{B} (\alpha ,\beta )}$
 
 ### Fonction Beta
 
