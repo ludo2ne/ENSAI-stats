@@ -257,22 +257,12 @@ window.Quarto = {
 
 <section id="loi-normale" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="loi-normale"><span class="header-section-number">1</span> Loi Normale</h2>
-<p>Loi Normale de moyenne <span class="math inline">\(\mu\)</span> et de variance <span class="math inline">\(\sigma^2\)</span></p>
-<div class="columns">
-<div class="column">
+<p>Moyenne : <span class="math display">\[\mu\]</span></p>
+<p>Variance : <span class="math display">\[\sigma^2\]</span></p>
 <p>Densité : <span class="math display">\[f(t)=\frac{1}{\sqrt{2 \pi \sigma^2}} e^{-\frac{1}{2} \frac{(t-\mu )^{2}}{\sigma ^{2}}}\]</span></p>
-<p>Fonction caractéristique : <span class="math display">\[\frac{{\textrm e}^{{\textrm i}tb}-{\textrm e}^{{\textrm i}ta}}{{\textrm i}t(b-a)}\]</span></p>
-</div><div class="column">
-<p>si</p>
-<ul>
-<li><span class="math inline">\(X_1 \sim \mathcal{N}(\mu_1,\sigma_1^2)\)</span></li>
-<li><span class="math inline">\(X_2 \sim \mathcal{N}(\mu_2,\sigma_2^2)\)</span></li>
-<li><span class="math inline">\(X \perp \!\!\! \perp Y\)</span></li>
-</ul>
-<p>alors</p>
-<p><span class="math inline">\(X_1 + X_2 \sim \mathcal{N}(\mu_1 + \mu_2,\sigma_1^2 + \sigma_2^2)\)</span></p>
-</div>
-</div>
+<p>Fonction caractéristique : <span class="math display">\[\phi (t)={\rm {e}}^{\mu {\rm {i}}t-{\frac {1}{2}}\sigma ^{2}t^{2}}\]</span></p>
+<p>Propriétés :</p>
+<p><span class="math display">\[X_1 + X_2 \sim \mathcal{N}(\mu_1 + \mu_2,\sigma_1^2 + \sigma_2^2) \Leftrightarrow X_1 \sim \mathcal{N}(\mu_1,\sigma_1^2) \ et \ X_2 \sim \mathcal{N}(\mu_2,\sigma_2^2) \ et \ X \perp \!\!\! \perp Y\]</span></p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Densité</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Fonction de répartition</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Générer un échantillon</a></li></ul>
 <div class="tab-content">
@@ -347,7 +337,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["ech"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"-0.6279516"},{"1":"-0.2941532"},{"1":"-0.6172964"},{"1":"-0.7663038"},{"1":"-0.1929035"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["ech"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.2301309"},{"1":"-1.1897623"},{"1":"-0.4953607"},{"1":"-0.5115011"},{"1":"-0.2613770"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -358,17 +348,12 @@ window.Quarto = {
 </section>
 <section id="loi-uniforme" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="loi-uniforme"><span class="header-section-number">2</span> Loi Uniforme</h2>
-<p>Loi uniforme continue sur le segment [a,b]</p>
-<div class="columns">
-<div class="column">
-<p><span class="math display">\[\mathbb{E}( \mathcal{U}[a,b]) = \frac{a+b}{2}\]</span></p>
-<p><span class="math display">\[\mathbb{V}( \mathcal{U}[a,b]) = \frac{(b-a)^2}{12}\]</span></p>
+<p>Loi uniforme continue sur le segment [a,b].</p>
+<p>Espérance : <span class="math display">\[\mathbb{E}( \mathcal{U}[a,b]) = \frac{a+b}{2}\]</span></p>
+<p>Variance : <span class="math display">\[\mathbb{V}( \mathcal{U}[a,b]) = \frac{(b-a)^2}{12}\]</span></p>
 <p>Densité : <span class="math display">\[f(x)=\frac{1}{b-a} \mathbb{1}_{a \leq x \leq b}(x)\]</span></p>
-</div><div class="column">
 <p>Fonction de répartition : <span class="math display">\[F(x)={\begin{cases}0&amp;{\text{pour }}x&lt;a\\{\dfrac {x-a}{b-a}}&amp;{\text{pour }}a\leq x&lt;b\\1&amp;{\text{pour }}x\geq b\end{cases}}\]</span></p>
-<p>Fonction caractéristique : <span class="math display">\[\frac{{\textrm e}^{{\textrm i}tb}-{\textrm e}^{{\textrm i}ta}}{{\textrm i}t(b-a)}\]</span></p>
-</div>
-</div>
+<p>Fonction caractéristique : <span class="math display">\[\phi(t) = \frac {{\rm {e}}^{{\rm {i}}tb}-{\rm {e}}^{{\rm {i}}ta}}{{\rm {i}}t(b-a)}\]</span></p>
 <p><strong>Code R</strong></p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Densité</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Fonction de répartition</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false">Générer un échantillon</a></li></ul>
@@ -444,7 +429,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["ech"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.4197456"},{"1":"0.7793574"},{"1":"0.1216623"},{"1":"0.4195957"},{"1":"0.6274560"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["ech"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.1519158"},{"1":"0.2877786"},{"1":"0.4294338"},{"1":"0.6527453"},{"1":"0.5056373"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -455,20 +440,132 @@ window.Quarto = {
 </section>
 <section id="loi-du-chi2" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="loi-du-chi2"><span class="header-section-number">3</span> Loi du Chi2</h2>
-<p>Loi du chi 2 à n degrés de liberté</p>
-<p><span class="math inline">\(\chi^2(n) \sim \sum_{i=1}^{n} X_{i}^{2}\)</span> avec <span class="math inline">\(X_i \sim \mathcal{N}(0,1) \ iid\)</span></p>
-<p><span class="math inline">\(\mathbb{E}(\chi^2(n)) = n\)</span></p>
-<p><span class="math inline">\(\mathbb{V}(\chi^2(n)) = 2n\)</span></p>
-<p>Densité : <span class="math inline">\(\frac{(1/2)^{{k/2}}}{\Gamma (k/2)} x^{{k/2-1}} e^{{-x/2}}\)</span></p>
-<p>Fonction caractéristique : <span class="math inline">\((1-2\,i\,t)^{{-k/2}}\)</span></p>
+<p>Loi du chi 2 à k degrés de liberté</p>
+<p><span class="math display">\[\chi^2(k) \sim \sum_{i=1}^{k} X_{i}^{2} \ avec \ X_i \ \sim \mathcal{N}(0,1) \ iid\]</span></p>
+<p>Espérance : <span class="math display">\[\mathbb{E}(\chi^2(k)) = n\]</span></p>
+<p>Variance : <span class="math display">\[\mathbb{V}(\chi^2(k)) = 2n\]</span></p>
+<p>Densité : <span class="math display">\[\frac{(1/2)^{{k/2}}}{\Gamma (k/2)} x^{{k/2-1}} e^{{-x/2}}\]</span></p>
+<p>Fonction caractéristique : <span class="math display">\[\phi(t) = (1-2\,i\,t)^{{-k/2}}\]</span></p>
+<p><strong>Code R</strong></p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Densité</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Générer un échantillon</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Paramètres</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>df_values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Genérer des données</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">lapply</span>(df_values, <span class="cf">function</span>(df) {</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">30</span>, <span class="at">length.out =</span> <span class="dv">200</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  f_x <span class="ot">&lt;-</span> <span class="fu">dchisq</span>(x, <span class="at">df =</span> df)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">density =</span> f_x, <span class="at">df =</span> <span class="fu">as.factor</span>(df))</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, data)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Tracer la courbe avec ggplot2</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> density, <span class="at">color =</span> df)) <span class="sc">+</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">name =</span> <span class="st">"x"</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">30</span>)) <span class="sc">+</span> </span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">name =</span> <span class="st">"f(x)"</span>) <span class="sc">+</span> </span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Densité de la loi du Chi2 selon différents degrés de liberté"</span>) <span class="sc">+</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_discrete</span>(<span class="at">name =</span> <span class="st">"df"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lois-probabilité-continues_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<p>Générer un échantillon de <em>n</em> valeurs suivant la loi <span class="math inline">\(\chi^2(df)\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="dv">3</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>ech <span class="ot">&lt;-</span> <span class="fu">rchisq</span>(n, df)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(ech)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["ech"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"3.1789999"},{"1":"0.2778297"},{"1":"11.2532895"},{"1":"2.7717856"},{"1":"1.5873558"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </section>
 <section id="loi-de-student" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="loi-de-student"><span class="header-section-number">4</span> Loi de Student</h2>
-<p>Loi de Student à n degrés de liberté</p>
-<p><span class="math inline">\(\mathcal{T}(n) \sim \frac{\mathcal{N}(0,1)}{\sqrt{\chi^2(m)/m}}\)</span></p>
-<p><span class="math inline">\(\mathbb{E}(\mathcal{T}(n)) = 0\)</span> si <span class="math inline">\(n &gt; 1\)</span></p>
-<p><span class="math inline">\(\mathbb{V}(\mathcal{T}(n)) = \frac{n}{n-2}\)</span> si <span class="math inline">\(n &gt; 2\)</span> (<span class="math inline">\(+\infty\)</span> sinon)</p>
-<p><span class="math inline">\(\mathcal{T}(n) \underset{n \to +\infty}{\overset{\mathcal{L}} \longrightarrow} \mathcal{N}(0,1)\)</span></p>
+<p>Loi de Student à <em>n</em> degrés de liberté.</p>
+<p><span class="math display">\[\mathcal{T}(n) \sim \frac{\mathcal{N}(0,1)}{\sqrt{\chi^2(n)/n}}\]</span></p>
+<p>Espérance : <span class="math display">\[\mathbb{E}(\mathcal{T}(n)) = 0 \ si \ n &gt; 1\]</span></p>
+<p>Variance : <span class="math display">\[\mathbb{V}(\mathcal{T}(n)) = \frac{n}{n-2} \ si \ n &gt; 2 \ (+\infty \ sinon)\]</span></p>
+<p>La loi de Student converge en loi vers la loi Normale <span class="math display">\[\mathcal{T}(n) \underset{n \to +\infty}{\overset{\mathcal{L}} \longrightarrow} \mathcal{N}(0,1)\]</span></p>
+<p><strong>Code R</strong></p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">Densité</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">Générer un échantillon</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Paramètres</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>df_values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">20</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Générer des données</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">lapply</span>(df_values, <span class="cf">function</span>(df) {</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="at">length.out =</span> <span class="dv">200</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  f_x <span class="ot">&lt;-</span> <span class="fu">dt</span>(x, <span class="at">df =</span> df)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">density =</span> f_x, <span class="at">df =</span> <span class="fu">as.factor</span>(df))</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, data)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Tracer la courbe avec ggplot2</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> density, <span class="at">color =</span> df)) <span class="sc">+</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">name =</span> <span class="st">"x"</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>)) <span class="sc">+</span> </span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">name =</span> <span class="st">"f(x)"</span>) <span class="sc">+</span> </span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Densité de la loi de Student selon différents degrés de liberté"</span>) <span class="sc">+</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_discrete</span>(<span class="at">name =</span> <span class="st">"df"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lois-probabilité-continues_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<p>Générer un échantillon de <em>n</em> valeurs suivant la loi <span class="math inline">\(\mathcal{T}(df)\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="dv">3</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>ech <span class="ot">&lt;-</span> <span class="fu">rt</span>(n, df)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(ech)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["ech"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"-0.8486775"},{"1":"-1.2082241"},{"1":"-0.7503111"},{"1":"-0.7159289"},{"1":"0.6197900"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </section>
 <section id="loi-de-fisher-snedecor" class="level2" data-number="5">
 <h2 data-number="5" class="anchored" data-anchor-id="loi-de-fisher-snedecor"><span class="header-section-number">5</span> Loi de Fisher-Snedecor</h2>
