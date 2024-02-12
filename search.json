@@ -63,6 +63,13 @@
     "text": "8 Loi Beta\nLoi Beta de paramètres alpha et beta\n\\(\\mathbb{E}(\\mathrm{B}) = \\frac {\\alpha }{\\alpha +\\beta }\\)\n\\(\\mathbb{V}(\\mathrm{B}) = \\frac {\\alpha \\beta }{(\\alpha +\\beta )^{2}(\\alpha +\\beta +1)}\\)\nDensité : \\(\\frac{x^{\\alpha-1}(1-x)^{\\beta-1}}{\\mathrm{B} (\\alpha ,\\beta )}\\)\n\n8.1 Fonction Beta\n\\(\\mathrm {B} (x,y)=\\int _{0}^{1}t^{x-1}(1-t)^{y-1}\\mathrm {d} t\\)\n\\(\\mathrm {B} (x,y)={\\frac {\\Gamma (x)\\,\\Gamma (y)}{\\Gamma (x+y)}}\\)\n\\(\\mathrm {B} (x,y)=\\mathrm {B} (y,x)\\)\n\\(\\mathrm {B} (x,y+1)=\\frac{y}{x+y}\\mathrm {B} (x,y)\\)"
   },
   {
+    "objectID": "doc/tuto/lois-probabilité-discrètes.html",
+    "href": "doc/tuto/lois-probabilité-discrètes.html",
+    "title": "Lois de probabilité discrètes",
+    "section": "",
+    "text": "1 Loi de Poisson"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Tutoriels de Statistique",
@@ -75,5 +82,26 @@
     "title": "Tutoriels de Statistique",
     "section": "",
     "text": "introduction à diverses matières\nen utilisant des exemples de code R ou Python"
+  },
+  {
+    "objectID": "doc/tuto/probabilités.html",
+    "href": "doc/tuto/probabilités.html",
+    "title": "Probabilité",
+    "section": "",
+    "text": "Soit \\((X_n)_{n\\geq1}\\) une suite de variables aléatoires iid à valeurs dans \\(\\mathbb{R}^d\\). Alors, la moyenne empirique converge presque sûrement vers l’espérance de \\(X_1\\) lorsque \\(n\\) tend vers l’infini :\n\\[\\lim_{n \\to +\\infty} \\frac{1}{n} \\sum_{i=1}^{n} X_i = \\mathbb{E}(X_1) \\quad \\text{p.s.}\\]\n\n\n\n\n\nCode\nlibrary(ggplot2)\n\n# Simuler les lancers de dés\nn &lt;- 500\nech &lt;- sample(x = 1:6, size = n, replace = TRUE)\ndata &lt;- data.frame(x = 1:n, \n                   p = sapply(1:n, \n                              function(i) mean(ech[1:i])))\n\n# Tracer le graphique avec ggplot2\nggplot(data, aes(x = x, y = p)) +\n  geom_hline(yintercept = 3.5, \n             color = \"orange\", \n             linetype = \"dashed\",\n             linewidth = 1.1) +\n  geom_line(color = \"darkcyan\", linewidth = 1.2) +\n  labs(title = \"Moyenne des lancers de dé\",\n       x = \"Nombre de lancers\",\n       y = \"Moyenne\") +\n  xlim(0, n) +\n  ylim(0, 6)"
+  },
+  {
+    "objectID": "doc/tuto/probabilités.html#loi-des-grands-nombres",
+    "href": "doc/tuto/probabilités.html#loi-des-grands-nombres",
+    "title": "Probabilité",
+    "section": "",
+    "text": "Soit \\((X_n)_{n\\geq1}\\) une suite de variables aléatoires iid à valeurs dans \\(\\mathbb{R}^d\\). Alors, la moyenne empirique converge presque sûrement vers l’espérance de \\(X_1\\) lorsque \\(n\\) tend vers l’infini :\n\\[\\lim_{n \\to +\\infty} \\frac{1}{n} \\sum_{i=1}^{n} X_i = \\mathbb{E}(X_1) \\quad \\text{p.s.}\\]\n\n\n\n\n\nCode\nlibrary(ggplot2)\n\n# Simuler les lancers de dés\nn &lt;- 500\nech &lt;- sample(x = 1:6, size = n, replace = TRUE)\ndata &lt;- data.frame(x = 1:n, \n                   p = sapply(1:n, \n                              function(i) mean(ech[1:i])))\n\n# Tracer le graphique avec ggplot2\nggplot(data, aes(x = x, y = p)) +\n  geom_hline(yintercept = 3.5, \n             color = \"orange\", \n             linetype = \"dashed\",\n             linewidth = 1.1) +\n  geom_line(color = \"darkcyan\", linewidth = 1.2) +\n  labs(title = \"Moyenne des lancers de dé\",\n       x = \"Nombre de lancers\",\n       y = \"Moyenne\") +\n  xlim(0, n) +\n  ylim(0, 6)"
+  },
+  {
+    "objectID": "doc/tuto/probabilités.html#théorème-centrale-limite",
+    "href": "doc/tuto/probabilités.html#théorème-centrale-limite",
+    "title": "Probabilité",
+    "section": "2 Théorème Centrale Limite",
+    "text": "2 Théorème Centrale Limite\n\n2.1 énoncé\nSoit \\((X_n)_{n\\geq1}\\) une suite de variables aléatoires indépendantes et identiquement distribuées (iid) avec une moyenne \\(\\mu\\) et un écart-type \\(\\sigma\\). Alors, lorsque \\(n\\) tend vers l’infini, la distribution de la moyenne \\(\\bar{X}_n\\) de ces variables aléatoires suit approximativement une loi normale avec une moyenne \\(\\mu\\) et un écart-type \\(\\frac{\\sigma}{\\sqrt{n}}\\). Formellement,\n\\[\\lim_{n \\to +\\infty} \\sqrt{n} \\left( \\frac{1}{n}\\sum_{i=1}^{n} \\frac{ X_i - \\mu}{\\sigma} \\right) \\xrightarrow{\\mathcal {L}} N(0, 1)\\]\n\n\n2.2 Exemple\n\n\nCode\nlibrary(ggplot2)\n\nnb_sim &lt;- 5000\ntaille_ech &lt;- 50\nu_min &lt;- 0\nu_max &lt;- 1\nE &lt;- (u_max - u_min) / 2\nV &lt;- (u_max - u_min)^2 / 12\n\n# Simulations\nres &lt;- numeric(nb_sim)\nfor (i in 1:nb_sim) {\n  ech &lt;- runif(taille_ech, min = u_min, max = u_max)\n  res[i] &lt;- sqrt(taille_ech) / sqrt(V) * (mean(ech) - E)\n}\ndf &lt;- data.frame(res)\n\n# Tracé de l'histogramme et de la densité\nggplot(df, aes(x = res)) +\n  geom_histogram(binwidth = 0.2, \n                 fill = \"darkcyan\", \n                 color = \"black\", \n                 aes(y = after_stat(density))) +\n  stat_function(aes(linetype = \"N(0,1)\"), \n                fun = dnorm, \n                args = list(mean = 0, sd = sd(df$res)), \n                color = \"orange\", \n                linewidth = 1.5) +  # Courbe de densité normale\n  labs(title = \"Distribution des moyennes des échantillons simulés selon une loi uniforme\",\n       x = \"Moyenne des échantillons\",\n       y = \"Densité\") +\n  scale_linetype_manual(name = \"Distribution\", \n                        values = \"dashed\",\n                        labels = c(\"N(0,1)\")) +\n  theme_minimal()"
   }
 ]
