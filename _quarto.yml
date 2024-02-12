@@ -13,6 +13,10 @@ website:
         menu:
           - href: doc/tuto/lois-probabilité-continues.qmd
             text: "Lois de probabilité continues"
+          - href: doc/tuto/lois-probabilité-discrètes.qmd
+            text: "Lois de probabilité discrètes"
+          - href: doc/tuto/probabilités.qmd
+            text: "Probabilités"
     right:
       - icon: github
         href: https://github.com/ludo2ne/ENSAI-Stats

@@ -21,6 +21,6 @@ Introduction aux cours de statistiques dispensés à l'ENSAI avec des exemples d
 ## R packages
 
 ```bash
-R -e 'install.packages(c("rmarkdown", "ggplot2", "readr"))'
+R -e 'install.packages(c("rmarkdown", "ggplot2", "readr", "dplyr"))'
 ```
 
