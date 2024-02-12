@@ -98,10 +98,12 @@ data.frame(ech)
 
 ## Loi Uniforme
 
-Loi uniforme continue sur le segment [a,b]
+Loi uniforme continue sur le segment [a,b].
 
+Espérance : 
 $$\mathbb{E}( \mathcal{U}[a,b]) = \frac{a+b}{2}$$
 
+Variance :
 $$\mathbb{V}( \mathcal{U}[a,b]) = \frac{(b-a)^2}{12}$$
 
 Densité : 
@@ -180,15 +182,15 @@ data.frame(ech)
 
 ## Loi du Chi2
 
-Loi du chi 2 à n degrés de liberté
+Loi du chi 2 à k degrés de liberté
 
-$$\chi^2(n) \sim \sum_{i=1}^{n} X_{i}^{2}$ avec $X_i \sim \mathcal{N}(0,1) \ iid$$
+$$\chi^2(k) \sim \sum_{i=1}^{k} X_{i}^{2} \ avec \ X_i \ \sim \mathcal{N}(0,1) \ iid$$
 
 Espérance :
-$$\mathbb{E}(\chi^2(n)) = n$$
+$$\mathbb{E}(\chi^2(k)) = n$$
 
 Variance :
-$$\mathbb{V}(\chi^2(n)) = 2n$$
+$$\mathbb{V}(\chi^2(k)) = 2n$$
 
 Densité : 
 $$\frac{(1/2)^{{k/2}}}{\Gamma (k/2)} x^{{k/2-1}} e^{{-x/2}}$$
@@ -225,21 +227,79 @@ ggplot(data, aes(x = x, y = density, color = df)) +
   labs(title = "Densité de la loi du Chi2 selon différents degrés de liberté") +
   scale_color_discrete(name = "df")
 ```
+
+
+### Générer un échantillon
+
+Générer un échantillon de *n* valeurs suivant la loi $\chi^2(df)$
+
+```{r}
+#| code-fold: false
+n <- 5
+df <- 3 
+ech <- rchisq(n, df)
+data.frame(ech)
+```
 ::: 
 
 
 ## Loi de Student
 
-Loi de Student à n degrés de liberté
+Loi de Student à *n* degrés de liberté.
 
-$\mathcal{T}(n) \sim \frac{\mathcal{N}(0,1)}{\sqrt{\chi^2(m)/m}}$
+$$\mathcal{T}(n) \sim \frac{\mathcal{N}(0,1)}{\sqrt{\chi^2(n)/n}}$$
 
-$\mathbb{E}(\mathcal{T}(n)) = 0$ si $n > 1$
+Espérance :
+$$\mathbb{E}(\mathcal{T}(n)) = 0 \ si \ n > 1$$
 
-$\mathbb{V}(\mathcal{T}(n)) = \frac{n}{n-2}$ si $n > 2$ ($+\infty$ sinon)
+Variance :
+$$\mathbb{V}(\mathcal{T}(n)) = \frac{n}{n-2} \ si \ n > 2 \ (+\infty \ sinon)$$
 
-$\mathcal{T}(n) \underset{n \to +\infty}{\overset{\mathcal{L}} \longrightarrow} \mathcal{N}(0,1)$
+La loi de Student converge en loi vers la loi Normale
+$$\mathcal{T}(n) \underset{n \to +\infty}{\overset{\mathcal{L}} \longrightarrow} \mathcal{N}(0,1)$$
 
+
+**Code R**
+
+::: {.panel-tabset}
+
+### Densité
+
+```{r}
+library(ggplot2)
+
+# Paramètres
+df_values <- c(1, 2, 5, 20)
+
+# Générer des données
+data <- lapply(df_values, function(df) {
+  x <- seq(-5, 5, length.out = 200)
+  f_x <- dt(x, df = df)
+  data.frame(x = x, density = f_x, df = as.factor(df))
+})
+data <- do.call(rbind, data)
+
+# Tracer la courbe avec ggplot2
+ggplot(data, aes(x = x, y = density, color = df)) +
+  geom_line(linewidth = 1) +
+  scale_x_continuous(name = "x", limits = c(-5, 5)) + 
+  scale_y_continuous(name = "f(x)") + 
+  labs(title = "Densité de la loi de Student selon différents degrés de liberté") +
+  scale_color_discrete(name = "df")
+```
+
+### Générer un échantillon
+
+Générer un échantillon de *n* valeurs suivant la loi $\mathcal{T}(df)$
+
+```{r}
+#| code-fold: false
+n <- 5
+df <- 3 
+ech <- rt(n, df)
+data.frame(ech)
+```
+::: 
 
 
 ## Loi de Fisher-Snedecor

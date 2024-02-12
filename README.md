@@ -17,3 +17,10 @@ Introduction aux cours de statistiques dispensés à l'ENSAI avec des exemples d
 - [ ] Sondages
 - [ ] Chaines de Markov
 - [ ] Inférence Bayésienne
+
+## R packages
+
+```bash
+R -e 'install.packages(c("rmarkdown", "ggplot2", "readr"))'
+```
+
