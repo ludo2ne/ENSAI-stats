@@ -18,34 +18,22 @@ number-sections: true
 
 ## Loi Normale
 
-Loi Normale de moyenne $\mu$ et de variance $\sigma^2$
+Moyenne :
+$$\mu$$
 
-
-:::{.columns}
-
-:::{.column}
+Variance :
+$$\sigma^2$$
 
 Densité : 
 $$f(t)=\frac{1}{\sqrt{2 \pi \sigma^2}} e^{-\frac{1}{2} \frac{(t-\mu )^{2}}{\sigma ^{2}}}$$
 
 Fonction caractéristique : 
-$$\frac{{\textrm e}^{{\textrm i}tb}-{\textrm e}^{{\textrm i}ta}}{{\textrm i}t(b-a)}$$
+$$\phi (t)={\rm {e}}^{\mu {\rm {i}}t-{\frac {1}{2}}\sigma ^{2}t^{2}}$$
 
-:::
-:::{.column}
+Propriétés :
 
-si
+$$X_1 + X_2 \sim \mathcal{N}(\mu_1 + \mu_2,\sigma_1^2 + \sigma_2^2) \Leftrightarrow X_1 \sim \mathcal{N}(\mu_1,\sigma_1^2) \ et \ X_2 \sim \mathcal{N}(\mu_2,\sigma_2^2) \ et \ X \perp \!\!\! \perp Y$$
 
-- $X_1 \sim \mathcal{N}(\mu_1,\sigma_1^2)$
-- $X_2 \sim \mathcal{N}(\mu_2,\sigma_2^2)$
-- $X \perp \!\!\! \perp Y$
-
-alors
-
-$X_1 + X_2 \sim \mathcal{N}(\mu_1 + \mu_2,\sigma_1^2 + \sigma_2^2)$
-
-:::
-:::
 
 ::: {.panel-tabset}
 
@@ -112,10 +100,6 @@ data.frame(ech)
 
 Loi uniforme continue sur le segment [a,b]
 
-:::{.columns}
-
-:::{.column}
-
 $$\mathbb{E}( \mathcal{U}[a,b]) = \frac{a+b}{2}$$
 
 $$\mathbb{V}( \mathcal{U}[a,b]) = \frac{(b-a)^2}{12}$$
@@ -123,21 +107,14 @@ $$\mathbb{V}( \mathcal{U}[a,b]) = \frac{(b-a)^2}{12}$$
 Densité : 
 $$f(x)=\frac{1}{b-a} \mathbb{1}_{a \leq x \leq b}(x)$$
 
-:::
-
-:::{.column}
-
 Fonction de répartition : 
 $$F(x)={\begin{cases}0&{\text{pour }}x<a\\{\dfrac {x-a}{b-a}}&{\text{pour }}a\leq x<b\\1&{\text{pour }}x\geq b\end{cases}}$$
 
 Fonction caractéristique : 
-$$\frac{{\textrm e}^{{\textrm i}tb}-{\textrm e}^{{\textrm i}ta}}{{\textrm i}t(b-a)}$$
+$$\phi(t) = \frac {{\rm {e}}^{{\rm {i}}tb}-{\rm {e}}^{{\rm {i}}ta}}{{\rm {i}}t(b-a)}$$
 
-:::
-:::
 
 **Code R**
-
 
 ::: {.panel-tabset}
 
@@ -205,16 +182,50 @@ data.frame(ech)
 
 Loi du chi 2 à n degrés de liberté
 
-$\chi^2(n) \sim \sum_{i=1}^{n} X_{i}^{2}$ avec $X_i \sim \mathcal{N}(0,1) \ iid$
+$$\chi^2(n) \sim \sum_{i=1}^{n} X_{i}^{2}$ avec $X_i \sim \mathcal{N}(0,1) \ iid$$
 
-$\mathbb{E}(\chi^2(n)) = n$
+Espérance :
+$$\mathbb{E}(\chi^2(n)) = n$$
 
-$\mathbb{V}(\chi^2(n)) = 2n$
+Variance :
+$$\mathbb{V}(\chi^2(n)) = 2n$$
 
-Densité : $\frac{(1/2)^{{k/2}}}{\Gamma (k/2)} x^{{k/2-1}} e^{{-x/2}}$
+Densité : 
+$$\frac{(1/2)^{{k/2}}}{\Gamma (k/2)} x^{{k/2-1}} e^{{-x/2}}$$
 
-Fonction caractéristique : $(1-2\,i\,t)^{{-k/2}}$
+Fonction caractéristique : 
+$$\phi(t) = (1-2\,i\,t)^{{-k/2}}$$
 
+
+**Code R**
+
+::: {.panel-tabset}
+
+### Densité
+
+```{r}
+library(ggplot2)
+
+# Paramètres
+df_values <- c(1, 2, 3, 5, 10, 20)
+
+# Genérer des données
+data <- lapply(df_values, function(df) {
+  x <- seq(0, 30, length.out = 200)
+  f_x <- dchisq(x, df = df)
+  data.frame(x = x, density = f_x, df = as.factor(df))
+})
+data <- do.call(rbind, data)
+
+# Tracer la courbe avec ggplot2
+ggplot(data, aes(x = x, y = density, color = df)) +
+  geom_line(linewidth = 1) +
+  scale_x_continuous(name = "x", limits = c(0, 30)) + 
+  scale_y_continuous(name = "f(x)") + 
+  labs(title = "Densité de la loi du Chi2 selon différents degrés de liberté") +
+  scale_color_discrete(name = "df")
+```
+::: 
 
 
 ## Loi de Student
