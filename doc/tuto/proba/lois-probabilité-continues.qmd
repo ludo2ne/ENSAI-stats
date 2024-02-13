@@ -31,8 +31,7 @@ Fonction caractéristique :
 $$\phi (t)={\rm {e}}^{\mu {\rm {i}}t-{\frac {1}{2}}\sigma ^{2}t^{2}}$$
 
 Propriétés :
-
-$$X_1 + X_2 \sim \mathcal{N}(\mu_1 + \mu_2,\sigma_1^2 + \sigma_2^2) \Leftrightarrow X_1 \sim \mathcal{N}(\mu_1,\sigma_1^2) \ et \ X_2 \sim \mathcal{N}(\mu_2,\sigma_2^2) \ et \ X \perp \!\!\! \perp Y$$
+$$X_1 + X_2 \sim \mathcal{N}(\mu_1 + \mu_2,\sigma_1^2 + \sigma_2^2) \Leftrightarrow {\begin{cases}X_1 \sim \mathcal{N}(\mu_1,\sigma_1^2) \\ X_2 \sim \mathcal{N}(\mu_2,\sigma_2^2) \\ X \perp \!\!\! \perp Y \end{cases}}$$
 
 
 ::: {.panel-tabset}

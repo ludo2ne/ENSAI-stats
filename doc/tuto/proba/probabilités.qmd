@@ -81,7 +81,7 @@ ggplot(data, aes(x = x, y = p)) +
 ```
 
 
-## Théorème Centrale Limite
+## Théorème Central Limite
 
 ### Énoncé
 
@@ -134,3 +134,9 @@ ggplot(data.frame(res), aes(x = res)) +
                         labels = c("N(0,1)")) +
   theme_minimal()
 ```
+
+### Vidéo 
+
+[StatQuest](https://statquest.org/){target="_blank"} by Joshua Starmer
+
+{{< video https://www.youtube.com/watch?v=YAlJCEDH2uY&ab_channel=StatQuestwithJoshStarmer >}}
