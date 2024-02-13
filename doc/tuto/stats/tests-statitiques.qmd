@@ -1,0 +1,197 @@
+---
+title: "Tests Statistiques"
+description: "Introduction aux tests statistiques"
+author: "Ludovic Deneuville"
+format:
+  html:
+    toc: true
+    toc-location: left
+    toc-expand: 3
+    df-print: paged
+    code-fold: false
+fig-width: 6
+fig-height: 4
+fig-align: center
+from: markdown+emoji
+number-sections: true
+---
+
+
+Le but du test est de rejeter $H_0$ avec la plus petite erreur possible.
+
+## Types de tests
+
+- selon hypothèses
+  - simple vs. simple : $H_0 : \theta = \theta_0 \  vs \  H_1 : \theta = \theta_1$
+  - simple vs. multiple (bilatéral): $H_0 : \theta = \theta_0 \  vs \  H_1 : \theta \ne \theta_0$
+  - multiple vs. simple (unilatéral): $H_0 : \theta \le \theta_0 \  vs \  H_1 : \theta > \theta_0$
+- selon loi paramétrique ou non
+- objet testé : moyenne, variance, indépendance...
+
+## Zone de rejet
+
+- T : Stat de test $=f°(echantillon)$
+- $\mathcal{R}$ : `Zone de rejet`
+  - de faible probabilité pour T sachant $H_0$
+  - Si $t \in \mathcal{R}$ : on rejette $H_0$ (où t est la réalisation de T)
+- Risque de 1ere espèce :  $\alpha = \mathbb{P}(T \in \mathcal{R} \ | \ H_0)$
+  - $\alpha$ (Niveau de test) = Probabilité de rejeter $H_0$ alors qu'elle est vraie
+  - c'est l'erreur la plus grave qu'il faut surtout éviter
+  - exemple : déclarer coupable un innocent
+- Risque de 2e espèce : $\beta$ tel que $\beta = \mathbb{P}(T \in \overline{\mathcal{R}} \ | \ H_1)$
+  - Probabilité d'accepter $H_0$ alors qu'elle est fausse
+  - exemple : déclarer innocent un coupable
+- `Puissance d’un test` : probabilité de rejeter $H_0$ alors qu’elle est fausse
+  - $= 1 - \beta = \mathbb{P}(T \in \mathcal{R} \ | \ H_1)$
+- Un test est `sans biais` si $1 - \beta \ge \alpha$ (Puissance $\ge$ Niveau de test)
+- $T_1$ est `plus puissant` que $T_2$ si pour un même niveau de test $\alpha$, $1 - \beta_1 \ge 1 - \beta_2$
+
+
+## Etude d'un cas concret
+
+:dart: Objectif : nous souhaitons tester si une pièce est non truquée.
+
+```{r}
+set.seed(1986)
+
+n <- 100     # nombre de lancers
+p <- 0.5     # Probabilité d'avoir un pile
+
+# Simulation de n lancers
+X <- rbinom(n, 1, prob = p)
+
+# Quelques statistiques descriptives
+mean(X)
+var(X)     # p * (1-p)
+table(X)
+prop.table(table(X))
+```
+
+La Loi Forte des Grands Nombres nous dit que :
+
+- plus nous augmentons le nombre de lancers
+- plus la moyenne empirique converge vers l'espèrance
+
+```{r}
+x_bar <- rep(NA, n)
+for (i in 1:n) {
+  x_bar[i] <- sum(X[1:i]) / i
+}
+plot(x_bar, type = "l")
+abline(h = p, col = "red", lty = 2)
+```
+
+Application du TCL :
+
+- nous répètons L fois l'expérience de n lancers
+- à chaque fois on calcule la moyenne obtenue
+
+```{r}
+L <- 1000
+x_bar <- rep(NA, L)
+for (i in 1:L){
+  X <- rbinom(n, 1, prob = p)
+  x_bar[i] <- mean(X)
+}
+
+# Nous normalisons
+Y <- sqrt(n) * (x_bar - p) / sqrt(p * (1 - p))
+hist(Y, breaks = 30, probability = TRUE)
+```
+
+La distribution nous fait bien penser à la loi normale centrée réduite.
+
+```{r}
+plot(density(Y), xlim = c(-5, 5), col = "blue", lwd = 2,
+     main = "Comparaison des densités empiriques et théoriques")
+curve(dnorm(x), add = TRUE, col = "red", lwd = 2, lty = 2)
+legend("topleft", inset = 0.05, lty = c(1, 2),
+       c("Densité empirique", "Densité de la loi N(0, 1)"), 
+       col = c("blue", "red"))
+```
+
+### Mon premier test
+
+Tester si une pièce est truquée.  
+Supposons que nous lançons 100 fois une pièce et que nous obtenons :
+
+- 58 pile (1)
+- 42 face (0)
+
+```{r}
+n <- 100
+nb_pile <- 58
+X <- c(rep(1, nb_pile), rep(0, n - nb_pile))
+table(X)
+```
+
+Est-ce que cette pièce est truquée ?  
+Nous allons établir un test pour voir si la moyenne empirique obtenue s'éloigne trop de la moyenne théorique.
+
+- Soit $H_0$ : la pièce n'est pas truquée (p = 0.5)
+- Vs $H_1$ : la pièce est truquée (p ≠ 0.5)
+
+Nous définissons le niveau de risque. Un niveau de risque à 0.05 signifie que l'on veut être sûr à 95 % de ne pas se tromper.
+
+```{r}
+alpha <- 0.05
+x_bar <- mean(X)
+```
+
+Soit T la statistique de test :
+
+```{r}
+T <- sqrt(n) * (x_bar - 0.5) / sqrt(p * (1 - p)); T
+```
+
+Sous $H_0$, T suit une loi Normale Centrée Réduite :
+
+- nous définissons donc la zone de rejet
+- nous rejetons $H_0$ si T n'appartient pas à l'intervalle suivant
+
+```{r}
+c(-1, 1) * qnorm(1 - alpha / 2)
+```
+
+Est-ce que l'on rejette $H_0$ ?
+
+```{r}
+T > qnorm(1 - alpha / 2) & T > qnorm(1 - alpha / 2)
+```
+
+On ne peut pas rejeter $H_0$ au niveau de risque 0.05.
+
+Resprésentation graphique :
+
+- Nous remarquons que T ne se trouve pas dans la zone de rejet
+- Si T se trouvait dans la zone de rejet, nous aurions affirmé qu'il est peu probable que T suive une $\mathcal{N}(0, 1)$ et donc nous aurions rejeté $H_0$
+
+```{r}
+#| code-fold: true
+curve(dnorm(x), col = "blue", lwd = 2, xlim = c(-4, 4),
+      main = "Loi de T sous H0 : N(0, 1)")
+
+zone_rejet_gauche <- seq(-4, qnorm(alpha/2), 0.01)
+zone_rejet_droite <- seq(qnorm(1-alpha/2), 4, 0.01)
+polygon(x = c(zone_rejet_gauche[1], zone_rejet_gauche, zone_rejet_gauche[length(zone_rejet_gauche)]), 
+        y = c(0, dnorm(zone_rejet_gauche), 0), 
+        col = "orange")
+polygon(x = c(zone_rejet_droite[1], zone_rejet_droite, zone_rejet_droite[length(zone_rejet_droite)]), 
+        y = c(0, dnorm(zone_rejet_droite), 0), 
+        col = "orange")
+
+rug(T, lwd = 2, col = "green", ticksize = 1, lty = 2)
+
+legend("topleft", inset=.05, 
+       c("Zones de rejet", "Stat de test"), 
+       fill = c("orange", NA), lty = c(NA, 2), col = c("orange", "green"),border=c(1,0))
+```
+
+p-valeur :
+
+- Probabilité d'obtenir une valeur aussi extrême que celle observée
+- plus grande valeur possible de α conduisant à ne pas rejeter $H_0$
+
+```{r}
+p_val <- 2 * (1 - pnorm(T)) ; p_val
+```

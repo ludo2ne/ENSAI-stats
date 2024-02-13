@@ -11,12 +11,16 @@ website:
         text: Accueil
       - text: Probabilité
         menu:
-          - href: doc/tuto/lois-probabilité-continues.qmd
+          - href: doc/tuto/proba/lois-probabilité-continues.qmd
             text: "Lois de probabilité continues"
-          - href: doc/tuto/lois-probabilité-discrètes.qmd
+          - href: doc/tuto/proba/lois-probabilité-discrètes.qmd
             text: "Lois de probabilité discrètes"
-          - href: doc/tuto/probabilités.qmd
+          - href: doc/tuto/proba/probabilités.qmd
             text: "Probabilités"
+      - text: Statistiques
+        menu:
+          - href: doc/tuto/stats/tests-statitiques.qmd
+            text: "Tests Statistiques"
     right:
       - icon: github
         href: https://github.com/ludo2ne/ENSAI-Stats
