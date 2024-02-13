@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://ludo2ne.github.io/ENSAI-stats/doc/tuto/lois-probabilité-continues.html</loc>
-    <lastmod>2024-02-12T16:18:43.344Z</lastmod>
+    <loc>https://ludo2ne.github.io/ENSAI-stats/doc/tuto/stats/tests-statitiques.html</loc>
+    <lastmod>2024-02-13T09:55:18.201Z</lastmod>
   </url>
   <url>
-    <loc>https://ludo2ne.github.io/ENSAI-stats/doc/tuto/lois-probabilité-discrètes.html</loc>
-    <lastmod>2024-02-12T16:18:43.344Z</lastmod>
+    <loc>https://ludo2ne.github.io/ENSAI-stats/doc/tuto/proba/probabilités.html</loc>
+    <lastmod>2024-02-13T09:55:18.201Z</lastmod>
   </url>
   <url>
     <loc>https://ludo2ne.github.io/ENSAI-stats/index.html</loc>
-    <lastmod>2024-02-12T16:18:43.344Z</lastmod>
+    <lastmod>2024-02-13T09:55:18.201Z</lastmod>
   </url>
   <url>
-    <loc>https://ludo2ne.github.io/ENSAI-stats/doc/tuto/probabilités.html</loc>
-    <lastmod>2024-02-12T16:18:43.344Z</lastmod>
+    <loc>https://ludo2ne.github.io/ENSAI-stats/doc/tuto/proba/lois-probabilité-discrètes.html</loc>
+    <lastmod>2024-02-13T09:55:18.201Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ludo2ne.github.io/ENSAI-stats/doc/tuto/proba/lois-probabilité-continues.html</loc>
+    <lastmod>2024-02-13T09:55:18.201Z</lastmod>
   </url>
 </urlset>

@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Ludovic Deneuville">
-<meta name="description" content="Concepts basiques de probabilité">
+<meta name="description" content="Introduction aux tests statistiques">
 
-<title>Tutoriels Stats - Probabilité</title>
+<title>Tutoriels Stats - Tests Statistiques</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -59,24 +59,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-dark.min.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -104,8 +104,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
-<script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="../../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="../../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -137,7 +137,7 @@ window.Quarto = {
 };
 </script>
 
-<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="../../../styles.css">
 </head>
 
 <body class="floating nav-fixed">
@@ -147,7 +147,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../index.html">
+    <a class="navbar-brand" href="../../../index.html">
     <span class="navbar-title">Tutoriels Stats</span>
     </a>
   </div>
@@ -158,7 +158,7 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../index.html"> 
+    <a class="nav-link" href="../../../index.html"> 
 <span class="menu-text">Accueil</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -167,16 +167,27 @@ window.Quarto = {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-probabilité">    
         <li>
-    <a class="dropdown-item" href="../../doc/tuto/lois-probabilité-continues.html">
+    <a class="dropdown-item" href="../../../doc/tuto/proba/lois-probabilité-continues.html">
  <span class="dropdown-text">Lois de probabilité continues</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../doc/tuto/lois-probabilité-discrètes.html">
+    <a class="dropdown-item" href="../../../doc/tuto/proba/lois-probabilité-discrètes.html">
  <span class="dropdown-text">Lois de probabilité discrètes</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../doc/tuto/probabilités.html">
+    <a class="dropdown-item" href="../../../doc/tuto/proba/probabilités.html">
  <span class="dropdown-text">Probabilités</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-statistiques" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Statistiques</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-statistiques">    
+        <li>
+    <a class="dropdown-item" href="../../../doc/tuto/stats/tests-statitiques.html">
+ <span class="dropdown-text">Tests Statistiques</span></a>
   </li>  
     </ul>
   </li>
@@ -208,15 +219,11 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#loi-des-grands-nombres" id="toc-loi-des-grands-nombres" class="nav-link active" data-scroll-target="#loi-des-grands-nombres"><span class="header-section-number">1</span> Loi des grands nombres</a>
+  <li><a href="#types-de-tests" id="toc-types-de-tests" class="nav-link active" data-scroll-target="#types-de-tests"><span class="header-section-number">1</span> Types de tests</a></li>
+  <li><a href="#zone-de-rejet" id="toc-zone-de-rejet" class="nav-link" data-scroll-target="#zone-de-rejet"><span class="header-section-number">2</span> Zone de rejet</a></li>
+  <li><a href="#etude-dun-cas-concret" id="toc-etude-dun-cas-concret" class="nav-link" data-scroll-target="#etude-dun-cas-concret"><span class="header-section-number">3</span> Etude d’un cas concret</a>
   <ul class="collapse">
-  <li><a href="#énoncé" id="toc-énoncé" class="nav-link" data-scroll-target="#énoncé"><span class="header-section-number">1.1</span> Énoncé</a></li>
-  <li><a href="#exemple" id="toc-exemple" class="nav-link" data-scroll-target="#exemple"><span class="header-section-number">1.2</span> Exemple</a></li>
-  </ul></li>
-  <li><a href="#théorème-centrale-limite" id="toc-théorème-centrale-limite" class="nav-link" data-scroll-target="#théorème-centrale-limite"><span class="header-section-number">2</span> Théorème Centrale Limite</a>
-  <ul class="collapse">
-  <li><a href="#énoncé-1" id="toc-énoncé-1" class="nav-link" data-scroll-target="#énoncé-1"><span class="header-section-number">2.1</span> énoncé</a></li>
-  <li><a href="#exemple-1" id="toc-exemple-1" class="nav-link" data-scroll-target="#exemple-1"><span class="header-section-number">2.2</span> Exemple</a></li>
+  <li><a href="#mon-premier-test" id="toc-mon-premier-test" class="nav-link" data-scroll-target="#mon-premier-test"><span class="header-section-number">3.1</span> Mon premier test</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -230,12 +237,12 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Probabilité</h1>
+<h1 class="title">Tests Statistiques</h1>
 </div>
 
 <div>
   <div class="description">
-    Concepts basiques de probabilité
+    Introduction aux tests statistiques
   </div>
 </div>
 
@@ -258,104 +265,241 @@ window.Quarto = {
 </header>
 
 
-<section id="loi-des-grands-nombres" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="loi-des-grands-nombres"><span class="header-section-number">1</span> Loi des grands nombres</h2>
-<section id="énoncé" class="level3" data-number="1.1">
-<h3 data-number="1.1" class="anchored" data-anchor-id="énoncé"><span class="header-section-number">1.1</span> Énoncé</h3>
-<p>Soit <span class="math inline">\((X_n)_{n\geq1}\)</span> une suite de variables aléatoires iid à valeurs dans <span class="math inline">\(\mathbb{R}^d\)</span>. Alors, la moyenne empirique converge presque sûrement vers l’espérance de <span class="math inline">\(X_1\)</span> lorsque <span class="math inline">\(n\)</span> tend vers l’infini :</p>
-<p><span class="math display">\[\lim_{n \to +\infty} \frac{1}{n} \sum_{i=1}^{n} X_i = \mathbb{E}(X_1) \quad \text{p.s.}\]</span></p>
+<p>Le but du test est de rejeter <span class="math inline">\(H_0\)</span> avec la plus petite erreur possible.</p>
+<section id="types-de-tests" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="types-de-tests"><span class="header-section-number">1</span> Types de tests</h2>
+<ul>
+<li>selon hypothèses
+<ul>
+<li>simple vs.&nbsp;simple : <span class="math inline">\(H_0 : \theta = \theta_0 \  vs \  H_1 : \theta = \theta_1\)</span></li>
+<li>simple vs.&nbsp;multiple (bilatéral): <span class="math inline">\(H_0 : \theta = \theta_0 \  vs \  H_1 : \theta \ne \theta_0\)</span></li>
+<li>multiple vs.&nbsp;simple (unilatéral): <span class="math inline">\(H_0 : \theta \le \theta_0 \  vs \  H_1 : \theta &gt; \theta_0\)</span></li>
+</ul></li>
+<li>selon loi paramétrique ou non</li>
+<li>objet testé : moyenne, variance, indépendance…</li>
+</ul>
 </section>
-<section id="exemple" class="level3" data-number="1.2">
-<h3 data-number="1.2" class="anchored" data-anchor-id="exemple"><span class="header-section-number">1.2</span> Exemple</h3>
+<section id="zone-de-rejet" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="zone-de-rejet"><span class="header-section-number">2</span> Zone de rejet</h2>
+<ul>
+<li>T : Stat de test <span class="math inline">\(=f°(echantillon)\)</span></li>
+<li><span class="math inline">\(\mathcal{R}\)</span> : <code>Zone de rejet</code>
+<ul>
+<li>de faible probabilité pour T sachant <span class="math inline">\(H_0\)</span></li>
+<li>Si <span class="math inline">\(t \in \mathcal{R}\)</span> : on rejette <span class="math inline">\(H_0\)</span> (où t est la réalisation de T)</li>
+</ul></li>
+<li>Risque de 1ere espèce : <span class="math inline">\(\alpha = \mathbb{P}(T \in \mathcal{R} \ | \ H_0)\)</span>
+<ul>
+<li><span class="math inline">\(\alpha\)</span> (Niveau de test) = Probabilité de rejeter <span class="math inline">\(H_0\)</span> alors qu’elle est vraie</li>
+<li>c’est l’erreur la plus grave qu’il faut surtout éviter</li>
+<li>exemple : déclarer coupable un innocent</li>
+</ul></li>
+<li>Risque de 2e espèce : <span class="math inline">\(\beta\)</span> tel que <span class="math inline">\(\beta = \mathbb{P}(T \in \overline{\mathcal{R}} \ | \ H_1)\)</span>
+<ul>
+<li>Probabilité d’accepter <span class="math inline">\(H_0\)</span> alors qu’elle est fausse</li>
+<li>exemple : déclarer innocent un coupable</li>
+</ul></li>
+<li><code>Puissance d’un test</code> : probabilité de rejeter <span class="math inline">\(H_0\)</span> alors qu’elle est fausse
+<ul>
+<li><span class="math inline">\(= 1 - \beta = \mathbb{P}(T \in \mathcal{R} \ | \ H_1)\)</span></li>
+</ul></li>
+<li>Un test est <code>sans biais</code> si <span class="math inline">\(1 - \beta \ge \alpha\)</span> (Puissance <span class="math inline">\(\ge\)</span> Niveau de test)</li>
+<li><span class="math inline">\(T_1\)</span> est <code>plus puissant</code> que <span class="math inline">\(T_2\)</span> si pour un même niveau de test <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(1 - \beta_1 \ge 1 - \beta_2\)</span></li>
+</ul>
+</section>
+<section id="etude-dun-cas-concret" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="etude-dun-cas-concret"><span class="header-section-number">3</span> Etude d’un cas concret</h2>
+<p><span class="emoji" data-emoji="dart">🎯</span> Objectif : nous souhaitons tester si une pièce est non truquée.</p>
 <div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1986</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Simuler les lancers de dés</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">500</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>ech <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">size =</span> n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span>n, </span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">p =</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>n, </span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                              <span class="cf">function</span>(i) <span class="fu">mean</span>(ech[<span class="dv">1</span><span class="sc">:</span>i])))</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Tracer le graphique avec ggplot2</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p)) <span class="sc">+</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fl">3.5</span>, </span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"orange"</span>, </span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>,</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>             <span class="at">linewidth =</span> <span class="fl">1.1</span>) <span class="sc">+</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"darkcyan"</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Moyenne des lancers de dé"</span>,</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Nombre de lancers"</span>,</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Moyenne"</span>) <span class="sc">+</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">0</span>, n) <span class="sc">+</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span>     <span class="co"># nombre de lancers</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fl">0.5</span>     <span class="co"># Probabilité d'avoir un pile</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulation de n lancers</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="at">prob =</span> p)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Quelques statistiques descriptives</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.51</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(X)     <span class="co"># p * (1-p)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2524242</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>X
+ 0  1 
+49 51 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(X))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>X
+   0    1 
+0.49 0.51 </code></pre>
+</div>
+</div>
+<p>La Loi Forte des Grands Nombres nous dit que :</p>
+<ul>
+<li>plus nous augmentons le nombre de lancers</li>
+<li>plus la moyenne empirique converge vers l’espèrance</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x_bar <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  x_bar[i] <span class="ot">&lt;-</span> <span class="fu">sum</span>(X[<span class="dv">1</span><span class="sc">:</span>i]) <span class="sc">/</span> i</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x_bar, <span class="at">type =</span> <span class="st">"l"</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> p, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="probabilités_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="576"></p>
+<p><img src="tests-statitiques_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="576"></p>
 </figure>
 </div>
 </div>
 </div>
-</section>
-</section>
-<section id="théorème-centrale-limite" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="théorème-centrale-limite"><span class="header-section-number">2</span> Théorème Centrale Limite</h2>
-<section id="énoncé-1" class="level3" data-number="2.1">
-<h3 data-number="2.1" class="anchored" data-anchor-id="énoncé-1"><span class="header-section-number">2.1</span> énoncé</h3>
-<p>Soit <span class="math inline">\((X_n)_{n\geq1}\)</span> une suite de variables aléatoires indépendantes et identiquement distribuées (iid) avec une moyenne <span class="math inline">\(\mu\)</span> et un écart-type <span class="math inline">\(\sigma\)</span>. Alors, lorsque <span class="math inline">\(n\)</span> tend vers l’infini, la distribution de la moyenne <span class="math inline">\(\bar{X}_n\)</span> de ces variables aléatoires suit approximativement une loi normale avec une moyenne <span class="math inline">\(\mu\)</span> et un écart-type <span class="math inline">\(\frac{\sigma}{\sqrt{n}}\)</span>. Formellement,</p>
-<p><span class="math display">\[\lim_{n \to +\infty} \sqrt{n} \left( \frac{1}{n}\sum_{i=1}^{n} \frac{ X_i - \mu}{\sigma} \right) \xrightarrow{\mathcal {L}} N(0, 1)\]</span></p>
-</section>
-<section id="exemple-1" class="level3" data-number="2.2">
-<h3 data-number="2.2" class="anchored" data-anchor-id="exemple-1"><span class="header-section-number">2.2</span> Exemple</h3>
+<p>Application du TCL :</p>
+<ul>
+<li>nous répètons L fois l’expérience de n lancers</li>
+<li>à chaque fois on calcule la moyenne obtenue</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>x_bar <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, L)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>L){</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="at">prob =</span> p)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  x_bar[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(X)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Nous normalisons</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n) <span class="sc">*</span> (x_bar <span class="sc">-</span> p) <span class="sc">/</span> <span class="fu">sqrt</span>(p <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p))</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(Y, <span class="at">breaks =</span> <span class="dv">30</span>, <span class="at">probability =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="tests-statitiques_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>La distribution nous fait bien penser à la loi normale centrée réduite.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(Y), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>), <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Comparaison des densités empiriques et théoriques"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dnorm</span>(x), <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topleft"</span>, <span class="at">inset =</span> <span class="fl">0.05</span>, <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>       <span class="fu">c</span>(<span class="st">"Densité empirique"</span>, <span class="st">"Densité de la loi N(0, 1)"</span>), </span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"red"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="tests-statitiques_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="mon-premier-test" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="mon-premier-test"><span class="header-section-number">3.1</span> Mon premier test</h3>
+<p>Tester si une pièce est truquée.<br>
+Supposons que nous lançons 100 fois une pièce et que nous obtenons :</p>
+<ul>
+<li>58 pile (1)</li>
+<li>42 face (0)</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>nb_pile <span class="ot">&lt;-</span> <span class="dv">58</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, nb_pile), <span class="fu">rep</span>(<span class="dv">0</span>, n <span class="sc">-</span> nb_pile))</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>X
+ 0  1 
+42 58 </code></pre>
+</div>
+</div>
+<p>Est-ce que cette pièce est truquée ?<br>
+Nous allons établir un test pour voir si la moyenne empirique obtenue s’éloigne trop de la moyenne théorique.</p>
+<ul>
+<li>Soit <span class="math inline">\(H_0\)</span> : la pièce n’est pas truquée (p = 0.5)</li>
+<li>Vs <span class="math inline">\(H_1\)</span> : la pièce est truquée (p ≠ 0.5)</li>
+</ul>
+<p>Nous définissons le niveau de risque. Un niveau de risque à 0.05 signifie que l’on veut être sûr à 95 % de ne pas se tromper.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>x_bar <span class="ot">&lt;-</span> <span class="fu">mean</span>(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Soit T la statistique de test :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>T <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n) <span class="sc">*</span> (x_bar <span class="sc">-</span> <span class="fl">0.5</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(p <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p)); T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.6</code></pre>
+</div>
+</div>
+<p>Sous <span class="math inline">\(H_0\)</span>, T suit une loi Normale Centrée Réduite :</p>
+<ul>
+<li>nous définissons donc la zone de rejet</li>
+<li>nous rejetons <span class="math inline">\(H_0\)</span> si T n’appartient pas à l’intervalle suivant</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> alpha <span class="sc">/</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1.959964  1.959964</code></pre>
+</div>
+</div>
+<p>Est-ce que l’on rejette <span class="math inline">\(H_0\)</span> ?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>T <span class="sc">&gt;</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> alpha <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">&amp;</span> T <span class="sc">&gt;</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> alpha <span class="sc">/</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
+<p>On ne peut pas rejeter <span class="math inline">\(H_0\)</span> au niveau de risque 0.05.</p>
+<p>Resprésentation graphique :</p>
+<ul>
+<li>Nous remarquons que T ne se trouve pas dans la zone de rejet</li>
+<li>Si T se trouvait dans la zone de rejet, nous aurions affirmé qu’il est peu probable que T suive une <span class="math inline">\(\mathcal{N}(0, 1)\)</span> et donc nous aurions rejeté <span class="math inline">\(H_0\)</span></li>
+</ul>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>nb_sim <span class="ot">&lt;-</span> <span class="dv">5000</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>taille_ech <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>u_min <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>u_max <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>E <span class="ot">&lt;-</span> (u_max <span class="sc">-</span> u_min) <span class="sc">/</span> <span class="dv">2</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>V <span class="ot">&lt;-</span> (u_max <span class="sc">-</span> u_min)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="dv">12</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulations</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">numeric</span>(nb_sim)</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nb_sim) {</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  ech <span class="ot">&lt;-</span> <span class="fu">runif</span>(taille_ech, <span class="at">min =</span> u_min, <span class="at">max =</span> u_max)</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  res[i] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(taille_ech) <span class="sc">/</span> <span class="fu">sqrt</span>(V) <span class="sc">*</span> (<span class="fu">mean</span>(ech) <span class="sc">-</span> E)</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(res)</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Tracé de l'histogramme et de la densité</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> res)) <span class="sc">+</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.2</span>, </span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"darkcyan"</span>, </span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">"black"</span>, </span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density))) <span class="sc">+</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="fu">aes</span>(<span class="at">linetype =</span> <span class="st">"N(0,1)"</span>), </span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>                <span class="at">fun =</span> dnorm, </span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>                <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="fu">sd</span>(df<span class="sc">$</span>res)), </span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">"orange"</span>, </span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>                <span class="at">linewidth =</span> <span class="fl">1.5</span>) <span class="sc">+</span>  <span class="co"># Courbe de densité normale</span></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution des moyennes des échantillons simulés selon une loi uniforme"</span>,</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Moyenne des échantillons"</span>,</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Densité"</span>) <span class="sc">+</span></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_linetype_manual</span>(<span class="at">name =</span> <span class="st">"Distribution"</span>, </span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>                        <span class="at">values =</span> <span class="st">"dashed"</span>,</span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>                        <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"N(0,1)"</span>)) <span class="sc">+</span></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dnorm</span>(x), <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>),</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">main =</span> <span class="st">"Loi de T sous H0 : N(0, 1)"</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>zone_rejet_gauche <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="fu">qnorm</span>(alpha<span class="sc">/</span><span class="dv">2</span>), <span class="fl">0.01</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>zone_rejet_droite <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">qnorm</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>), <span class="dv">4</span>, <span class="fl">0.01</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="fu">polygon</span>(<span class="at">x =</span> <span class="fu">c</span>(zone_rejet_gauche[<span class="dv">1</span>], zone_rejet_gauche, zone_rejet_gauche[<span class="fu">length</span>(zone_rejet_gauche)]), </span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">dnorm</span>(zone_rejet_gauche), <span class="dv">0</span>), </span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="st">"orange"</span>)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="fu">polygon</span>(<span class="at">x =</span> <span class="fu">c</span>(zone_rejet_droite[<span class="dv">1</span>], zone_rejet_droite, zone_rejet_droite[<span class="fu">length</span>(zone_rejet_droite)]), </span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">dnorm</span>(zone_rejet_droite), <span class="dv">0</span>), </span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="st">"orange"</span>)</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="fu">rug</span>(T, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"green"</span>, <span class="at">ticksize =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topleft"</span>, <span class="at">inset=</span>.<span class="dv">05</span>, </span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>       <span class="fu">c</span>(<span class="st">"Zones de rejet"</span>, <span class="st">"Stat de test"</span>), </span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="fu">c</span>(<span class="st">"orange"</span>, <span class="cn">NA</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="dv">2</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"orange"</span>, <span class="st">"green"</span>),<span class="at">border=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="probabilités_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="576"></p>
+<p><img src="tests-statitiques_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="576"></p>
 </figure>
 </div>
+</div>
+</div>
+<p>p-valeur :</p>
+<ul>
+<li>Probabilité d’obtenir une valeur aussi extrême que celle observée</li>
+<li>plus grande valeur possible de α conduisant à ne pas rejeter <span class="math inline">\(H_0\)</span></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>p_val <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(T)) ; p_val</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1095986</code></pre>
 </div>
 </div>
 
