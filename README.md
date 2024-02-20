@@ -4,6 +4,8 @@ Introduction aux cours de statistiques dispensés à l'ENSAI avec des exemples d
 
 ## :construction: Todo
 
+Reprendre le contenu de https://github.com/ludo2ne/R-tuto et mettre au format qmd
+
 - [ ] Lois de probabilité
 - [ ] Méthodes factorielles
 - [ ] Classification non supervisée
@@ -23,4 +25,3 @@ Introduction aux cours de statistiques dispensés à l'ENSAI avec des exemples d
 ```bash
 R -e 'install.packages(c("rmarkdown", "ggplot2", "readr", "dplyr"))'
 ```
-

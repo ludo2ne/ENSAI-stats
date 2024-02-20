@@ -119,7 +119,7 @@ ggplot(df, aes(x, x_bar)) +
 
 ### TCL
 
-Application du TCL :
+Application du Théorème Central Limite :
 
 - nous répètons L fois l'expérience de n lancers
 - à chaque fois, calculons la moyenne obtenue
@@ -217,7 +217,7 @@ Un niveau de risque à 0.05 signifie que l'on veut être sûr à 95 % de ne pas 
 
 ```{r}
 alpha <- 0.05
-x_bar <- mean(X)
+p_hat <- mean(X)
 ```
 
 Soit $T$ la `statistique de test`
@@ -226,8 +226,10 @@ Soit $T$ la `statistique de test`
 - utilisée pour évaluer la plausibilité de l'hypothèse nulle
   - sert à quantifier l'écart entre les données observées et ce à quoi on s'attendrait si l'hypothèse nulle était vraie
 
+$$T = \frac{\hat{p} - p}{\sqrt{\frac{p(1-p)}{n}}}$$
+
 ```{r}
-T <- sqrt(n) * (x_bar - 0.5) / sqrt(p * (1 - p)); T
+T <- sqrt(n) * (p_hat - 0.5) / sqrt(p * (1 - p)); T
 ```
 
 Sous $H_0$, $T$ suit une loi Normale Centrée Réduite :
@@ -381,3 +383,14 @@ ggplot() +
   annotate("text", x = T, y = 0.02, label = "T", color = "blue") +
   theme(legend.position = "none")
 ```
+
+
+
+## Vidéos
+
+[StatQuest](https://statquest.org/){target="_blank"} by Joshua Starmer
+
+{{< video https://www.youtube.com/watch?v=0oc49DyA3hU&ab_channel=StatQuestwithJoshStarmer >}}
+
+
+{{< video https://www.youtube.com/watch?v=vemZtEM63GY&ab_channel=StatQuestwithJoshStarmer >}}
