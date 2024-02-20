@@ -227,6 +227,7 @@ window.Quarto = {
   <li><a href="#p-valeur" id="toc-p-valeur" class="nav-link" data-scroll-target="#p-valeur"><span class="header-section-number">3.4</span> p-valeur</a></li>
   <li><a href="#test-unilatéral" id="toc-test-unilatéral" class="nav-link" data-scroll-target="#test-unilatéral"><span class="header-section-number">3.5</span> Test unilatéral</a></li>
   </ul></li>
+  <li><a href="#vidéos" id="toc-vidéos" class="nav-link" data-scroll-target="#vidéos"><span class="header-section-number">4</span> Vidéos</a></li>
   </ul>
 </nav>
 </nav>
@@ -398,7 +399,7 @@ window.Quarto = {
 </section>
 <section id="tcl" class="level3" data-number="3.2">
 <h3 data-number="3.2" class="anchored" data-anchor-id="tcl"><span class="header-section-number">3.2</span> TCL</h3>
-<p>Application du TCL :</p>
+<p>Application du Théorème Central Limite :</p>
 <ul>
 <li>nous répètons L fois l’expérience de n lancers</li>
 <li>à chaque fois, calculons la moyenne obtenue</li>
@@ -511,7 +512,7 @@ Nous allons établir un test pour voir si la moyenne empirique obtenue s’éloi
 Un niveau de risque à 0.05 signifie que l’on veut être sûr à 95 % de ne pas rejeter <span class="math inline">\(H_0\)</span> alors qu’elle est vraie.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>x_bar <span class="ot">&lt;-</span> <span class="fu">mean</span>(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>p_hat <span class="ot">&lt;-</span> <span class="fu">mean</span>(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Soit <span class="math inline">\(T\)</span> la <code>statistique de test</code></p>
 <ul>
@@ -521,8 +522,9 @@ Un niveau de risque à 0.05 signifie que l’on veut être sûr à 95 % de ne pa
 <li>sert à quantifier l’écart entre les données observées et ce à quoi on s’attendrait si l’hypothèse nulle était vraie</li>
 </ul></li>
 </ul>
+<p><span class="math display">\[T = \frac{\hat{p} - p}{\sqrt{\frac{p(1-p)}{n}}}\]</span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>T <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n) <span class="sc">*</span> (x_bar <span class="sc">-</span> <span class="fl">0.5</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(p <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p)); T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>T <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n) <span class="sc">*</span> (p_hat <span class="sc">-</span> <span class="fl">0.5</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(p <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p)); T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.8</code></pre>
 </div>
@@ -697,9 +699,15 @@ C’est à dire que nous testions pour déterminer si la pièce est truquée, sa
 </div>
 </div>
 </div>
-
-
 </section>
+</section>
+<section id="vidéos" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="vidéos"><span class="header-section-number">4</span> Vidéos</h2>
+<p><a href="https://statquest.org/" target="_blank">StatQuest</a> by Joshua Starmer</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/0oc49DyA3hU" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/vemZtEM63GY" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+
+
 </section>
 
 </main> <!-- /main -->
