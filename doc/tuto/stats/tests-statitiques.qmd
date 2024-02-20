@@ -7,8 +7,10 @@ format:
     toc: true
     toc-location: left
     toc-expand: 3
-    df-print: paged
+    df-print: kable
     code-fold: false
+execute:
+  warning: false
 fig-width: 6
 fig-height: 4
 fig-align: center
@@ -30,7 +32,7 @@ Le but du test est de rejeter $H_0$ avec la plus petite erreur possible.
 
 ## Zone de rejet
 
-- T : Stat de test $=f°(echantillon)$
+- $T$ : Stat de test $=f°(echantillon)$
 - $\mathcal{R}$ : `Zone de rejet`
   - de faible probabilité pour T sachant $H_0$
   - Si $t \in \mathcal{R}$ : on rejette $H_0$ (où t est la réalisation de T)
@@ -41,8 +43,8 @@ Le but du test est de rejeter $H_0$ avec la plus petite erreur possible.
 - Risque de 2e espèce : $\beta$ tel que $\beta = \mathbb{P}(T \in \overline{\mathcal{R}} \ | \ H_1)$
   - Probabilité d'accepter $H_0$ alors qu'elle est fausse
   - exemple : déclarer innocent un coupable
-- `Puissance d’un test` : probabilité de rejeter $H_0$ alors qu’elle est fausse
-  - $= 1 - \beta = \mathbb{P}(T \in \mathcal{R} \ | \ H_1)$
+- `Puissance d'un test` : probabilité de rejeter $H_0$ alors qu’elle est fausse
+  - $1 - \beta = \mathbb{P}(T \in \mathcal{R} \ | \ H_1)$
 - Un test est `sans biais` si $1 - \beta \ge \alpha$ (Puissance $\ge$ Niveau de test)
 - $T_1$ est `plus puissant` que $T_2$ si pour un même niveau de test $\alpha$, $1 - \beta_1 \ge 1 - \beta_2$
 
@@ -50,6 +52,11 @@ Le but du test est de rejeter $H_0$ avec la plus petite erreur possible.
 ## Etude d'un cas concret
 
 :dart: Objectif : nous souhaitons tester si une pièce est non truquée.
+
+Nous utiliserons une loi de Bernoulli pour modéliser nos lancers, avec par exemple :
+
+- pile : 1
+- face : 0
 
 ```{r}
 set.seed(1986)
@@ -61,137 +68,316 @@ p <- 0.5     # Probabilité d'avoir un pile
 X <- rbinom(n, 1, prob = p)
 
 # Quelques statistiques descriptives
-mean(X)
-var(X)     # p * (1-p)
 table(X)
 prop.table(table(X))
+mean(X)
+var(X)     # p * (1-p)
 ```
+
+### LFGN
 
 La Loi Forte des Grands Nombres nous dit que :
 
 - plus nous augmentons le nombre de lancers
 - plus la moyenne empirique converge vers l'espèrance
 
+Calculons les moyennes cumulées et traçons l'évolution lorsque le nombre de lancers augmente
+
 ```{r}
+# Somme cumulative divisée par le nombre de lancers correspondants
+x_bar <- cumsum(X) / seq_along(X)
+
+df <- data.frame(x = seq_along(x_bar), x_bar = x_bar)
+```
+
+```{r}
+#| code-eval: true
+#| code-fold: true
+#| code-summary: "Autre méthode pour calculer x_bar"
 x_bar <- rep(NA, n)
 for (i in 1:n) {
   x_bar[i] <- sum(X[1:i]) / i
 }
-plot(x_bar, type = "l")
-abline(h = p, col = "red", lty = 2)
 ```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Code ggplot"
+library(ggplot2)
+
+ggplot(df, aes(x, x_bar)) +
+  geom_line(color = "darkcyan", 
+            linewidth = 1.5) +
+  geom_hline(yintercept = p, 
+             linetype = "dashed", 
+             color = "darkorange") +
+  labs(x = "Nombre de lancers", 
+       y = "Moyenne", 
+       title = "Évolution de la moyenne selon le nombre de lancers de pièce") +
+  theme_minimal()
+```
+
+### TCL
 
 Application du TCL :
 
 - nous répètons L fois l'expérience de n lancers
-- à chaque fois on calcule la moyenne obtenue
+- à chaque fois, calculons la moyenne obtenue
+- puis nous normalisons notre échantillon
+- enfin, traçons l'histogramme des moyennes
 
 ```{r}
+set.seed(1986)
+
 L <- 1000
-x_bar <- rep(NA, L)
-for (i in 1:L){
+n <- 100
+p <- 0.5
+
+x_bar <- numeric(L)
+for (i in 1:L) {
   X <- rbinom(n, 1, prob = p)
   x_bar[i] <- mean(X)
 }
 
-# Nous normalisons
+# Normalisation
 Y <- sqrt(n) * (x_bar - p) / sqrt(p * (1 - p))
-hist(Y, breaks = 30, probability = TRUE)
 ```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Code ggplot"
+library(ggplot2)
+
+ggplot(data.frame(Y), aes(x = Y)) +
+  geom_histogram(binwidth = 0.20, 
+                 color = "black", 
+                 fill = "darkcyan") +
+  labs(x = "Valeurs normalisées", 
+       y = "Fréquence", 
+       title = "Histogramme des valeurs normalisées") +
+  theme_minimal()
+```
+
 
 La distribution nous fait bien penser à la loi normale centrée réduite.
 
 ```{r}
-plot(density(Y), xlim = c(-5, 5), col = "blue", lwd = 2,
-     main = "Comparaison des densités empiriques et théoriques")
-curve(dnorm(x), add = TRUE, col = "red", lwd = 2, lty = 2)
-legend("topleft", inset = 0.05, lty = c(1, 2),
-       c("Densité empirique", "Densité de la loi N(0, 1)"), 
-       col = c("blue", "red"))
+#| code-fold: true
+#| code-summary: "Code ggplot"
+density_Y <- density(Y)
+
+# Create data for standard normal density curve
+std_norm_curve <- data.frame(x = seq(-4, 4, length.out = 100),
+                             y = dnorm(seq(-4, 4, length.out = 100)))
+
+
+legend_colors <- c("Densité empirique" = "darkcyan", "Densité N(0,1)" = "darkorange")
+
+# Create ggplot with density plot and standard normal density curve
+ggplot() +
+  geom_line(data = data.frame(x = density_Y$x, 
+                              y = density_Y$y), 
+            aes(x, y, color = "Densité empirique"),
+            linewidth = 1.5) +
+  geom_line(data = std_norm_curve, 
+            aes(x, y, color = "Densité N(0,1)"), 
+            linetype = "dashed", 
+            linewidth = 1) +
+  xlim(-4, 4) +
+  labs(x = "Valeurs normalisées", 
+       y = "Densité", 
+       title = "Comparaison des densités empiriques et théoriques",
+       color = "Légende") + 
+  scale_color_manual(values = legend_colors) +
+  theme_minimal()
 ```
 
 ### Mon premier test
 
-Tester si une pièce est truquée.  
 Supposons que nous lançons 100 fois une pièce et que nous obtenons :
 
-- 58 pile (1)
-- 42 face (0)
+- 59 pile (1)
+- 41 face (0)
 
 ```{r}
 n <- 100
-nb_pile <- 58
+nb_pile <- 59
 X <- c(rep(1, nb_pile), rep(0, n - nb_pile))
 table(X)
 ```
 
-Est-ce que cette pièce est truquée ?  
+Ok, il y a un écart significatif entre le nombre de *piles* et de *faces*, mais est-ce que cela signifie que la pièce est truquée ?  
 Nous allons établir un test pour voir si la moyenne empirique obtenue s'éloigne trop de la moyenne théorique.
 
 - Soit $H_0$ : la pièce n'est pas truquée (p = 0.5)
 - Vs $H_1$ : la pièce est truquée (p ≠ 0.5)
 
-Nous définissons le niveau de risque. Un niveau de risque à 0.05 signifie que l'on veut être sûr à 95 % de ne pas se tromper.
+Nous définissons le `niveau de risque` $\alpha$.  
+Un niveau de risque à 0.05 signifie que l'on veut être sûr à 95 % de ne pas rejeter $H_0$ alors qu'elle est vraie.
 
 ```{r}
 alpha <- 0.05
 x_bar <- mean(X)
 ```
 
-Soit T la statistique de test :
+Soit $T$ la `statistique de test`
+
+- calculée à partir des données observées, 
+- utilisée pour évaluer la plausibilité de l'hypothèse nulle
+  - sert à quantifier l'écart entre les données observées et ce à quoi on s'attendrait si l'hypothèse nulle était vraie
 
 ```{r}
 T <- sqrt(n) * (x_bar - 0.5) / sqrt(p * (1 - p)); T
 ```
 
-Sous $H_0$, T suit une loi Normale Centrée Réduite :
+Sous $H_0$, $T$ suit une loi Normale Centrée Réduite :
 
-- nous définissons donc la zone de rejet
+- nous définissons donc la `zone de rejet`
+  - la zone de rejet est la région où les valeurs observées sont tellement extrêmes que notre hypothèse de départ semble fausse
 - nous rejetons $H_0$ si T n'appartient pas à l'intervalle suivant
 
 ```{r}
 c(-1, 1) * qnorm(1 - alpha / 2)
 ```
 
-Est-ce que l'on rejette $H_0$ ?
+Est-ce que l'on rejette $H_0$ ?  
+Autrement dit, est-ce que $T$ appartient à la zone de rejet ?
 
 ```{r}
-T > qnorm(1 - alpha / 2) & T > qnorm(1 - alpha / 2)
+T < -qnorm(1 - alpha / 2) | T > qnorm(1 - alpha / 2)
 ```
 
 On ne peut pas rejeter $H_0$ au niveau de risque 0.05.
 
-Resprésentation graphique :
-
-- Nous remarquons que T ne se trouve pas dans la zone de rejet
-- Si T se trouvait dans la zone de rejet, nous aurions affirmé qu'il est peu probable que T suive une $\mathcal{N}(0, 1)$ et donc nous aurions rejeté $H_0$
+Représentation graphique :
 
 ```{r}
 #| code-fold: true
-curve(dnorm(x), col = "blue", lwd = 2, xlim = c(-4, 4),
-      main = "Loi de T sous H0 : N(0, 1)")
+#| code-summary: "Code ggplot"
 
+# Données pour la courbe de densité normale
+x_values <- seq(-4, 4, length.out = 100)
+y_values <- dnorm(x_values)
+
+# Données pour les zones de rejet
 zone_rejet_gauche <- seq(-4, qnorm(alpha/2), 0.01)
 zone_rejet_droite <- seq(qnorm(1-alpha/2), 4, 0.01)
-polygon(x = c(zone_rejet_gauche[1], zone_rejet_gauche, zone_rejet_gauche[length(zone_rejet_gauche)]), 
-        y = c(0, dnorm(zone_rejet_gauche), 0), 
-        col = "orange")
-polygon(x = c(zone_rejet_droite[1], zone_rejet_droite, zone_rejet_droite[length(zone_rejet_droite)]), 
-        y = c(0, dnorm(zone_rejet_droite), 0), 
-        col = "orange")
 
-rug(T, lwd = 2, col = "green", ticksize = 1, lty = 2)
-
-legend("topleft", inset=.05, 
-       c("Zones de rejet", "Stat de test"), 
-       fill = c("orange", NA), lty = c(NA, 2), col = c("orange", "green"),border=c(1,0))
+# Création du graphique avec ggplot2
+ggplot() +
+  geom_line(data = data.frame(x = x_values, 
+                              y = y_values), 
+            aes(x, y), 
+            color = "darkcyan", 
+            linewidth = 1.5) +
+  geom_polygon(data = data.frame(x = c(zone_rejet_gauche, 
+                                       zone_rejet_gauche[length(zone_rejet_gauche)]), 
+                                 y = c(dnorm(zone_rejet_gauche), 0)), 
+               aes(x, y), 
+               fill = "darkorange") +
+  geom_polygon(data = data.frame(x = c(zone_rejet_droite, 
+                                       zone_rejet_droite[length(zone_rejet_droite)]), 
+                                 y = c(0, dnorm(zone_rejet_droite))), 
+               aes(x, y), 
+               fill = "darkorange") +
+  geom_rug(data = data.frame(T = T), 
+           aes(x = T), 
+           sides = "b", 
+           color = "blue", 
+           linewidth = 1) +
+  xlim(-4, 4) +
+  labs(x = "x", y = "Densité", title = "Loi de T sous H0") +
+  theme_minimal() +
+  scale_fill_manual(values = "darkorange", guide = FALSE) +
+  guides(color = "none") +
+  annotate("text", x = 3, y = 0.1, label = "Zones de rejet", color = "darkorange") +
+  annotate("text", x = T, y = 0.02, label = "T", color = "blue") +
+  theme(legend.position = "none")
 ```
 
-p-valeur :
+
+- Nous remarquons que $T$ ne se trouve pas dans la zone de rejet
+- Si $T$ se trouvait dans la zone de rejet, nous aurions affirmé qu'il est peu probable que $T$ suive une $\mathcal{N}(0, 1)$
+  - nous aurions donc rejeté $H_0$
+
+
+### p-valeur
 
 - Probabilité d'obtenir une valeur aussi extrême que celle observée
-- plus grande valeur possible de α conduisant à ne pas rejeter $H_0$
+- plus grande valeur possible de $\alpha$ conduisant à ne pas rejeter $H_0$
 
 ```{r}
 p_val <- 2 * (1 - pnorm(T)) ; p_val
+```
+
+La p-valeur vaut environs 11%. Cela signifie que si nous avions choisi un niveau de risque de :
+
+- 10% : nous ne rejettons pas $H_0$ et considérons que la pièce n'est pas truquée
+- 12% : nous rejettons $H_0$
+
+
+
+### Test unilatéral
+
+Jusqu'à maintenant, nous étions dans le cas d'un test bilatéral.  
+C'est à dire que nous testions pour déterminer si la pièce est truquée, sans nous préoccuper si elle avantage le côté *pile* ou le côté *face*.
+
+Maintenant, imaginons que nous souhaitons tester si elle est truquée côté *pile* uniquement. Nous avons donc :
+
+- Soit $H_0$ : la pièce n'est pas truquée (p = 0.5)
+- Vs $H_1$ : la pièce est truquée côté *pile* (p > 0.5)
+
+La statistique de test $T$ ne change pas.
+
+Nous rejetons si *p* est trop grand, donc la zone de rejet est :
+```{r}
+c(qnorm(1 - alpha), Inf)
+```
+
+Est-ce que l'on rejette $H_0$ ?  
+
+```{r}
+T > qnorm(1 - alpha)
+```
+
+
+Au niveau de risque 0.05, nous rejetons $H_0$ et donc la pièce est truquée côté *pile*.
+
+Représentation graphique :
+
+```{r}
+#| code-fold: true
+#| code-summary: "Code ggplot"
+# Données pour la courbe de densité normale
+x_values <- seq(-4, 4, length.out = 100)
+y_values <- dnorm(x_values)
+
+# Données pour les zones de rejet
+zone_rejet_droite <- seq(qnorm(1-alpha), 4, 0.01)
+
+# Création du graphique avec ggplot2
+ggplot() +
+  geom_line(data = data.frame(x = x_values, 
+                              y = y_values), 
+            aes(x, y), 
+            color = "darkcyan", 
+            linewidth = 1.5) +
+  geom_polygon(data = data.frame(x = c(zone_rejet_droite, 
+                                       zone_rejet_droite[length(zone_rejet_droite)]), 
+                                 y = c(0, dnorm(zone_rejet_droite))), 
+               aes(x, y), 
+               fill = "darkorange") +
+  geom_rug(data = data.frame(T = T), 
+           aes(x = T), 
+           sides = "b", 
+           color = "blue", 
+           linewidth = 1) +
+  xlim(-4, 4) +
+  labs(x = "x", y = "Densité", title = "Loi de T sous H0") +
+  theme_minimal() +
+  scale_fill_manual(values = "darkorange", guide = FALSE) +
+  guides(color = "none") +
+  annotate("text", x = 3, y = 0.1, label = "Zones de rejet", color = "darkorange") +
+  annotate("text", x = T, y = 0.02, label = "T", color = "blue") +
+  theme(legend.position = "none")
 ```
