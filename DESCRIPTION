@@ -1,10 +1,12 @@
 Package: ensaistats
 Type: website
 Title: ENSAI Stats
+Version: 1.0
 Authors@R: c(
     person("Ludovic", "DENEUVILLE",role = c("aut", "cre"), email = "ludovic.deneuville@ensai.fr"))
 Description: declaration des dépendances.
 URL: https://ludo2ne.github.io/ENSAI-stats/
+License: MIT
 Imports:
     ggplot2,
     rmarkdown,
