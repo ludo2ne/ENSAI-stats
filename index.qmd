@@ -11,3 +11,31 @@ from: markdown+emoji
 
 - introduction à diverses matières
 - en utilisant des exemples de code R ou Python
+
+
+## :construction: Todo
+
+Reprendre le contenu de https://github.com/ludo2ne/R-tuto et mettre au format qmd
+
+- [ ] Lois de probabilité discrétes
+- [ ] Méthodes factorielles
+- [ ] Classification non supervisée
+- [ ] Statistique inférentielle
+- [ ] Apprentissage Supervisé
+- [ ] Régression linéaire
+- [ ] Modèles linéaires généralisés
+- [ ] Séries Temporelles
+- [ ] Modèles de Survie
+- [ ] Sondages
+- [ ] Chaines de Markov
+- [ ] Inférence Bayésienne
+
+## Work in progress
+
+- [ ] Tests Statistiques
+- [ ] Probabilités
+
+
+## Done
+
+- [x] Lois de probabilité continues

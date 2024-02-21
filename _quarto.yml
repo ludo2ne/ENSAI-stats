@@ -21,6 +21,8 @@ website:
         menu:
           - href: doc/tuto/stats/tests-statitiques.qmd
             text: "Tests Statistiques"
+          - href: doc/tuto/stats/modèles-survie.qmd
+            text: "Modèles de Survie"
     right:
       - icon: github
         href: https://github.com/ludo2ne/ENSAI-Stats
