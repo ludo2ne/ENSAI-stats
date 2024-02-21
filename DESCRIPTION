@@ -8,6 +8,7 @@ Description: declaration des dépendances.
 URL: https://ludo2ne.github.io/ENSAI-stats/
 License: MIT
 Imports:
+    dplyr,
     ggplot2,
     rmarkdown,
     survival
