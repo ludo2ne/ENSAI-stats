@@ -10,5 +10,5 @@ License: MIT
 Imports:
     ggplot2,
     rmarkdown,
-    survivial
+    survival
 Encoding: UTF-8
