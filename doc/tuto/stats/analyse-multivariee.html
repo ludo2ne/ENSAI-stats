@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.551">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Ludovic Deneuville">
+<meta name="description" content="Introduction aux méthodes factorielles (ACP, AFD, AFC, ACM)">
+
+<title>Tutoriels Stats - Analyse multivariée</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-dark.min.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Tutoriels Stats</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html"> 
+<span class="menu-text">Accueil</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-probabilité" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Probabilité</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-probabilité">    
+        <li>
+    <a class="dropdown-item" href="../../../doc/tuto/proba/lois-probabilite-continues.html">
+ <span class="dropdown-text">Lois de probabilité continues</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../doc/tuto/proba/lois-probabilite-discretes.html">
+ <span class="dropdown-text">Lois de probabilité discrètes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../doc/tuto/proba/probabilites.html">
+ <span class="dropdown-text">Probabilités</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-statistiques" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Statistiques</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-statistiques">    
+        <li>
+    <a class="dropdown-item" href="../../../doc/tuto/stats/analyse-multivariee.html">
+ <span class="dropdown-text">Analyse Multivariée</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../doc/tuto/stats/tests-statitiques.html">
+ <span class="dropdown-text">Tests Statistiques</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../doc/tuto/stats/modeles-survie.html">
+ <span class="dropdown-text">Modèles de Survie</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ludo2ne/ENSAI-Stats" target="_blank"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="3">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#documentation-et-sources" id="toc-documentation-et-sources" class="nav-link active" data-scroll-target="#documentation-et-sources">Documentation et Sources</a></li>
+  <li><a href="#objectifs-et-contexte" id="toc-objectifs-et-contexte" class="nav-link" data-scroll-target="#objectifs-et-contexte">Objectifs et Contexte</a></li>
+  <li><a href="#ma-première-acp" id="toc-ma-première-acp" class="nav-link" data-scroll-target="#ma-première-acp"><span class="header-section-number">1</span> Ma première ACP</a>
+  <ul class="collapse">
+  <li><a href="#données" id="toc-données" class="nav-link" data-scroll-target="#données"><span class="header-section-number">1.1</span> Données</a></li>
+  <li><a href="#statistiques-descriptives" id="toc-statistiques-descriptives" class="nav-link" data-scroll-target="#statistiques-descriptives"><span class="header-section-number">1.2</span> Statistiques descriptives</a></li>
+  <li><a href="#sélection-des-variables" id="toc-sélection-des-variables" class="nav-link" data-scroll-target="#sélection-des-variables"><span class="header-section-number">1.3</span> Sélection des variables</a></li>
+  <li><a href="#inertie-par-axe" id="toc-inertie-par-axe" class="nav-link" data-scroll-target="#inertie-par-axe"><span class="header-section-number">1.4</span> Inertie par axe</a></li>
+  <li><a href="#cercle-des-corrélations" id="toc-cercle-des-corrélations" class="nav-link" data-scroll-target="#cercle-des-corrélations"><span class="header-section-number">1.5</span> Cercle des corrélations</a></li>
+  <li><a href="#individus-sur-les-2-premiers-axes" id="toc-individus-sur-les-2-premiers-axes" class="nav-link" data-scroll-target="#individus-sur-les-2-premiers-axes"><span class="header-section-number">1.6</span> Individus sur les 2 premiers axes</a></li>
+  <li><a href="#contribution-aux-axes" id="toc-contribution-aux-axes" class="nav-link" data-scroll-target="#contribution-aux-axes"><span class="header-section-number">1.7</span> Contribution aux axes</a></li>
+  <li><a href="#cos²" id="toc-cos²" class="nav-link" data-scroll-target="#cos²"><span class="header-section-number">1.8</span> Cos²</a></li>
+  </ul></li>
+  <li><a href="#vision-mathématique" id="toc-vision-mathématique" class="nav-link" data-scroll-target="#vision-mathématique"><span class="header-section-number">2</span> Vision mathématique</a>
+  <ul class="collapse">
+  <li><a href="#matrices-des-données" id="toc-matrices-des-données" class="nav-link" data-scroll-target="#matrices-des-données"><span class="header-section-number">2.1</span> Matrices des données</a></li>
+  <li><a href="#matrice-des-variances-covariances" id="toc-matrice-des-variances-covariances" class="nav-link" data-scroll-target="#matrice-des-variances-covariances"><span class="header-section-number">2.2</span> Matrice des variances-covariances</a></li>
+  <li><a href="#matrice-de-corrélation" id="toc-matrice-de-corrélation" class="nav-link" data-scroll-target="#matrice-de-corrélation"><span class="header-section-number">2.3</span> Matrice de corrélation</a></li>
+  </ul></li>
+  <li><a href="#afd" id="toc-afd" class="nav-link" data-scroll-target="#afd"><span class="header-section-number">3</span> AFD</a></li>
+  <li><a href="#afc" id="toc-afc" class="nav-link" data-scroll-target="#afc"><span class="header-section-number">4</span> AFC</a></li>
+  <li><a href="#acm" id="toc-acm" class="nav-link" data-scroll-target="#acm"><span class="header-section-number">5</span> ACM</a></li>
+  <li><a href="#vidéos" id="toc-vidéos" class="nav-link" data-scroll-target="#vidéos"><span class="header-section-number">6</span> Vidéos</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Analyse multivariée</h1>
+</div>
+
+<div>
+  <div class="description">
+    Introduction aux méthodes factorielles (ACP, AFD, AFC, ACM)
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Ludovic Deneuville </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="documentation-et-sources" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="documentation-et-sources">Documentation et Sources</h2>
+<p>Les exemples utilisés sont repris du cours de <a href="https://ensai.fr/equipe/matthieu-marbac-lourdelle/" target="_blank">Matthieu MARBAC</a> dispensé à l’ENSAI en 2021.</p>
+<ul>
+<li><a href="https://www.book.utilitr.org/03_fiches_thematiques/fiche_analyse_de_donnees" target="_blank">L’analyse de données sur UtilitR</a></li>
+</ul>
+</section>
+<section id="objectifs-et-contexte" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="objectifs-et-contexte">Objectifs et Contexte</h2>
+<ul>
+<li>Vous disposez des données suivantes
+<ul>
+<li><span class="math inline">\(n\)</span> individus</li>
+<li><span class="math inline">\(p\)</span> variables</li>
+<li><span class="math inline">\(X\)</span> : <code>matrice des données</code> de dimension <span class="math inline">\(n\)</span> x <span class="math inline">\(p\)</span></li>
+</ul></li>
+<li>Comment analyser la structure et représenter ces données ?</li>
+</ul>
+<p>Il n’ai pas aisé de représenter vos données en dimension <span class="math inline">\(p\)</span> :</p>
+<ul>
+<li><code>Nuage de points</code>
+<ul>
+<li>représentation de vos données en dimension p</li>
+<li>pour les calculs, le nuage de point sera centré et réduit
+<ul>
+<li>cela permet d’avoir le même poids pour chaque variable</li>
+<li>par exemple en réduisant, une variable <em>age</em> (valeurs entre 0 et 120) aura la même importance qu’une variable <em>nombre de neurones</em> (valeurs entre 100 millions et 100 milliards)</li>
+<li>ce n’est pas obligatoire de réduire, mais si on ne le fait pas, la variable <em>age</em> dont la variance est beaucoup plus faible, sera négligeable</li>
+</ul></li>
+</ul></li>
+</ul>
+<p><span class="emoji" data-emoji="dart">🎯</span> Vous souhaitez par exemple représenter vos données sur un graphique en 2D.</p>
+<p>Les méthodes factorielles sont là pour vous aider à réduire la complexité des données tout en préservant au maximum l’information qu’elles contiennent.</p>
+<p>Comment ? En effectuant un changement de base pour obtenir des axes où l’inertie est maximale.</p>
+<ul>
+<li><code>Inertie</code>
+<ul>
+<li>représente l’écart entre les observations</li>
+<li>grande si le nuage est dispersé, petite sinon</li>
+<li>l’inertie totale est égale à la somme des inerties de chaque axe</li>
+</ul></li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled" title="Autrement dit">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Autrement dit
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Vous partez d’un nuage de point de dimension <span class="math inline">\(\mathbb{R}^p\)</span></li>
+<li>Vous effectuez un changement de base</li>
+<li>Pour le choix du 1er axe factoriel, vous cherchez l’axe qui maximise l’inertie</li>
+<li>Puis vous cherchez un 2e axe factoriel qui maximise l’inertie restante</li>
+<li>etc. jusqu’au dernier axe (p)</li>
+<li>Enfin, vous analysez les premiers axes, ceux qui concentrent la majorité de l’inertie</li>
+</ul>
+</div>
+</div>
+<p>Dans le domaine de l’analyse des données multivariées, plusieurs techniques sont couramment utilisées pour explorer la structure sous-jacente des données et en <u>extraire des informations significatives</u>.</p>
+<p>Quatre de ces techniques employées sont :</p>
+<ul>
+<li>l’Analyse en Composantes Principales (ACP)</li>
+<li>l’Analyse Factorielle Discriminante (AFD)</li>
+<li>l’Analyse Factorielle des Correspondances (AFC)</li>
+<li>l’Analyse des Correspondances Multiples (ACM)</li>
+</ul>
+</section>
+<section id="ma-première-acp" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="ma-première-acp"><span class="header-section-number">1</span> Ma première ACP</h2>
+<p>Nous allons commencer par réaliser une ACP. Les autres méthodes suivent globalement le même principe avec quelques variantes.</p>
+<p>Pour réaliser une ACP, nous ne gardons que des variables <u>quantitatives</u>.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Nous nous baserons sur un cas simple où :</p>
+<ul>
+<li>tous les individus ont le même poids, c’est à dire la même importance</li>
+<li>toutes les variables ont le même poids (Métrique : Identité)</li>
+</ul>
+</div>
+</div>
+<section id="données" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="données"><span class="header-section-number">1.1</span> Données</h3>
+<p>Commençons par réinitialiser notre environnement et charger les librairies utiles</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>())</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(FactoMineR)         <span class="co"># install.packages("FactoMineR")</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)         <span class="co"># install.packages("factoextra")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Nous utilisons un jeu de données contenant les températures de différentes villes d’Europe</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>temperature <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"data/temperature.csv"</span>, </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">header =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">sep =</span> <span class="st">";"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">row.names =</span> <span class="dv">1</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(temperature)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   35 obs. of  17 variables:
+ $ Janvier  : num  2.9 9.1 -0.2 3.3 -1.1 -0.4 4.8 -5.8 -5.9 -3.7 ...
+ $ Fevrier  : num  2.5 9.7 0.1 3.3 0.8 -0.4 5 -6.2 -5 -2 ...
+ $ Mars     : num  5.7 11.7 4.4 6.7 5.5 1.3 5.9 -2.7 -0.3 1.9 ...
+ $ Avril    : num  8.2 15.4 8.2 8.9 11.6 5.8 7.8 3.1 7.4 7.9 ...
+ $ Mai      : num  12.5 20.1 13.8 12.8 17 11.1 10.4 10.2 14.3 13.2 ...
+ $ Juin     : num  14.8 24.5 16 15.6 20.2 15.4 13.3 14 17.8 16.9 ...
+ $ Juillet  : num  17.1 27.4 18.3 17.8 22 17.1 15 17.2 19.4 18.4 ...
+ $ Aout     : num  17.1 27.2 18 17.8 21.3 16.6 14.6 14.9 18.5 17.6 ...
+ $ Septembre: num  14.5 23.8 14.4 15 16.9 13.3 12.7 9.7 13.7 13.7 ...
+ $ Octobre  : num  11.4 19.2 10 11.1 11.3 8.8 9.7 5.2 7.5 8.6 ...
+ $ Novembre : num  7 14.6 4.2 6.7 5.1 4.1 6.7 0.1 1.2 2.6 ...
+ $ Decembre : num  4.4 11 1.2 4.4 0.7 1.3 5.4 -2.3 -3.6 -1.7 ...
+ $ Moyenne  : num  9.9 17.8 9.1 10.3 10.9 7.8 9.3 4.8 7.1 7.7 ...
+ $ Amplitude: num  14.6 18.3 18.5 14.4 23.1 17.5 10.2 23.4 25.3 22.1 ...
+ $ Latitude : num  52.2 37.6 52.3 50.5 47.3 55.4 53.2 60.1 50.3 50 ...
+ $ Longitude: num  4.5 23.5 13.2 4.2 19 12.3 6.1 25 30.3 19.6 ...
+ $ Region   : Factor w/ 4 levels "Est","Nord","Ouest",..: 3 4 3 3 1 2 2 2 1 1 ...</code></pre>
+</div>
+</div>
+<p>Pour chacune des villes, nous avons les variables suivantes :</p>
+<ul>
+<li>12 variables pour les températures moyennes pour chaque mois</li>
+<li>la température moyenne de l’année, ainsi que l’amplitude</li>
+<li>la latitude et la longitude</li>
+<li>la région</li>
+</ul>
+<p>Toutes les variables sont numériques, excepté la <em>région</em>.</p>
+</section>
+<section id="statistiques-descriptives" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="statistiques-descriptives"><span class="header-section-number">1.2</span> Statistiques descriptives</h3>
+<p>Avant de se lancer tête baissée, regardons les statistiques descriptives</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(temperature)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Janvier          Fevrier            Mars            Avril       
+ Min.   :-9.300   Min.   :-7.900   Min.   :-3.700   Min.   : 2.900  
+ 1st Qu.:-1.550   1st Qu.:-0.150   1st Qu.: 1.600   1st Qu.: 7.250  
+ Median : 0.200   Median : 1.900   Median : 5.400   Median : 8.900  
+ Mean   : 1.346   Mean   : 2.217   Mean   : 5.229   Mean   : 9.283  
+ 3rd Qu.: 4.900   3rd Qu.: 5.800   3rd Qu.: 8.500   3rd Qu.:12.050  
+ Max.   :10.700   Max.   :11.800   Max.   :14.100   Max.   :16.900  
+      Mai             Juin          Juillet           Aout      
+ Min.   : 6.50   Min.   : 9.30   Min.   :11.10   Min.   :10.60  
+ 1st Qu.:12.15   1st Qu.:15.40   1st Qu.:17.30   1st Qu.:16.65  
+ Median :13.80   Median :16.90   Median :18.90   Median :18.30  
+ Mean   :13.91   Mean   :17.41   Mean   :19.62   Mean   :18.98  
+ 3rd Qu.:16.35   3rd Qu.:19.80   3rd Qu.:21.75   3rd Qu.:21.60  
+ Max.   :20.90   Max.   :24.50   Max.   :27.40   Max.   :27.20  
+   Septembre        Octobre         Novembre         Decembre    
+ Min.   : 7.90   Min.   : 4.50   Min.   :-1.100   Min.   :-6.00  
+ 1st Qu.:13.00   1st Qu.: 8.65   1st Qu.: 3.200   1st Qu.: 0.25  
+ Median :14.80   Median :10.20   Median : 5.100   Median : 1.70  
+ Mean   :15.63   Mean   :11.00   Mean   : 6.066   Mean   : 2.88  
+ 3rd Qu.:18.25   3rd Qu.:13.30   3rd Qu.: 7.900   3rd Qu.: 5.40  
+ Max.   :24.30   Max.   :19.40   Max.   :14.900   Max.   :12.00  
+    Moyenne        Amplitude        Latitude       Longitude       Region  
+ Min.   : 4.50   Min.   :10.20   Min.   :37.20   Min.   : 0.00   Est  : 8  
+ 1st Qu.: 7.75   1st Qu.:14.90   1st Qu.:43.90   1st Qu.: 4.35   Nord : 8  
+ Median : 9.70   Median :18.50   Median :50.00   Median : 9.40   Ouest: 9  
+ Mean   :10.27   Mean   :18.32   Mean   :48.77   Mean   :11.98   Sud  :10  
+ 3rd Qu.:12.65   3rd Qu.:21.45   3rd Qu.:52.75   3rd Qu.:18.65             
+ Max.   :18.20   Max.   :27.60   Max.   :64.10   Max.   :30.30             </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(temperature, <span class="fu">aes</span>(<span class="at">x =</span> Region, <span class="at">y =</span> Moyenne)) <span class="sc">+</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">color=</span><span class="st">"darkcyan"</span>) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Températures moyennes annuelles selon la région"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Région"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Température moyenne (°C)"</span>) <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="analyse-multivariee_files/figure-html/unnamed-chunk-4-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="analyse-multivariee_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="576"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="sélection-des-variables" class="level3" data-number="1.3">
+<h3 data-number="1.3" class="anchored" data-anchor-id="sélection-des-variables"><span class="header-section-number">1.3</span> Sélection des variables</h3>
+<p>La première étape consiste à sélectionner les variables et individus qui vont servir à réaliser l’ACP.</p>
+<ul>
+<li><code>variables actives</code> : variables qui serviront à calculer les nouveaux axes</li>
+<li><code>individus actifs</code> : individus qui serviront à calculer les nouveaux axes</li>
+<li><code>individus et variables supplémentaires</code> : individus et variables qui <u>ne serviront pas</u> à la création des nouveaux axes mais dont on souhaite observer la position sur ces nouveaux axes
+<ul>
+<li>ils peuvent servir pour contrôler la pertinence de la nouvelle base</li>
+</ul></li>
+</ul>
+<p>Ces choix peuvent différer selon l’analyse que nous souhaitons réaliser. Ici nous choisissons par exemple :</p>
+<ul>
+<li>variables actives : les températures de janvier à décembre
+<ul>
+<li>les colonnes 13 à 16 sont des variables quantitatives supplémentaires</li>
+<li>la colonne 17 est une variable qualitative supplémentaire</li>
+</ul></li>
+<li>individus actifs : les capitales
+<ul>
+<li>les autres (lignes 24 à 35) seront supplémentaires</li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>res_acp <span class="ot">&lt;-</span> <span class="fu">PCA</span>(temperature, </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">ind.sup =</span> <span class="fu">c</span>(<span class="dv">24</span><span class="sc">:</span><span class="dv">35</span>),</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">quanti.sup =</span> <span class="fu">c</span>(<span class="dv">13</span><span class="sc">:</span><span class="dv">16</span>),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">quali.sup =</span> <span class="fu">c</span>(<span class="dv">17</span>),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">graph =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Voici les coordonnées des villes dans la nouvelle base :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>res_acp<span class="sc">$</span>ind<span class="sc">$</span>coord</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 Dim.1        Dim.2       Dim.3        Dim.4        Dim.5
+Amsterdam   0.22693852 -1.371378702 -0.10439354 -0.282792759 -0.225234980
+Athenes     7.60067204  0.930375742  0.56142895 -0.286557237  0.121284086
+Berlin     -0.28785832  0.016454075 -0.29060835 -0.055593051 -0.141777442
+Bruxelles   0.63117358 -1.177217640 -0.15204276  0.017069866 -0.118080300
+Budapest    1.66802839  1.712697730 -0.49898331  0.112436553  0.147493796
+Copenhague -1.46239513 -0.492056307  0.44036858 -0.176716151  0.001359796
+Dublin     -0.50524137 -2.673496925 -0.17850939  0.029911177  0.199489106
+Helsinki   -4.03629712  0.462039367  0.59318909 -0.244444751  0.058755870
+Kiev       -1.71222008  2.007597607 -0.17067034 -0.112807425  0.046761788
+Cracovie   -1.25865727  0.874989077 -0.27396329  0.036537296 -0.022272155
+Lisbonne    5.59928833 -1.554345838 -0.27035193 -0.137240393  0.057997452
+Londres     0.05764006 -1.573766723 -0.08467398  0.052014838  0.166383037
+Madrid      4.06406743  0.697664862  0.46179949  0.662933274 -0.076738822
+Minsk      -3.23789748  1.391289730 -0.07227015 -0.183341936  0.066896667
+Moscou     -3.46261171  2.182015808 -0.30130242 -0.005382798  0.075779200
+Oslo       -3.30598698  0.310053024  0.29530945  0.190608834  0.068558517
+Paris       1.41971350 -0.897598545 -0.11032749 -0.079067225 -0.184884193
+Prague     -0.10900287  0.698041163 -0.24257136  0.100375201  0.119810451
+Reykjavik  -4.70406435 -2.957197699 -0.05789842  0.195366437  0.102746920
+Rome        5.38200124  0.293698723  0.18926869 -0.012589110  0.077649640
+Sarajevo    0.16345193  0.319489453 -0.36458614  0.073615022 -0.204664346
+Sofia       0.41781097  0.795074460 -0.24086374  0.047803563 -0.195020427
+Stockholm  -3.14855331  0.005577557  0.87265235  0.057860775 -0.142293659</code></pre>
+</div>
+</div>
+</section>
+<section id="inertie-par-axe" class="level3" data-number="1.4">
+<h3 data-number="1.4" class="anchored" data-anchor-id="inertie-par-axe"><span class="header-section-number">1.4</span> Inertie par axe</h3>
+<p>La dimension 1 est l’axe avec la plus grande inertie, la dimension 2 avec la 2e plus grande inertie…</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_eig</span>(res_acp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="analyse-multivariee_files/figure-html/unnamed-chunk-7-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="analyse-multivariee_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="576"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Le premier axe explique 82.9 % de l’inertie et le second 15,4 %.</p>
+</section>
+<section id="cercle-des-corrélations" class="level3" data-number="1.5">
+<h3 data-number="1.5" class="anchored" data-anchor-id="cercle-des-corrélations"><span class="header-section-number">1.5</span> Cercle des corrélations</h3>
+<p>Le <code>cercle des corrélations</code> permet de représenter graphiquement les corrélations entre les <u>variables</u> et les <u>axes factoriels</u>.</p>
+<p>Représentons ce cercle pour les 2 premiers axes :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_pca_var</span>(res_acp, <span class="at">repel =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="analyse-multivariee_files/figure-html/unnamed-chunk-8-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="analyse-multivariee_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="576"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>Interprétations des flèches. Si elle pointe prés de
+<ul>
+<li>[1,0], la variable est fortement corrélée positivement à l’axe factoriel des abscisses (1)</li>
+<li>[-1,0], la variable est fortement corrélée négativement à l’axe factoriel des abscisses (1)</li>
+<li>[0,1], la variable est fortement corrélée positivement à l’axe factoriel des ordonnées (2)</li>
+<li>[0,-1], la variable est fortement corrélée négativement à l’axe factoriel des ordonnées (2)</li>
+<li>[0,0], la variable n’est corrélé à aucun axe factoriel</li>
+</ul></li>
+</ul>
+<p>Dans notre exemple, les 12 variables de températures moyennes mensuelle sont fortement correlés positivement à l’axe 1. Ce comportement est nommé <code>effet taille</code>.</p>
+<p>C’est assez logique car cet axe représente une écrasante majorité de l’inertie.</p>
+<p>Autre information interessante : la variable <em>Amplitude</em> est fortement correlée au 2e axe. Et pour tant cette variable est supplémentaire et n’a donc pas été prise en compte pour construire cet axe.</p>
+</section>
+<section id="individus-sur-les-2-premiers-axes" class="level3" data-number="1.6">
+<h3 data-number="1.6" class="anchored" data-anchor-id="individus-sur-les-2-premiers-axes"><span class="header-section-number">1.6</span> Individus sur les 2 premiers axes</h3>
+<p>Représentons maintenant les <u>individus</u> sur les <u>axes factoriels</u>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_pca_ind</span>(res_acp, <span class="at">repel =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="analyse-multivariee_files/figure-html/unnamed-chunk-9-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="analyse-multivariee_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="576"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Essayons d’interpréter ces 2 axes :</p>
+<ul>
+<li>axe 1 : nous retrouvons des villes où les températures sont plutôt froides à gauche et chaudes à droite</li>
+<li>axe 2 :
+<ul>
+<li>en haut nous retrouvons des villes avec un climat continental (grandes variations de températures entre les saisons)</li>
+<li>alors qu’en bas, nous retrouvons plutôt des villes avec un climat océanique (températures plus stables)</li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_pca_ind</span>(res_acp,</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">habillage =</span> <span class="st">"Region"</span>, </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">addEllipses =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">invisible =</span> <span class="fu">c</span>(<span class="st">"ind.sup"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="analyse-multivariee_files/figure-html/unnamed-chunk-10-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="analyse-multivariee_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="576"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Nous pouvons également visualiser les individus sur les autres axes.</p>
+<p>Dans le cas présent l’inertie des axes 3 et 4 est très faible, il est donc compliqué d’interpréter ces axes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_pca_ind</span>(res_acp,</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">repel =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">axes =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>),</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">invisible =</span> <span class="fu">c</span>(<span class="st">"ind.sup"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="analyse-multivariee_files/figure-html/unnamed-chunk-11-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="analyse-multivariee_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="576"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="contribution-aux-axes" class="level3" data-number="1.7">
+<h3 data-number="1.7" class="anchored" data-anchor-id="contribution-aux-axes"><span class="header-section-number">1.7</span> Contribution aux axes</h3>
+<p>La <code>contribution aux axes</code> d’une variable indique si la variable a fortement contribué pour la construction de cet axe.</p>
+<ul>
+<li>plus une variable contribue à une composante principale, plus sa contribution aux axes sera élevée</li>
+<li>cette mesure permet d’identifier les variables qui ont le plus d’impact sur chaque composante principale</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_contrib</span>(res_acp, <span class="at">choice =</span> <span class="st">"var"</span>, <span class="at">axes =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="analyse-multivariee_files/figure-html/unnamed-chunk-12-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="analyse-multivariee_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="576"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Il en va de même pour la contribution aux axes d’un individu.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_contrib</span>(res_acp, <span class="at">choice =</span> <span class="st">"ind"</span>, <span class="at">axes =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="analyse-multivariee_files/figure-html/unnamed-chunk-13-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="analyse-multivariee_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="576"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="cos²" class="level3" data-number="1.8">
+<h3 data-number="1.8" class="anchored" data-anchor-id="cos²"><span class="header-section-number">1.8</span> Cos²</h3>
+<p>Le <code>cos²</code> mesure la qualité de représentation de chaque variable sur chaque axe.</p>
+<ul>
+<li>un cos² proche de 1 indique une bonne représentation de la variable sur l’axe, ce qui signifie que la variable est bien alignée avec l’axe et contribue fortement à sa définition</li>
+<li>un cos² proche de 0 indique une faible représentation de la variable sur l’axe, ce qui signifie que la variable n’est pas bien alignée avec l’axe et contribue peu à sa définition</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cos2</span>(res_acp, <span class="at">choice =</span> <span class="st">"var"</span>, <span class="at">axe =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="analyse-multivariee_files/figure-html/unnamed-chunk-14-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="analyse-multivariee_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="576"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Idem pour les individus.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cos2</span>(res_acp, <span class="at">choice =</span> <span class="st">"ind"</span>, <span class="at">axe =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="analyse-multivariee_files/figure-html/unnamed-chunk-15-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="analyse-multivariee_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="576"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="vision-mathématique" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="vision-mathématique"><span class="header-section-number">2</span> Vision mathématique</h2>
+<section id="matrices-des-données" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="matrices-des-données"><span class="header-section-number">2.1</span> Matrices des données</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(temperature[<span class="dv">1</span><span class="sc">:</span><span class="dv">23</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>])</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(X) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"jan"</span>, <span class="st">"fev"</span>, <span class="st">"mar"</span>, <span class="st">"avr"</span>, <span class="st">"mai"</span>, <span class="st">"jui"</span>, <span class="st">"jul"</span>, <span class="st">"aou"</span>, <span class="st">"sep"</span>, <span class="st">"oct"</span>, <span class="st">"nov"</span>, <span class="st">"dec"</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>X</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            jan  fev  mar  avr  mai  jui  jul  aou  sep  oct  nov  dec
+Amsterdam   2.9  2.5  5.7  8.2 12.5 14.8 17.1 17.1 14.5 11.4  7.0  4.4
+Athenes     9.1  9.7 11.7 15.4 20.1 24.5 27.4 27.2 23.8 19.2 14.6 11.0
+Berlin     -0.2  0.1  4.4  8.2 13.8 16.0 18.3 18.0 14.4 10.0  4.2  1.2
+Bruxelles   3.3  3.3  6.7  8.9 12.8 15.6 17.8 17.8 15.0 11.1  6.7  4.4
+Budapest   -1.1  0.8  5.5 11.6 17.0 20.2 22.0 21.3 16.9 11.3  5.1  0.7
+Copenhague -0.4 -0.4  1.3  5.8 11.1 15.4 17.1 16.6 13.3  8.8  4.1  1.3
+Dublin      4.8  5.0  5.9  7.8 10.4 13.3 15.0 14.6 12.7  9.7  6.7  5.4
+Helsinki   -5.8 -6.2 -2.7  3.1 10.2 14.0 17.2 14.9  9.7  5.2  0.1 -2.3
+Kiev       -5.9 -5.0 -0.3  7.4 14.3 17.8 19.4 18.5 13.7  7.5  1.2 -3.6
+Cracovie   -3.7 -2.0  1.9  7.9 13.2 16.9 18.4 17.6 13.7  8.6  2.6 -1.7
+Lisbonne   10.5 11.3 12.8 14.5 16.7 19.4 21.5 21.9 20.4 17.4 13.7 11.1
+Londres     3.4  4.2  5.5  8.3 11.9 15.1 16.9 16.5 14.0 10.2  6.3  4.4
+Madrid      5.0  6.6  9.4 12.2 16.0 20.8 24.7 24.3 19.8 13.9  8.7  5.4
+Minsk      -6.9 -6.2 -1.9  5.4 12.4 15.9 17.4 16.3 11.6  5.8  0.1 -4.2
+Moscou     -9.3 -7.6 -2.0  6.0 13.0 16.6 18.3 16.7 11.2  5.1 -1.1 -6.0
+Oslo       -4.3 -3.8 -0.6  4.4 10.3 14.9 16.9 15.4 11.1  5.7  0.5 -2.9
+Paris       3.7  3.7  7.3  9.7 13.7 16.5 19.0 18.7 16.1 12.5  7.3  5.2
+Prague     -1.3  0.2  3.6  8.8 14.3 17.6 19.3 18.7 14.9  9.4  3.8  0.3
+Reykjavik  -0.3  0.1  0.8  2.9  6.5  9.3 11.1 10.6  7.9  4.5  1.7  0.2
+Rome        7.1  8.2 10.5 13.7 17.8 21.7 24.4 24.1 20.9 16.5 11.7  8.3
+Sarajevo   -1.4  0.8  4.9  9.3 13.8 17.0 18.9 18.7 15.2 10.5  5.1  0.8
+Sofia      -1.7  0.2  4.3  9.7 14.3 17.7 20.0 19.5 15.8 10.7  5.0  0.6
+Stockholm  -3.5 -3.5 -1.3  3.5  9.2 14.6 17.2 16.0 11.7  6.5  1.7 -1.6</code></pre>
+</div>
+</div>
+</section>
+<section id="matrice-des-variances-covariances" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="matrice-des-variances-covariances"><span class="header-section-number">2.2</span> Matrice des variances-covariances</h3>
+<p>C’est une matrice carrée symétrique qui contient :</p>
+<ul>
+<li>les variances des variables sur la diagonale</li>
+<li>les covariances entre les paires de variables hors-diagonale</li>
+</ul>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Fonction <em>cov</em></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Calcul à la main</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>matrice_var_cov <span class="ot">&lt;-</span> <span class="fu">cov</span>(X); </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(matrice_var_cov, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     jan  fev  mar  avr  mai  jui  jul  aou  sep  oct  nov  dec
+jan 26.8 26.2 21.9 13.6  7.5  6.8  8.0 10.4 14.6 18.0 21.0 23.7
+fev 26.2 26.2 22.3 14.6  8.6  7.9  9.0 11.5 15.5 18.4 21.0 23.2
+mar 21.9 22.3 20.2 14.3  9.6  8.8  9.8 12.0 15.0 17.0 18.5 19.6
+avr 13.6 14.6 14.3 12.1  9.7  9.3 10.0 11.4 12.7 13.1 13.1 12.6
+mai  7.5  8.6  9.6  9.7  9.2  9.2  9.7 10.4 10.5  9.9  8.9  7.5
+jui  6.8  7.9  8.8  9.3  9.2  9.9 10.5 11.1 10.7  9.7  8.5  6.9
+jul  8.0  9.0  9.8 10.0  9.7 10.5 11.6 12.1 11.7 10.6  9.5  8.0
+aou 10.4 11.5 12.0 11.4 10.4 11.1 12.1 13.0 13.0 12.4 11.4 10.1
+sep 14.6 15.5 15.0 12.7 10.5 10.7 11.7 13.0 14.2 14.4 14.3 13.7
+oct 18.0 18.4 17.0 13.1  9.9  9.7 10.6 12.4 14.4 15.7 16.3 16.6
+nov 21.0 21.0 18.5 13.1  8.9  8.5  9.5 11.4 14.3 16.3 17.9 19.1
+dec 23.7 23.2 19.6 12.6  7.5  6.9  8.0 10.1 13.7 16.6 19.1 21.3</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># On centre toutes les variables</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>centered_X <span class="ot">&lt;-</span> <span class="fu">scale</span>(X, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">1</span><span class="sc">/</span>(<span class="fu">nrow</span>(centered_X)<span class="sc">-</span><span class="dv">1</span>) <span class="sc">*</span> <span class="fu">t</span>(centered_X) <span class="sc">%*%</span> centered_X, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     jan  fev  mar  avr  mai  jui  jul  aou  sep  oct  nov  dec
+jan 26.8 26.2 21.9 13.6  7.5  6.8  8.0 10.4 14.6 18.0 21.0 23.7
+fev 26.2 26.2 22.3 14.6  8.6  7.9  9.0 11.5 15.5 18.4 21.0 23.2
+mar 21.9 22.3 20.2 14.3  9.6  8.8  9.8 12.0 15.0 17.0 18.5 19.6
+avr 13.6 14.6 14.3 12.1  9.7  9.3 10.0 11.4 12.7 13.1 13.1 12.6
+mai  7.5  8.6  9.6  9.7  9.2  9.2  9.7 10.4 10.5  9.9  8.9  7.5
+jui  6.8  7.9  8.8  9.3  9.2  9.9 10.5 11.1 10.7  9.7  8.5  6.9
+jul  8.0  9.0  9.8 10.0  9.7 10.5 11.6 12.1 11.7 10.6  9.5  8.0
+aou 10.4 11.5 12.0 11.4 10.4 11.1 12.1 13.0 13.0 12.4 11.4 10.1
+sep 14.6 15.5 15.0 12.7 10.5 10.7 11.7 13.0 14.2 14.4 14.3 13.7
+oct 18.0 18.4 17.0 13.1  9.9  9.7 10.6 12.4 14.4 15.7 16.3 16.6
+nov 21.0 21.0 18.5 13.1  8.9  8.5  9.5 11.4 14.3 16.3 17.9 19.1
+dec 23.7 23.2 19.6 12.6  7.5  6.9  8.0 10.1 13.7 16.6 19.1 21.3</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="matrice-de-corrélation" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="matrice-de-corrélation"><span class="header-section-number">2.3</span> Matrice de corrélation</h3>
+<p>C’est la matrice des variances-covariances normalisée.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Fontion <em>cor</em></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Calcul à la main</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>matrice_cor <span class="ot">&lt;-</span> <span class="fu">cor</span>(X); </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(matrice_cor, <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     jan  fev  mar  avr  mai  jui  jul  aou  sep  oct  nov  dec
+jan 1.00 0.99 0.94 0.75 0.48 0.42 0.45 0.56 0.75 0.88 0.96 0.99
+fev 0.99 1.00 0.97 0.82 0.56 0.49 0.52 0.62 0.80 0.91 0.97 0.98
+mar 0.94 0.97 1.00 0.92 0.70 0.62 0.64 0.74 0.89 0.96 0.97 0.95
+avr 0.75 0.82 0.92 1.00 0.92 0.86 0.84 0.91 0.97 0.95 0.89 0.78
+mai 0.48 0.56 0.70 0.92 1.00 0.97 0.94 0.96 0.92 0.83 0.69 0.54
+jui 0.42 0.49 0.62 0.86 0.97 1.00 0.99 0.98 0.90 0.78 0.64 0.47
+jul 0.45 0.52 0.64 0.84 0.94 0.99 1.00 0.99 0.91 0.79 0.66 0.51
+aou 0.56 0.62 0.74 0.91 0.96 0.98 0.99 1.00 0.96 0.87 0.75 0.61
+sep 0.75 0.80 0.89 0.97 0.92 0.90 0.91 0.96 1.00 0.97 0.90 0.79
+oct 0.88 0.91 0.96 0.95 0.83 0.78 0.79 0.87 0.97 1.00 0.97 0.91
+nov 0.96 0.97 0.97 0.89 0.69 0.64 0.66 0.75 0.90 0.97 1.00 0.98
+dec 0.99 0.98 0.95 0.78 0.54 0.47 0.51 0.61 0.79 0.91 0.98 1.00</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># On centre et réduit toutes les variables</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>normalized_X <span class="ot">&lt;-</span> <span class="fu">scale</span>(X, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">1</span><span class="sc">/</span>(<span class="fu">nrow</span>(normalized_X)<span class="sc">-</span><span class="dv">1</span>) <span class="sc">*</span> <span class="fu">t</span>(normalized_X) <span class="sc">%*%</span> normalized_X, <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     jan  fev  mar  avr  mai  jui  jul  aou  sep  oct  nov  dec
+jan 1.00 0.99 0.94 0.75 0.48 0.42 0.45 0.56 0.75 0.88 0.96 0.99
+fev 0.99 1.00 0.97 0.82 0.56 0.49 0.52 0.62 0.80 0.91 0.97 0.98
+mar 0.94 0.97 1.00 0.92 0.70 0.62 0.64 0.74 0.89 0.96 0.97 0.95
+avr 0.75 0.82 0.92 1.00 0.92 0.86 0.84 0.91 0.97 0.95 0.89 0.78
+mai 0.48 0.56 0.70 0.92 1.00 0.97 0.94 0.96 0.92 0.83 0.69 0.54
+jui 0.42 0.49 0.62 0.86 0.97 1.00 0.99 0.98 0.90 0.78 0.64 0.47
+jul 0.45 0.52 0.64 0.84 0.94 0.99 1.00 0.99 0.91 0.79 0.66 0.51
+aou 0.56 0.62 0.74 0.91 0.96 0.98 0.99 1.00 0.96 0.87 0.75 0.61
+sep 0.75 0.80 0.89 0.97 0.92 0.90 0.91 0.96 1.00 0.97 0.90 0.79
+oct 0.88 0.91 0.96 0.95 0.83 0.78 0.79 0.87 0.97 1.00 0.97 0.91
+nov 0.96 0.97 0.97 0.89 0.69 0.64 0.66 0.75 0.90 0.97 1.00 0.98
+dec 0.99 0.98 0.95 0.78 0.54 0.47 0.51 0.61 0.79 0.91 0.98 1.00</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Comparaison avec les valeurs propres données par la fonction <em>pca</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"PCA"</span> <span class="ot">=</span> <span class="fu">as.vector</span>(res_acp<span class="sc">$</span>eig[,<span class="st">"eigenvalue"</span>]),</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"à la main"</span> <span class="ot">=</span> <span class="fu">eigen</span>(<span class="fu">cor</span>(X))<span class="sc">$</span>values</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">PCA</th>
+<th style="text-align: right;">à.la.main</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">9.9477504</td>
+<td style="text-align: right;">9.9477504</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1.8476485</td>
+<td style="text-align: right;">1.8476485</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.1262558</td>
+<td style="text-align: right;">0.1262558</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.0382934</td>
+<td style="text-align: right;">0.0382934</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.0167094</td>
+<td style="text-align: right;">0.0167094</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.0128330</td>
+<td style="text-align: right;">0.0128330</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.0058303</td>
+<td style="text-align: right;">0.0058303</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.0020319</td>
+<td style="text-align: right;">0.0020319</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.0010235</td>
+<td style="text-align: right;">0.0010235</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.0009528</td>
+<td style="text-align: right;">0.0009528</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.0005368</td>
+<td style="text-align: right;">0.0005368</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.0001342</td>
+<td style="text-align: right;">0.0001342</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>L’inertie du premier axe est égale à :</p>
+<p><span class="math display">\[\frac{Valeur\ propre\ 1}{Somme\ des\ valeurs\ propres}\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">eigen</span>(<span class="fu">cor</span>(X))<span class="sc">$</span>values[<span class="dv">1</span>] <span class="sc">/</span> <span class="fu">sum</span>(<span class="fu">eigen</span>(<span class="fu">cor</span>(X))<span class="sc">$</span>values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8289792</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="afd" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="afd"><span class="header-section-number">3</span> AFD</h2>
+<p><span class="emoji" data-emoji="construction">🚧</span></p>
+<p>Une Analyse Factorielle Discriminante (AFD) est une ACP à laquelle nous ajoutons une variable qualitative.</p>
+</section>
+<section id="afc" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="afc"><span class="header-section-number">4</span> AFC</h2>
+<p><span class="emoji" data-emoji="construction">🚧</span></p>
+<p>Une Analyse Factorielle des Correspondances (AFC) eprmet d’étudier la liaison entre 2 variables qualitatives.</p>
+</section>
+<section id="acm" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="acm"><span class="header-section-number">5</span> ACM</h2>
+<p><span class="emoji" data-emoji="construction">🚧</span></p>
+<p>Une Analyse factorielle des correspondances multiples (ACM) généralise l’AFC en étudiant les liaisons entre plusieurs variables qualitatives.</p>
+</section>
+<section id="vidéos" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="vidéos"><span class="header-section-number">6</span> Vidéos</h2>
+<p>StatQuest: ACP, idées principales :</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/HMOI_lkzW08" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = true;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/ludo2ne\.github\.io\/ENSAI-stats\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Website built with <a href="https://quarto.org/" target="_blank">Quarto</a><br> <a href="https://github.com/ludo2ne/ENSAI-Stats" target="_blank">Source code</a></p>
+</div>
+  </div>
+</footer>
+<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","selector":".lightbox","descPosition":"bottom","closeEffect":"zoom","loop":false});
+window.onload = () => {
+  lightboxQuarto.on('slide_before_load', (data) => {
+    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+    const href = trigger.getAttribute('href');
+    if (href !== null) {
+      const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+      if (imgEl !== null) {
+        const srcAttr = imgEl.getAttribute("src");
+        if (srcAttr && srcAttr.startsWith("data:")) {
+          slideConfig.href = srcAttr;
+        }
+      }
+    } 
+  });
+
+  lightboxQuarto.on('slide_after_load', (data) => {
+    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+    if (window.Quarto?.typesetMath) {
+      window.Quarto.typesetMath(slideNode);
+    }
+  });
+
+};
+          </script>
+
+
+
+
+</body></html>
