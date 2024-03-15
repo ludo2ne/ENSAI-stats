@@ -11,17 +11,19 @@ website:
         text: Accueil
       - text: Probabilité
         menu:
-          - href: doc/tuto/proba/lois-probabilité-continues.qmd
+          - href: doc/tuto/proba/lois-probabilite-continues.qmd
             text: "Lois de probabilité continues"
-          - href: doc/tuto/proba/lois-probabilité-discrètes.qmd
+          - href: doc/tuto/proba/lois-probabilite-discretes.qmd
             text: "Lois de probabilité discrètes"
-          - href: doc/tuto/proba/probabilités.qmd
+          - href: doc/tuto/proba/probabilites.qmd
             text: "Probabilités"
       - text: Statistiques
         menu:
+          - href: doc/tuto/stats/analyse-multivariee.qmd
+            text: "Analyse Multivariée"
           - href: doc/tuto/stats/tests-statitiques.qmd
             text: "Tests Statistiques"
-          - href: doc/tuto/stats/modèles-survie.qmd
+          - href: doc/tuto/stats/modeles-survie.qmd
             text: "Modèles de Survie"
     right:
       - icon: github

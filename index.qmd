@@ -18,7 +18,6 @@ from: markdown+emoji
 Reprendre le contenu de https://github.com/ludo2ne/R-tuto et mettre au format qmd
 
 - [ ] Lois de probabilité discrétes
-- [ ] Méthodes factorielles
 - [ ] Classification non supervisée
 - [ ] Statistique inférentielle
 - [ ] Apprentissage Supervisé
@@ -32,6 +31,7 @@ Reprendre le contenu de https://github.com/ludo2ne/R-tuto et mettre au format qm
 
 ## Work in progress
 
+- [ ] Méthodes factorielles
 - [ ] Tests Statistiques
 - [ ] Probabilités
 

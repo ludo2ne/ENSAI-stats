@@ -9,6 +9,8 @@ URL: https://ludo2ne.github.io/ENSAI-stats/
 License: MIT
 Imports:
     dplyr,
+    factoextra,
+    FactoMineR,
     ggplot2,
     rmarkdown,
     survival

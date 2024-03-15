@@ -1,0 +1,398 @@
+---
+title: "Analyse multivariée"
+description: "Introduction aux méthodes factorielles (ACP, AFD, AFC, ACM)"
+author: "Ludovic Deneuville"
+format:
+  html:
+    toc: true
+    toc-location: left
+    toc-expand: 3
+    df-print: kable
+    code-fold: false
+execute:
+  warning: false
+fig-width: 6
+fig-height: 4
+fig-align: center
+from: markdown+emoji
+number-sections: true
+lightbox: true
+---
+
+
+## Documentation et Sources{.unnumbered}
+
+Les exemples utilisés sont repris du cours de [Matthieu MARBAC](https://ensai.fr/equipe/matthieu-marbac-lourdelle/){target="_blank"} dispensé à l'ENSAI en 2021.
+
+- [L’analyse de données sur UtilitR](https://www.book.utilitr.org/03_fiches_thematiques/fiche_analyse_de_donnees){target="_blank"} 
+
+
+
+##  Objectifs et Contexte{.unnumbered}
+
+- Vous disposez des données suivantes
+  - $n$ individus
+  - $p$ variables
+  - $X$ : `matrice des données` de dimension $n$ x $p$
+- Comment analyser la structure et représenter ces données ?
+
+Il n'ai pas aisé de représenter vos données en dimension $p$ :
+
+- `Nuage de points`
+  - représentation de vos données en dimension p
+  - pour les calculs, le nuage de point sera centré et réduit
+    - cela permet d'avoir le même poids pour chaque variable
+    - par exemple en réduisant, une variable *age* (valeurs entre 0 et 120) aura la même importance qu'une variable *nombre de neurones* (valeurs entre 100 millions et 100 milliards)
+    - ce n'est pas obligatoire de réduire, mais si on ne le fait pas, la variable *age* dont la variance est beaucoup plus faible, sera négligeable
+
+
+:dart: Vous souhaitez par exemple représenter vos données sur un graphique en 2D.
+
+Les méthodes factorielles sont là pour vous aider à réduire la complexité des données tout en préservant au maximum l'information qu'elles contiennent.
+
+Comment ? En effectuant un changement de base pour obtenir des axes où l'inertie est maximale.
+
+- `Inertie`
+  - représente l'écart entre les observations
+  - grande si le nuage est dispersé, petite sinon
+  - l'inertie totale est égale à la somme des inerties de chaque axe
+
+::: {.callout-tip title="Autrement dit"}
+
+- Vous partez d'un nuage de point de dimension $\mathbb{R}^p$
+- Vous effectuez un changement de base
+- Pour le choix du 1er axe factoriel, vous cherchez l'axe qui maximise l'inertie
+- Puis vous cherchez un 2e axe factoriel qui maximise l'inertie restante
+- etc. jusqu'au dernier axe (p)
+- Enfin, vous analysez les premiers axes, ceux qui concentrent la majorité de l'inertie
+
+:::
+
+
+Dans le domaine de l'analyse des données multivariées, plusieurs techniques sont couramment utilisées pour explorer la structure sous-jacente des données et en [extraire des informations significatives]{.underline}. 
+
+Quatre de ces techniques employées sont :
+
+- l'Analyse en Composantes Principales (ACP)
+- l'Analyse Factorielle Discriminante (AFD)
+- l'Analyse Factorielle des Correspondances (AFC)
+- l'Analyse des Correspondances Multiples (ACM)
+
+
+## Ma première ACP
+
+Nous allons commencer par réaliser une ACP. Les autres méthodes suivent globalement le même principe avec quelques variantes.
+
+Pour réaliser une ACP, nous ne gardons que des variables [quantitatives]{.underline}.
+
+::: {.callout-important}
+
+Nous nous baserons sur un cas simple où :
+
+- tous les individus ont le même poids, c'est à dire la même importance
+- toutes les variables ont le même poids (Métrique : Identité)
+:::
+
+### Données
+
+Commençons par réinitialiser notre environnement et charger les librairies utiles
+
+
+```{r}
+rm(list=ls())
+
+library(ggplot2)
+library(FactoMineR)         # install.packages("FactoMineR")
+library(factoextra)         # install.packages("factoextra")
+```
+
+Nous utilisons un jeu de données contenant les températures de différentes villes d'Europe
+
+```{r}
+temperature <- read.table("data/temperature.csv", 
+                          header = TRUE,
+                          sep = ";",
+                          row.names = 1,
+                          stringsAsFactors = TRUE)
+
+str(temperature)
+```
+
+Pour chacune des villes, nous avons les variables suivantes :
+
+- 12 variables pour les températures moyennes pour chaque mois
+- la température moyenne de l'année, ainsi que l'amplitude
+- la latitude et la longitude
+- la région
+
+Toutes les variables sont numériques, excepté la *région*.
+
+
+### Statistiques descriptives
+
+Avant de se lancer tête baissée, regardons les statistiques descriptives
+
+```{r}
+summary(temperature)
+```
+
+```{r}
+ggplot(temperature, aes(x = Region, y = Moyenne)) +
+  geom_point(size = 3, color="darkcyan") +
+  labs(title = "Températures moyennes annuelles selon la région",
+       x = "Région",
+       y = "Température moyenne (°C)") +
+  theme_minimal()
+```
+
+### Sélection des variables
+
+La première étape consiste à sélectionner les variables et individus qui vont servir à réaliser l'ACP.
+
+- `variables actives` : variables qui serviront à calculer les nouveaux axes
+- `individus actifs` : individus qui serviront à calculer les nouveaux axes
+- `individus et variables supplémentaires` : individus et variables qui [ne serviront pas]{.underline} à la création des nouveaux axes mais dont on souhaite observer la position sur ces nouveaux axes
+  - ils peuvent servir pour contrôler la pertinence de la nouvelle base
+
+Ces choix peuvent différer selon l'analyse que nous souhaitons réaliser. Ici nous choisissons par exemple :
+
+- variables actives : les températures de janvier à décembre
+  - les colonnes 13 à 16 sont des variables quantitatives supplémentaires
+  - la colonne 17 est une variable qualitative supplémentaire
+- individus actifs : les capitales
+  - les autres (lignes 24 à 35) seront supplémentaires
+
+```{r}
+res_acp <- PCA(temperature, 
+               ind.sup = c(24:35),
+               quanti.sup = c(13:16),
+               quali.sup = c(17),
+               graph = FALSE)
+```
+
+Voici les coordonnées des villes dans la nouvelle base :
+
+```{r}
+res_acp$ind$coord
+```
+
+
+### Inertie par axe
+
+La dimension 1 est l'axe avec la plus grande inertie, la dimension 2 avec la 2e plus grande inertie...
+
+```{r}
+fviz_eig(res_acp)
+```
+
+Le premier axe explique 82.9 % de l'inertie et le second 15,4 %.
+
+
+### Cercle des corrélations
+
+Le `cercle des corrélations` permet de représenter graphiquement les corrélations entre les [variables]{.underline} et les [axes factoriels]{.underline}.
+
+Représentons ce cercle pour les 2 premiers axes :
+```{r}
+fviz_pca_var(res_acp, repel = TRUE)
+```
+
+- Interprétations des flèches. Si elle pointe prés de 
+  - [1,0], la variable est fortement corrélée positivement à l'axe factoriel des abscisses (1)
+  - [-1,0], la variable est fortement corrélée négativement à l'axe factoriel des abscisses (1)
+  - [0,1], la variable est fortement corrélée positivement à l'axe factoriel des ordonnées (2)
+  - [0,-1], la variable est fortement corrélée négativement à l'axe factoriel des ordonnées (2)
+  - [0,0], la variable n'est corrélé à aucun axe factoriel
+
+Dans notre exemple, les 12 variables de températures moyennes mensuelle sont fortement correlés positivement à l'axe 1. Ce comportement est nommé `effet taille`.
+
+C'est assez logique car cet axe représente une écrasante majorité de l'inertie.
+
+Autre information interessante : la variable *Amplitude* est fortement correlée au 2e axe. Et pour tant cette variable est supplémentaire et n'a donc pas été prise en compte pour construire cet axe.
+
+
+### Individus sur les 2 premiers axes
+
+Représentons maintenant les [individus]{.underline} sur les [axes factoriels]{.underline}.
+
+```{r}
+fviz_pca_ind(res_acp, repel = TRUE)
+```
+
+Essayons d'interpréter ces 2 axes :
+
+- axe 1 : nous retrouvons des villes où les températures sont plutôt froides à gauche et chaudes à droite
+- axe 2 : 
+  - en haut nous retrouvons des villes avec un climat continental (grandes variations de températures entre les saisons)
+  - alors qu'en bas, nous retrouvons plutôt des villes avec un climat océanique (températures plus stables)
+
+
+```{r}
+fviz_pca_ind(res_acp,
+             habillage = "Region", 
+             addEllipses = TRUE,
+             invisible = c("ind.sup"))
+```
+
+Nous pouvons également visualiser les individus sur les autres axes. 
+
+Dans le cas présent l'inertie des axes 3 et 4 est très faible, il est donc compliqué d'interpréter ces axes.
+```{r}
+fviz_pca_ind(res_acp,
+             repel = TRUE,
+             axes = c(3,4),
+             invisible = c("ind.sup"))
+```
+
+
+### Contribution aux axes
+
+La `contribution aux axes` d'une variable indique si la variable a fortement contribué pour la construction de cet axe.
+
+- plus une variable contribue à une composante principale, plus sa contribution aux axes sera élevée
+- cette mesure permet d'identifier les variables qui ont le plus d'impact sur chaque composante principale
+
+```{r}
+fviz_contrib(res_acp, choice = "var", axes = 1)
+```
+
+
+Il en va de même pour la contribution aux axes d'un individu.
+
+```{r}
+fviz_contrib(res_acp, choice = "ind", axes = 2)
+```
+
+
+### Cos²
+
+Le `cos²` mesure la qualité de représentation de chaque variable sur chaque axe.
+
+- un cos² proche de 1 indique une bonne représentation de la variable sur l'axe, ce qui signifie que la variable est bien alignée avec l'axe et contribue fortement à sa définition
+- un cos² proche de 0 indique une faible représentation de la variable sur l'axe, ce qui signifie que la variable n'est pas bien alignée avec l'axe et contribue peu à sa définition
+
+
+```{r}
+fviz_cos2(res_acp, choice = "var", axe = 1)
+```
+
+Idem pour les individus.
+
+```{r}
+fviz_cos2(res_acp, choice = "ind", axe = 1)
+```
+
+
+## Vision mathématique
+
+### Matrices des données
+
+```{r}
+X <- as.matrix(temperature[1:23,1:12])
+colnames(X) <- c("jan", "fev", "mar", "avr", "mai", "jui", "jul", "aou", "sep", "oct", "nov", "dec")
+
+X
+```
+
+### Matrice des variances-covariances
+
+C'est une matrice carrée symétrique qui contient :
+
+- les variances des variables sur la diagonale 
+- les covariances entre les paires de variables hors-diagonale
+
+
+::: {.panel-tabset}
+
+#### Fonction *cov*
+
+```{r}
+matrice_var_cov <- cov(X); 
+
+round(matrice_var_cov, 1)
+```
+
+#### Calcul à la main
+
+```{r}
+# On centre toutes les variables
+centered_X <- scale(X, center = TRUE, scale = FALSE)
+
+round(1/(nrow(centered_X)-1) * t(centered_X) %*% centered_X, 1)
+```
+
+:::
+
+### Matrice de corrélation 
+
+C'est la matrice des variances-covariances normalisée.
+
+
+::: {.panel-tabset}
+
+#### Fontion *cor*
+
+```{r}
+matrice_cor <- cor(X); 
+
+round(matrice_cor, 2)
+```
+
+#### Calcul à la main
+
+```{r}
+# On centre et réduit toutes les variables
+normalized_X <- scale(X, center = TRUE, scale = TRUE)
+
+round(1/(nrow(normalized_X)-1) * t(normalized_X) %*% normalized_X, 2)
+```
+
+:::
+
+Comparaison avec les valeurs propres données par la fonction *pca*
+
+```{r}
+data.frame(
+  "PCA" = as.vector(res_acp$eig[,"eigenvalue"]),
+  "à la main" = eigen(cor(X))$values
+)
+```
+
+L'inertie du premier axe est égale à : 
+
+$$\frac{Valeur\ propre\ 1}{Somme\ des\ valeurs\ propres}$$
+
+```{r}
+eigen(cor(X))$values[1] / sum(eigen(cor(X))$values)
+```
+
+
+
+## AFD
+
+:construction:
+
+Une Analyse Factorielle Discriminante (AFD) est une ACP à laquelle nous ajoutons une variable qualitative.
+
+
+## AFC
+
+:construction:
+
+Une Analyse Factorielle des Correspondances (AFC) eprmet d'étudier la liaison entre 2 variables qualitatives. 
+
+
+
+## ACM
+
+:construction:
+
+Une Analyse factorielle des correspondances multiples (ACM) généralise l’AFC en étudiant les liaisons entre plusieurs variables qualitatives.
+
+
+
+## Vidéos
+
+StatQuest: ACP, idées principales :
+
+{{< video https://www.youtube.com/watch?v=HMOI_lkzW08&ab_channel=StatQuestwithJoshStarmer >}}
