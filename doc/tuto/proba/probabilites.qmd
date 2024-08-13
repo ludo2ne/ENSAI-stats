@@ -9,9 +9,6 @@ format:
     toc-expand: 3
     df-print: paged
     code-fold: true
-fig-width: 6
-fig-height: 4
-fig-align: center
 from: markdown+emoji
 number-sections: true
 ---

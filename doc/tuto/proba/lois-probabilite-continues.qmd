@@ -9,9 +9,6 @@ format:
     toc-expand: 3
     df-print: paged
     code-fold: true
-fig-width: 6
-fig-height: 4
-fig-align: center
 from: markdown+emoji
 number-sections: true
 ---
@@ -345,6 +342,7 @@ $\mathbb{V}(\Gamma( \alpha , \beta)) = \frac{\alpha}{\beta^2}$
 Densité : $f ( x , \alpha, \beta ) = x^{\alpha -1} \frac{\beta ^\alpha e^{-\beta x}}{\Gamma (\alpha )} \mathbb{1}_{x > 0}$
 
 Liens avec d'autres lois :
+
 - Si $\alpha = 1 \sim$ loi exponentielle
 - Si $\Gamma (n / 2 , 1/2 ) \sim$ loi du $\chi^2$ à $n$ degrés de liberté
 

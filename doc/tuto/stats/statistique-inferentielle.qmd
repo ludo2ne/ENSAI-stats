@@ -1,0 +1,54 @@
+---
+title: "Statistique inférentielle"
+description: "Introduction à la Statistique inférentielle"
+author: "Ludovic Deneuville"
+format:
+  html:
+    toc: true
+    toc-location: left
+    toc-expand: 3
+    df-print: kable
+    code-fold: false
+execute:
+  warning: false
+from: markdown+emoji
+number-sections: true
+---
+
+:construction:
+
+## Définitions et notations
+
+- Soit $X_i$ une `variable aléatoire` (va). Notons son espérance et sa variance :
+  - $\mathbb{E}(X) = \mu$
+  - $\text{Var}(X) = \sigma^2$
+- Soit $x_i$ une réalisation de cette va 
+- Une `Statistique` est une variable aléatoire, fonction d'un échantillon
+  - notée $T_n = h(X_1,...,X_n)$
+  - avec $n$ : `taille de l'échantillon`
+
+Commençons par présenter les 2 statistiques les plus connues : la moyenne et la variance empiriques.
+
+## Moyenne empirique
+
+$\bar{X} = \frac{1}{n} \sum_{i=1}^{n} X_i$
+
+On prouve assez facilement que :
+
+- $\mathbb{E}(bar{X}) = \mu$
+- $\text{Var}(\bar{X}) = \frac{\sigma^2}{n}$
+
+
+
+
+## Variance empirique 
+
+$\tilde{S}^2 = \frac{1}{n} \sum_{i=1}^{n} (X_i - \bar{X})^2$
+
+$\mathbb{E}[\tilde{S}^2] = \frac{n-1}{n} \sigma^2$
+
+### Variance empirique corrigée
+
+$S^2 = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X})^2$
+
+$\mathbb{E}[S^2] = \sigma^2$

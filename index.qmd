@@ -21,7 +21,6 @@ Reprendre le contenu de https://github.com/ludo2ne/R-tuto et mettre au format qm
 - [ ] Classification non supervisée
 - [ ] Statistique inférentielle
 - [ ] Apprentissage Supervisé
-- [ ] Régression linéaire
 - [ ] Modèles linéaires généralisés
 - [ ] Séries Temporelles
 - [ ] Modèles de Survie
@@ -34,6 +33,7 @@ Reprendre le contenu de https://github.com/ludo2ne/R-tuto et mettre au format qm
 - [ ] Méthodes factorielles
 - [ ] Tests Statistiques
 - [ ] Probabilités
+- [ ] Régression linéaire
 
 
 ## Done

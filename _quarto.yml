@@ -23,6 +23,8 @@ website:
             text: "Analyse Multivariée"
           - href: doc/tuto/stats/tests-statitiques.qmd
             text: "Tests Statistiques"
+          - href: doc/tuto/stats/regression-lineaire.qmd
+            text: "Régression Linéaire"
           - href: doc/tuto/stats/modeles-survie.qmd
             text: "Modèles de Survie"
     right:
