@@ -2,30 +2,38 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ludo2ne.github.io/ENSAI-stats/index.html</loc>
-    <lastmod>2024-03-15T10:45:00.958Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ludo2ne.github.io/ENSAI-stats/doc/tuto/proba/lois-probabilite-discretes.html</loc>
-    <lastmod>2024-03-15T10:45:00.958Z</lastmod>
+    <lastmod>2024-08-13T12:44:12.971Z</lastmod>
   </url>
   <url>
     <loc>https://ludo2ne.github.io/ENSAI-stats/doc/tuto/stats/tests-statitiques.html</loc>
-    <lastmod>2024-03-15T10:45:00.958Z</lastmod>
+    <lastmod>2024-08-13T12:44:12.971Z</lastmod>
   </url>
   <url>
     <loc>https://ludo2ne.github.io/ENSAI-stats/doc/tuto/stats/analyse-multivariee.html</loc>
-    <lastmod>2024-03-15T10:45:00.958Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ludo2ne.github.io/ENSAI-stats/doc/tuto/stats/modeles-survie.html</loc>
-    <lastmod>2024-03-15T10:45:00.958Z</lastmod>
+    <lastmod>2024-08-13T12:44:12.971Z</lastmod>
   </url>
   <url>
     <loc>https://ludo2ne.github.io/ENSAI-stats/doc/tuto/proba/lois-probabilite-continues.html</loc>
-    <lastmod>2024-03-15T10:45:00.958Z</lastmod>
+    <lastmod>2024-08-13T12:44:12.971Z</lastmod>
   </url>
   <url>
     <loc>https://ludo2ne.github.io/ENSAI-stats/doc/tuto/proba/probabilites.html</loc>
-    <lastmod>2024-03-15T10:45:00.958Z</lastmod>
+    <lastmod>2024-08-13T12:44:12.971Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ludo2ne.github.io/ENSAI-stats/doc/tuto/proba/lois-probabilite-discretes.html</loc>
+    <lastmod>2024-08-13T12:44:12.971Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ludo2ne.github.io/ENSAI-stats/doc/tuto/stats/regression-lineaire.html</loc>
+    <lastmod>2024-08-13T12:44:12.971Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ludo2ne.github.io/ENSAI-stats/doc/tuto/stats/statistique-inferentielle.html</loc>
+    <lastmod>2024-08-13T12:44:12.971Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ludo2ne.github.io/ENSAI-stats/doc/tuto/stats/modeles-survie.html</loc>
+    <lastmod>2024-08-13T12:44:12.971Z</lastmod>
   </url>
 </urlset>

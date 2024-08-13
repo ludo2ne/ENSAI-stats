@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Ludovic Deneuville">
-<meta name="description" content="Concepts basiques de probabilité">
+<meta name="description" content="Introduction à la Statistique inférentielle">
 
-<title>Probabilité – Tutoriels Stats</title>
+<title>Statistique inférentielle – Tutoriels Stats</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,40 +21,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -104,8 +70,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<link href="../../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
-<script src="../../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -231,18 +195,11 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#formules-de-base" id="toc-formules-de-base" class="nav-link active" data-scroll-target="#formules-de-base"><span class="header-section-number">1</span> Formules de base</a></li>
-  <li><a href="#convergences" id="toc-convergences" class="nav-link" data-scroll-target="#convergences"><span class="header-section-number">2</span> Convergences</a></li>
-  <li><a href="#loi-forte-des-grands-nombres" id="toc-loi-forte-des-grands-nombres" class="nav-link" data-scroll-target="#loi-forte-des-grands-nombres"><span class="header-section-number">3</span> Loi forte des Grands Nombres</a>
+  <li><a href="#définitions-et-notations" id="toc-définitions-et-notations" class="nav-link active" data-scroll-target="#définitions-et-notations"><span class="header-section-number">1</span> Définitions et notations</a></li>
+  <li><a href="#moyenne-empirique" id="toc-moyenne-empirique" class="nav-link" data-scroll-target="#moyenne-empirique"><span class="header-section-number">2</span> Moyenne empirique</a></li>
+  <li><a href="#variance-empirique" id="toc-variance-empirique" class="nav-link" data-scroll-target="#variance-empirique"><span class="header-section-number">3</span> Variance empirique</a>
   <ul class="collapse">
-  <li><a href="#énoncé" id="toc-énoncé" class="nav-link" data-scroll-target="#énoncé"><span class="header-section-number">3.1</span> Énoncé</a></li>
-  <li><a href="#exemple" id="toc-exemple" class="nav-link" data-scroll-target="#exemple"><span class="header-section-number">3.2</span> Exemple</a></li>
-  </ul></li>
-  <li><a href="#théorème-central-limite" id="toc-théorème-central-limite" class="nav-link" data-scroll-target="#théorème-central-limite"><span class="header-section-number">4</span> Théorème Central Limite</a>
-  <ul class="collapse">
-  <li><a href="#énoncé-1" id="toc-énoncé-1" class="nav-link" data-scroll-target="#énoncé-1"><span class="header-section-number">4.1</span> Énoncé</a></li>
-  <li><a href="#exemple-1" id="toc-exemple-1" class="nav-link" data-scroll-target="#exemple-1"><span class="header-section-number">4.2</span> Exemple</a></li>
-  <li><a href="#vidéo" id="toc-vidéo" class="nav-link" data-scroll-target="#vidéo"><span class="header-section-number">4.3</span> Vidéo</a></li>
+  <li><a href="#variance-empirique-corrigée" id="toc-variance-empirique-corrigée" class="nav-link" data-scroll-target="#variance-empirique-corrigée"><span class="header-section-number">3.1</span> Variance empirique corrigée</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -256,12 +213,12 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Probabilité</h1>
+<h1 class="title">Statistique inférentielle</h1>
 </div>
 
 <div>
   <div class="description">
-    Concepts basiques de probabilité
+    Introduction à la Statistique inférentielle
   </div>
 </div>
 
@@ -284,154 +241,41 @@ window.Quarto = {
 </header>
 
 
-<section id="formules-de-base" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="formules-de-base"><span class="header-section-number">1</span> Formules de base</h2>
-<p><span class="math display">\[\mathbb{P}(X \leq x) = \mathbb{E}(\mathbb{1}_{X \leq x})\]</span> <span class="math display">\[\mathbb{V}(X) = \mathbb{E}((X-\mathbb{E}(X))^2)\]</span></p>
-</section>
-<section id="convergences" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="convergences"><span class="header-section-number">2</span> Convergences</h2>
+<p><span class="emoji" data-emoji="construction">🚧</span></p>
+<section id="définitions-et-notations" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="définitions-et-notations"><span class="header-section-number">1</span> Définitions et notations</h2>
 <ul>
-<li>Convergence <strong>presque surement</strong>
+<li>Soit <span class="math inline">\(X_i\)</span> une <code>variable aléatoire</code> (va). Notons son espérance et sa variance :
 <ul>
-<li><span class="math inline">\(X_n \underset{n \to +\infty}{\overset{p.s} \longrightarrow} X \Longleftrightarrow \forall \omega \in \Omega, \lim\limits_{n \rightarrow +\infty} X_n(\omega) = X(\omega)\)</span></li>
+<li><span class="math inline">\(\mathbb{E}(X) = \mu\)</span></li>
+<li><span class="math inline">\(\text{Var}(X) = \sigma^2\)</span></li>
 </ul></li>
-<li>Convergence en <strong>probabilité</strong>
+<li>Soit <span class="math inline">\(x_i\)</span> une réalisation de cette va</li>
+<li>Une <code>Statistique</code> est une variable aléatoire, fonction d’un échantillon
 <ul>
-<li><span class="math inline">\(X_n \underset{n \to +\infty}{\overset{\mathbb{P}} \longrightarrow} X \Longleftrightarrow \forall \epsilon, \lim\limits_{n \rightarrow +\infty} \mathbb{P}(||X_n-X||&gt;\epsilon) = 0\)</span></li>
-</ul></li>
-<li>Convergence dans <span class="math inline">\(\mathbb{L}^p\)</span>
-<ul>
-<li><span class="math inline">\(X_n \underset{n \to +\infty}{\overset{\mathbb{L}^p} \longrightarrow} X \Longleftrightarrow \lim\limits_{n \rightarrow +\infty} ||X_n-X||_p = 0\)</span></li>
-</ul></li>
-<li>Convergence en Loi
-<ul>
-<li><span class="math inline">\(X_n \underset{n \to +\infty}{\overset{\mathcal{L}} \longrightarrow} X \Longleftrightarrow \lim\limits_{n \rightarrow +\infty} \mathbb{E}(h(X_n)) = \mathbb{E}(h(X)), \forall h\)</span> continue bornée</li>
+<li>notée <span class="math inline">\(T_n = h(X_1,...,X_n)\)</span></li>
+<li>avec <span class="math inline">\(n\)</span> : <code>taille de l'échantillon</code></li>
 </ul></li>
 </ul>
-<p>Implications de convergences :</p>
+<p>Commençons par présenter les 2 statistiques les plus connues : la moyenne et la variance empiriques.</p>
+</section>
+<section id="moyenne-empirique" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="moyenne-empirique"><span class="header-section-number">2</span> Moyenne empirique</h2>
+<p><span class="math inline">\(\bar{X} = \frac{1}{n} \sum_{i=1}^{n} X_i\)</span></p>
+<p>On prouve assez facilement que :</p>
 <ul>
-<li><span class="math inline">\(p.s \Rightarrow \mathbb{P}\)</span></li>
-<li><span class="math inline">\(\mathbb{L}^p \Rightarrow \mathbb{P}\)</span></li>
-<li><span class="math inline">\(\mathbb{P} \Rightarrow \mathcal{L}\)</span></li>
+<li><span class="math inline">\(\mathbb{E}(bar{X}) = \mu\)</span></li>
+<li><span class="math inline">\(\text{Var}(\bar{X}) = \frac{\sigma^2}{n}\)</span></li>
 </ul>
 </section>
-<section id="loi-forte-des-grands-nombres" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="loi-forte-des-grands-nombres"><span class="header-section-number">3</span> Loi forte des Grands Nombres</h2>
-<section id="énoncé" class="level3" data-number="3.1">
-<h3 data-number="3.1" class="anchored" data-anchor-id="énoncé"><span class="header-section-number">3.1</span> Énoncé</h3>
-<p>Soit <span class="math inline">\((X_n)_{n\geq1}\)</span> une suite de variables aléatoires indépendantes et identiquement distribuées (iid) et intégrables à valeurs dans <span class="math inline">\(\mathbb{R}^d\)</span>. Alors :</p>
-<p><span class="math display">\[\frac{1}{n} \sum_{i=1}^{n} X_i \underset{n \to +\infty}{\overset{\text{p.s.}}{\longrightarrow}} \mathbb{E}(X_1)\]</span></p>
-<p>Formulation simple : la moyenne empirique tend vers l’espérance.</p>
-</section>
-<section id="exemple" class="level3" data-number="3.2">
-<h3 data-number="3.2" class="anchored" data-anchor-id="exemple"><span class="header-section-number">3.2</span> Exemple</h3>
-<ul>
-<li>Lançons un dé non truqué 500 fois et calculons la moyenne obtenue aprés chaque lancer</li>
-<li>Plus le nombre de lancers augmente, plus la moyenne converge vers <span class="math inline">\(3.5\)</span></li>
-</ul>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Simuler les lancers de dés</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">200</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">500</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>ech <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">size =</span> n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span>n, </span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">p =</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>n, </span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                              <span class="cf">function</span>(i) <span class="fu">mean</span>(ech[<span class="dv">1</span><span class="sc">:</span>i])))</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Tracer le graphique avec ggplot2</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p)) <span class="sc">+</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fl">3.5</span>, </span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"orange"</span>, </span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>,</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>             <span class="at">linewidth =</span> <span class="fl">1.1</span>) <span class="sc">+</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"darkcyan"</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Moyenne des lancers de dé"</span>,</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Nombre de lancers"</span>,</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Moyenne"</span>) <span class="sc">+</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">0</span>, n) <span class="sc">+</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="probabilites_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-</section>
-<section id="théorème-central-limite" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="théorème-central-limite"><span class="header-section-number">4</span> Théorème Central Limite</h2>
-<section id="énoncé-1" class="level3" data-number="4.1">
-<h3 data-number="4.1" class="anchored" data-anchor-id="énoncé-1"><span class="header-section-number">4.1</span> Énoncé</h3>
-<p>Soit <span class="math inline">\((X_n)_{n\geq1}\)</span> une suite de variables aléatoires iid avec une moyenne <span class="math inline">\(\mu\)</span> et un écart-type <span class="math inline">\(\sigma\)</span>. Alors :</p>
-<p><span class="math display">\[\lim_{n \to +\infty} \sqrt{n} \left( \frac{1}{n}\sum_{i=1}^{n} \frac{ X_i - \mu}{\sigma} \right) \xrightarrow{\mathcal {L}} N(0, 1)\]</span></p>
-<p>Formulation simple : La différence entre moyenne empirique et espérance (<span class="math inline">\(\overline{X}_n - \mathbb{E}(X)\)</span>) converge en loi vers une loi Normale</p>
-</section>
-<section id="exemple-1" class="level3" data-number="4.2">
-<h3 data-number="4.2" class="anchored" data-anchor-id="exemple-1"><span class="header-section-number">4.2</span> Exemple</h3>
-<ul>
-<li>Tirons un échantillon de 50 valeurs suivant la loi uniforme sur [0,1] et calculons la moyenne</li>
-<li>Répétons cette opération 5000 fois et affichons la distribution des moyennes empiriques obtenues</li>
-</ul>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Paramètres</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">200</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>nb_sim <span class="ot">&lt;-</span> <span class="dv">5000</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>taille_ech <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>u_min <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>u_max <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>E <span class="ot">&lt;-</span> (u_max <span class="sc">-</span> u_min) <span class="sc">/</span> <span class="dv">2</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>V <span class="ot">&lt;-</span> (u_max <span class="sc">-</span> u_min)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="dv">12</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulations</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">numeric</span>(nb_sim)</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nb_sim) {</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  ech <span class="ot">&lt;-</span> <span class="fu">runif</span>(taille_ech, <span class="at">min =</span> u_min, <span class="at">max =</span> u_max)</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  res[i] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(taille_ech) <span class="sc">/</span> <span class="fu">sqrt</span>(V) <span class="sc">*</span> (<span class="fu">mean</span>(ech) <span class="sc">-</span> E)</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Tracé de l'histogramme et de la densité</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(res), <span class="fu">aes</span>(<span class="at">x =</span> res)) <span class="sc">+</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.2</span>, </span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"darkcyan"</span>, </span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">"black"</span>, </span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density))) <span class="sc">+</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="fu">aes</span>(<span class="at">linetype =</span> <span class="st">"N(0,1)"</span>), </span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>                <span class="at">fun =</span> dnorm, </span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>                <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>), </span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">"orange"</span>, </span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>                <span class="at">linewidth =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution des moyennes empiriques"</span>,</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Moyenne des échantillons"</span>,</span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Densité"</span>) <span class="sc">+</span></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_linetype_manual</span>(<span class="at">name =</span> <span class="st">""</span>, </span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>                        <span class="at">values =</span> <span class="st">"dashed"</span>,</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>                        <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"N(0,1)"</span>)) <span class="sc">+</span></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="probabilites_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="vidéo" class="level3" data-number="4.3">
-<h3 data-number="4.3" class="anchored" data-anchor-id="vidéo"><span class="header-section-number">4.3</span> Vidéo</h3>
-<p><a href="https://statquest.org/" target="_blank">StatQuest</a> by Joshua Starmer</p>
-<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/YAlJCEDH2uY" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<section id="variance-empirique" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="variance-empirique"><span class="header-section-number">3</span> Variance empirique</h2>
+<p><span class="math inline">\(\tilde{S}^2 = \frac{1}{n} \sum_{i=1}^{n} (X_i - \bar{X})^2\)</span></p>
+<p><span class="math inline">\(\mathbb{E}[\tilde{S}^2] = \frac{n-1}{n} \sigma^2\)</span></p>
+<section id="variance-empirique-corrigée" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="variance-empirique-corrigée"><span class="header-section-number">3.1</span> Variance empirique corrigée</h3>
+<p><span class="math inline">\(S^2 = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X})^2\)</span></p>
+<p><span class="math inline">\(\mathbb{E}[S^2] = \sigma^2\)</span></p>
 
 
 </section>

@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Ludovic Deneuville">
-<meta name="description" content="Concepts basiques de probabilité">
+<meta name="description" content="Modèles de régression linéaire">
 
-<title>Probabilité – Tutoriels Stats</title>
+<title>Régression linéaire – Tutoriels Stats</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -77,6 +77,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../../../site_libs/bootstrap/bootstrap-dark.min.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -104,8 +107,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<link href="../../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
-<script src="../../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -231,18 +232,13 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#formules-de-base" id="toc-formules-de-base" class="nav-link active" data-scroll-target="#formules-de-base"><span class="header-section-number">1</span> Formules de base</a></li>
-  <li><a href="#convergences" id="toc-convergences" class="nav-link" data-scroll-target="#convergences"><span class="header-section-number">2</span> Convergences</a></li>
-  <li><a href="#loi-forte-des-grands-nombres" id="toc-loi-forte-des-grands-nombres" class="nav-link" data-scroll-target="#loi-forte-des-grands-nombres"><span class="header-section-number">3</span> Loi forte des Grands Nombres</a>
+  <li><a href="#avant-de-commencer" id="toc-avant-de-commencer" class="nav-link active" data-scroll-target="#avant-de-commencer">Avant de commencer</a></li>
+  <li><a href="#objectif" id="toc-objectif" class="nav-link" data-scroll-target="#objectif"><span class="header-section-number">1</span> Objectif</a></li>
+  <li><a href="#premier-exemple" id="toc-premier-exemple" class="nav-link" data-scroll-target="#premier-exemple"><span class="header-section-number">2</span> Premier exemple</a>
   <ul class="collapse">
-  <li><a href="#énoncé" id="toc-énoncé" class="nav-link" data-scroll-target="#énoncé"><span class="header-section-number">3.1</span> Énoncé</a></li>
-  <li><a href="#exemple" id="toc-exemple" class="nav-link" data-scroll-target="#exemple"><span class="header-section-number">3.2</span> Exemple</a></li>
-  </ul></li>
-  <li><a href="#théorème-central-limite" id="toc-théorème-central-limite" class="nav-link" data-scroll-target="#théorème-central-limite"><span class="header-section-number">4</span> Théorème Central Limite</a>
-  <ul class="collapse">
-  <li><a href="#énoncé-1" id="toc-énoncé-1" class="nav-link" data-scroll-target="#énoncé-1"><span class="header-section-number">4.1</span> Énoncé</a></li>
-  <li><a href="#exemple-1" id="toc-exemple-1" class="nav-link" data-scroll-target="#exemple-1"><span class="header-section-number">4.2</span> Exemple</a></li>
-  <li><a href="#vidéo" id="toc-vidéo" class="nav-link" data-scroll-target="#vidéo"><span class="header-section-number">4.3</span> Vidéo</a></li>
+  <li><a href="#générerons-des-données" id="toc-générerons-des-données" class="nav-link" data-scroll-target="#générerons-des-données"><span class="header-section-number">2.1</span> Générerons des données</a></li>
+  <li><a href="#régression-linéaire" id="toc-régression-linéaire" class="nav-link" data-scroll-target="#régression-linéaire"><span class="header-section-number">2.2</span> Régression linéaire</a></li>
+  <li><a href="#application-du-modèle" id="toc-application-du-modèle" class="nav-link" data-scroll-target="#application-du-modèle"><span class="header-section-number">2.3</span> Application du modèle</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -256,12 +252,12 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Probabilité</h1>
+<h1 class="title">Régression linéaire</h1>
 </div>
 
 <div>
   <div class="description">
-    Concepts basiques de probabilité
+    Modèles de régression linéaire
   </div>
 </div>
 
@@ -284,154 +280,447 @@ window.Quarto = {
 </header>
 
 
-<section id="formules-de-base" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="formules-de-base"><span class="header-section-number">1</span> Formules de base</h2>
-<p><span class="math display">\[\mathbb{P}(X \leq x) = \mathbb{E}(\mathbb{1}_{X \leq x})\]</span> <span class="math display">\[\mathbb{V}(X) = \mathbb{E}((X-\mathbb{E}(X))^2)\]</span></p>
+<p><span class="emoji" data-emoji="construction">🚧</span></p>
+<section id="avant-de-commencer" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="avant-de-commencer">Avant de commencer</h2>
+<p>Réinitialisation de l’environnement</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Librairies utiles</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
-<section id="convergences" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="convergences"><span class="header-section-number">2</span> Convergences</h2>
+<section id="objectif" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="objectif"><span class="header-section-number">1</span> Objectif</h2>
+<p>Une régression linéaire est une méthode statistique utilisée pour modéliser la relation entre :</p>
 <ul>
-<li>Convergence <strong>presque surement</strong>
+<li>une variable à expliquer notée <strong><span class="math inline">\(Y\)</span></strong></li>
+<li>une ou plusieurs variables explicatives linéairement indépendantes (régresseurs), notées <strong><span class="math inline">\(X_i\)</span></strong></li>
+</ul>
+<p>Notons <span class="math inline">\(p\)</span> le nombre de regresseurs.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Exemple">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exemple
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Définir un modèle pour déterminer le prix d’une maison avec 3 régresseurs :</p>
 <ul>
-<li><span class="math inline">\(X_n \underset{n \to +\infty}{\overset{p.s} \longrightarrow} X \Longleftrightarrow \forall \omega \in \Omega, \lim\limits_{n \rightarrow +\infty} X_n(\omega) = X(\omega)\)</span></li>
+<li><strong><span class="math inline">\(Y\)</span></strong> : Prix</li>
+<li><strong><span class="math inline">\(X_1\)</span></strong> : Surface</li>
+<li><strong><span class="math inline">\(X_2\)</span></strong> : Nombre de toilettes</li>
+<li><strong><span class="math inline">\(X_3\)</span></strong> : Année de construction</li>
+</ul>
+</div>
+</div>
+<p>Nous disposons d’un échantillon de taille <span class="math inline">\(n\)</span> pour construire notre modèle :</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Exemple">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exemple
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Y</th>
+<th>X1</th>
+<th>X2</th>
+<th>X3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>250 000</td>
+<td>100</td>
+<td>1</td>
+<td>1990</td>
+</tr>
+<tr class="even">
+<td>350 000</td>
+<td>150</td>
+<td>2</td>
+<td>2000</td>
+</tr>
+<tr class="odd">
+<td>400 000</td>
+<td>180</td>
+<td>3</td>
+<td>2010</td>
+</tr>
+<tr class="even">
+<td>300 000</td>
+<td>120</td>
+<td>2</td>
+<td>1985</td>
+</tr>
+<tr class="odd">
+<td>280 000</td>
+<td>110</td>
+<td>2</td>
+<td>2005</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>À partir de ces données, nous souhaitons trouver une fonction <span class="math inline">\(f\)</span> telle que : <span class="math inline">\(Y = f(X) + \epsilon\)</span>.</p>
+<p>Dans le cadre de la régression linéaire, la fonction <span class="math inline">\(f\)</span> s’exprime simplement : <span class="math inline">\(f(X) = X\beta\)</span></p>
+<p>Notre modèle devient alors : <span class="math inline">\(Y = X\beta + \epsilon\)</span> avec :</p>
+<ul>
+<li><span class="math inline">\(\beta\)</span> : le coefficient de régression (pente de la droite)</li>
+<li><span class="math inline">\(\epsilon\)</span> : le terme d’erreur</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled" title="Le résidu">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Le résidu
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong><span class="math inline">\(\epsilon\)</span></strong> est le terme d’erreur (ou résidu). Il représente tout ce qui n’est pas expliqué par <span class="math inline">\(X\)</span>.</p>
+<p>En d’autres termes, il capture la différence entre la valeur observée de <span class="math inline">\(Y\)</span> et la valeur prédite par le modèle.</p>
+<p>Le terme <span class="math inline">\(E\)</span> reflète les variations imprévisibles ou dues à d’autres facteurs non inclus dans le modèle.</p>
+<p>Nous considérerons le modèle gaussien, ainsi <span class="math inline">\(\epsilon ∼ N (0, \sigma^2 Id)\)</span>.</p>
+</div>
+</div>
+<p>L’écriture matricielle du modèle :</p>
+<p><span class="math display">\[\begin{pmatrix} y_1 \\ y_2 \\ y_3 \\ y_4 \\ y_5 \end{pmatrix} = \begin{pmatrix} 1 &amp; x_{11} &amp; x_{12} &amp; x_{13} \\ 1 &amp; x_{21} &amp; x_{22} &amp; x_{23} \\ 1 &amp; x_{31} &amp; x_{32} &amp; x_{33} \\ 1 &amp; x_{41} &amp; x_{42} &amp; x_{43} \\ 1 &amp; x_{51} &amp; x_{52} &amp; x_{53} \end{pmatrix} \begin{pmatrix} \beta_0 \\ \beta_1 \\ \beta_2 \\ \beta_3 \end{pmatrix} + \begin{pmatrix} \epsilon_1 \\ \epsilon_2 \\ \epsilon_3 \\ \epsilon_4 \\ \epsilon_5 \end{pmatrix}\]</span></p>
+<p>Ce qui équivaut à <span class="math inline">\(\forall i = 1,...,n, Y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2}  + \beta_3 x_{i3} + \beta_4 x_{i4}\)</span></p>
+<div class="callout callout-style-default callout-note callout-titled" title="Remarque">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Remarque
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>La première colonne de <span class="math inline">\(X\)</span> est une colonnes de 1 pour l’intercept</li>
+<li>La seconde colonne de <span class="math inline">\(X\)</span> est <span class="math inline">\(X_1\)</span>, la 3e est <span class="math inline">\(X_2\)</span>, la 4e est <span class="math inline">\(X_3\)</span></li>
+</ul>
+</div>
+</div>
+<p>L’étape suivante est d’estimer les coefficients du modèle. En utilisant la méthode des moindres carrés ordinaires (MCO), nous recherchons les valeurs des coefficients <span class="math inline">\(\beta\)</span> qui minimisent la somme des carrés des résidus.</p>
+<p>L’estimateur MCO des coefficients <span class="math inline">\(\beta\)</span> est donné par : <span class="math inline">\(\hat{\beta} = (X^T X)^{-1} X^T Y\)</span> sous les hypothèses suivantes sur le terme d’erreur :</p>
+<ul>
+<li><span class="math inline">\(\mathbb{E}(\epsilon_i) = 0 \ \forall i = 1,...,n\)</span> (centré)</li>
+<li><span class="math inline">\(\mathbb{V}(\epsilon_i^2) = \sigma^2 \ \forall i = 1,...,n\)</span> (homoscédastique)</li>
+<li><span class="math inline">\(Cov(\epsilon_i, \epsilon_j) = 0, \ 1 \le i \ne j \le n\)</span> (décorrélé)</li>
+</ul>
+</section>
+<section id="premier-exemple" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="premier-exemple"><span class="header-section-number">2</span> Premier exemple</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">200</span>    <span class="co"># Taille de l echantillon</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="dv">3</span>      <span class="co"># Nombre de regresseurs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="générerons-des-données" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="générerons-des-données"><span class="header-section-number">2.1</span> Générerons des données</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">234</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>X1 <span class="ot">&lt;-</span> <span class="fu">runif</span>(n, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>X2 <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span>,n)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>X3 <span class="ot">&lt;-</span> X1<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>E <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="dv">1</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="dv">15</span> <span class="sc">+</span> <span class="dv">3</span><span class="sc">*</span>X1 <span class="sc">+</span> X2<span class="sc">/</span><span class="dv">10</span> <span class="sc">+</span> X3<span class="sc">/</span><span class="dv">2</span> <span class="sc">+</span> E</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(X1, X2, X3, Y)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">X1</th>
+<th style="text-align: right;">X2</th>
+<th style="text-align: right;">X3</th>
+<th style="text-align: right;">Y</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.7456200</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1.555949</td>
+<td style="text-align: right;">18.30523</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.7817124</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1.611074</td>
+<td style="text-align: right;">19.07200</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.0200371</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1.000401</td>
+<td style="text-align: right;">14.91214</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.7760854</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1.602308</td>
+<td style="text-align: right;">18.87371</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.0669101</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1.004477</td>
+<td style="text-align: right;">13.75483</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.6447951</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1.415761</td>
+<td style="text-align: right;">17.99670</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.9293860</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">1.863758</td>
+<td style="text-align: right;">19.79870</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.7176422</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">1.515010</td>
+<td style="text-align: right;">17.32157</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.9277365</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">1.860695</td>
+<td style="text-align: right;">18.84897</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.2842301</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">1.080787</td>
+<td style="text-align: right;">17.58318</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="régression-linéaire" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="régression-linéaire"><span class="header-section-number">2.2</span> Régression linéaire</h3>
+<p>Effectuons la régression linéaire de <span class="math inline">\(Y\)</span> sur <span class="math inline">\(X_1\)</span>, <span class="math inline">\(X_2\)</span> et <span class="math inline">\(X_3\)</span> grâce à la fonction <em>lm()</em> (linear model).</p>
+<p>Elle va estimer les coefficients <span class="math inline">\(\beta_0\)</span>, <span class="math inline">\(\beta_1\)</span>, <span class="math inline">\(\beta_2\)</span> et <span class="math inline">\(\beta_3\)</span> ainsi que la qualité de l’estimation.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset nav-pills">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Résultat</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Coefficients</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Stats globales</a></li></ul>
+<div class="tab-content nav-pills">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>reg <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> X1 <span class="sc">+</span> X2 <span class="sc">+</span> X3,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> df)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Y ~ X1 + X2 + X3, data = df)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2.57715 -0.56368  0.04049  0.57072  2.87147 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 15.801475   0.863889  18.291  &lt; 2e-16 ***
+X1           4.840852   1.065220   4.544 9.62e-06 ***
+X2           0.102229   0.001189  85.998  &lt; 2e-16 ***
+X3          -0.994179   1.035373  -0.960    0.338    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.9666 on 196 degrees of freedom
+Multiple R-squared:  0.9749,    Adjusted R-squared:  0.9745 
+F-statistic:  2536 on 3 and 196 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>La fonction <em>summary()</em> fournit le tableau des coefficients avec :</p>
+<ul>
+<li><code>Estimate</code> : les valeurs estimées des coefficients <span class="math inline">\(\beta\)</span></li>
+<li><code>Std. Error</code> : l’erreur standard associée à chaque coefficient
+<ul>
+<li>cela donne une idée de la précision des estimations</li>
 </ul></li>
-<li>Convergence en <strong>probabilité</strong>
+<li><code>t value</code> : test de Student (<span class="math inline">\(H_0\)</span> : le coefficient est égal à zéro, i.e.&nbsp;la variable explicative n’a pas d’effet sur <span class="math inline">\(Y\)</span>)</li>
+<li><code>Pr(&gt;|t|)</code> : La p-valeur associée au test
 <ul>
-<li><span class="math inline">\(X_n \underset{n \to +\infty}{\overset{\mathbb{P}} \longrightarrow} X \Longleftrightarrow \forall \epsilon, \lim\limits_{n \rightarrow +\infty} \mathbb{P}(||X_n-X||&gt;\epsilon) = 0\)</span></li>
+<li>une p-valeur faible indique que le coefficient est statistiquement significatif</li>
 </ul></li>
-<li>Convergence dans <span class="math inline">\(\mathbb{L}^p\)</span>
+<li><code>***</code> : plus il y a d’étoiles plus le coefficient est significatif</li>
+</ul>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<p>La fonction <em>summary()</em> fournit également des statistiques globales du modèle.</p>
 <ul>
-<li><span class="math inline">\(X_n \underset{n \to +\infty}{\overset{\mathbb{L}^p} \longrightarrow} X \Longleftrightarrow \lim\limits_{n \rightarrow +\infty} ||X_n-X||_p = 0\)</span></li>
+<li><code>Residual standard error</code> :
+<ul>
+<li>l’écart-type des résidus</li>
+<li>mesure la variabilité des valeurs de Y non expliquées par le modèle</li>
 </ul></li>
-<li>Convergence en Loi
+<li><code>Multiple R-squared</code> : R² (Coefficient de détermination)
 <ul>
-<li><span class="math inline">\(X_n \underset{n \to +\infty}{\overset{\mathcal{L}} \longrightarrow} X \Longleftrightarrow \lim\limits_{n \rightarrow +\infty} \mathbb{E}(h(X_n)) = \mathbb{E}(h(X)), \forall h\)</span> continue bornée</li>
+<li>indique la proportion de la variance de Y expliquée par le modèle</li>
+<li>il varie entre 0 et 1, où 1 indique un ajustement parfait.</li>
+</ul></li>
+<li><code>F-statistic</code> : test de Fischer de significativité du modèle.
+<ul>
+<li><span class="math inline">\(H_0\)</span> : tous les coefficients de régression sont égaux à zéro (i.e.&nbsp;les variables explicatives n’ont aucun effet sur <span class="math inline">\(Y\)</span>)</li>
 </ul></li>
 </ul>
-<p>Implications de convergences :</p>
-<ul>
-<li><span class="math inline">\(p.s \Rightarrow \mathbb{P}\)</span></li>
-<li><span class="math inline">\(\mathbb{L}^p \Rightarrow \mathbb{P}\)</span></li>
-<li><span class="math inline">\(\mathbb{P} \Rightarrow \mathcal{L}\)</span></li>
-</ul>
+</div>
+</div>
+</div>
 </section>
-<section id="loi-forte-des-grands-nombres" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="loi-forte-des-grands-nombres"><span class="header-section-number">3</span> Loi forte des Grands Nombres</h2>
-<section id="énoncé" class="level3" data-number="3.1">
-<h3 data-number="3.1" class="anchored" data-anchor-id="énoncé"><span class="header-section-number">3.1</span> Énoncé</h3>
-<p>Soit <span class="math inline">\((X_n)_{n\geq1}\)</span> une suite de variables aléatoires indépendantes et identiquement distribuées (iid) et intégrables à valeurs dans <span class="math inline">\(\mathbb{R}^d\)</span>. Alors :</p>
-<p><span class="math display">\[\frac{1}{n} \sum_{i=1}^{n} X_i \underset{n \to +\infty}{\overset{\text{p.s.}}{\longrightarrow}} \mathbb{E}(X_1)\]</span></p>
-<p>Formulation simple : la moyenne empirique tend vers l’espérance.</p>
-</section>
-<section id="exemple" class="level3" data-number="3.2">
-<h3 data-number="3.2" class="anchored" data-anchor-id="exemple"><span class="header-section-number">3.2</span> Exemple</h3>
+<section id="application-du-modèle" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="application-du-modèle"><span class="header-section-number">2.3</span> Application du modèle</h3>
+<p>Maintenant que nous avons notre modèle, calculons et affichons :</p>
 <ul>
-<li>Lançons un dé non truqué 500 fois et calculons la moyenne obtenue aprés chaque lancer</li>
-<li>Plus le nombre de lancers augmente, plus la moyenne converge vers <span class="math inline">\(3.5\)</span></li>
+<li>les valeurs ajustées <span class="math inline">\(\hat{Y}\)</span> (prédites par le modèle)</li>
+<li>les résidus <span class="math inline">\(\hat{\epsilon}\)</span> (différence en la valeur réelle et la valeur prédite)</li>
 </ul>
 <div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Simuler les lancers de dés</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">200</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">500</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>ech <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">size =</span> n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span>n, </span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">p =</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>n, </span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                              <span class="cf">function</span>(i) <span class="fu">mean</span>(ech[<span class="dv">1</span><span class="sc">:</span>i])))</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Tracer le graphique avec ggplot2</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> p)) <span class="sc">+</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fl">3.5</span>, </span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"orange"</span>, </span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>,</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>             <span class="at">linewidth =</span> <span class="fl">1.1</span>) <span class="sc">+</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"darkcyan"</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Moyenne des lancers de dé"</span>,</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Nombre de lancers"</span>,</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Moyenne"</span>) <span class="sc">+</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">0</span>, n) <span class="sc">+</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Y_hat <span class="ot">&lt;-</span> reg<span class="sc">$</span>fitted.values               <span class="co"># ou df$Y_hat &lt;- predict(reg, subset(df, select = -c(Y)))</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Epsilon_hat <span class="ot">&lt;-</span> reg<span class="sc">$</span>residuals             <span class="co"># ou df$Epsilon_hat &lt;- resid(reg) ou df$Epsilon_hat = df$Y - df$Y_hat</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">X1</th>
+<th style="text-align: right;">X2</th>
+<th style="text-align: right;">X3</th>
+<th style="text-align: right;">Y</th>
+<th style="text-align: right;">Y_hat</th>
+<th style="text-align: right;">Epsilon_hat</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.7456200</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1.555949</td>
+<td style="text-align: right;">18.30523</td>
+<td style="text-align: right;">17.96625</td>
+<td style="text-align: right;">0.3389790</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.7817124</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1.611074</td>
+<td style="text-align: right;">19.07200</td>
+<td style="text-align: right;">18.18839</td>
+<td style="text-align: right;">0.8836105</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.0200371</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1.000401</td>
+<td style="text-align: right;">14.91214</td>
+<td style="text-align: right;">15.21058</td>
+<td style="text-align: right;">-0.2984365</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.7760854</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1.602308</td>
+<td style="text-align: right;">18.87371</td>
+<td style="text-align: right;">18.37432</td>
+<td style="text-align: right;">0.4993826</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.0669101</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1.004477</td>
+<td style="text-align: right;">13.75483</td>
+<td style="text-align: right;">15.63789</td>
+<td style="text-align: right;">-1.8830648</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.6447951</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1.415761</td>
+<td style="text-align: right;">17.99670</td>
+<td style="text-align: right;">18.12869</td>
+<td style="text-align: right;">-0.1319815</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.9293860</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">1.863758</td>
+<td style="text-align: right;">19.79870</td>
+<td style="text-align: right;">19.16319</td>
+<td style="text-align: right;">0.6355146</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.7176422</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">1.515010</td>
+<td style="text-align: right;">17.32157</td>
+<td style="text-align: right;">18.58711</td>
+<td style="text-align: right;">-1.2655409</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.9277365</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">1.860695</td>
+<td style="text-align: right;">18.84897</td>
+<td style="text-align: right;">19.36271</td>
+<td style="text-align: right;">-0.5137369</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.2842301</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">1.080787</td>
+<td style="text-align: right;">17.58318</td>
+<td style="text-align: right;">17.12518</td>
+<td style="text-align: right;">0.4579915</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df))) <span class="sc">+</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> Y, <span class="at">color =</span> <span class="st">"Observé"</span>), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> Y_hat, <span class="at">color =</span> <span class="st">"Ajusté"</span>), <span class="at">shape =</span> <span class="dv">18</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Index"</span>, <span class="at">y =</span> <span class="st">"Valeurs"</span>, <span class="at">title =</span> <span class="st">"Valeurs Observées et Ajustées"</span>) <span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Observé"</span> <span class="ot">=</span> <span class="st">"darkcyan"</span>, <span class="st">"Ajusté"</span> <span class="ot">=</span> <span class="st">"orange"</span>)) <span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="probabilites_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+<p><a href="regression-lineaire_files/figure-html/unnamed-chunk-6-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="regression-lineaire_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
 </div>
-</section>
-</section>
-<section id="théorème-central-limite" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="théorème-central-limite"><span class="header-section-number">4</span> Théorème Central Limite</h2>
-<section id="énoncé-1" class="level3" data-number="4.1">
-<h3 data-number="4.1" class="anchored" data-anchor-id="énoncé-1"><span class="header-section-number">4.1</span> Énoncé</h3>
-<p>Soit <span class="math inline">\((X_n)_{n\geq1}\)</span> une suite de variables aléatoires iid avec une moyenne <span class="math inline">\(\mu\)</span> et un écart-type <span class="math inline">\(\sigma\)</span>. Alors :</p>
-<p><span class="math display">\[\lim_{n \to +\infty} \sqrt{n} \left( \frac{1}{n}\sum_{i=1}^{n} \frac{ X_i - \mu}{\sigma} \right) \xrightarrow{\mathcal {L}} N(0, 1)\]</span></p>
-<p>Formulation simple : La différence entre moyenne empirique et espérance (<span class="math inline">\(\overline{X}_n - \mathbb{E}(X)\)</span>) converge en loi vers une loi Normale</p>
-</section>
-<section id="exemple-1" class="level3" data-number="4.2">
-<h3 data-number="4.2" class="anchored" data-anchor-id="exemple-1"><span class="header-section-number">4.2</span> Exemple</h3>
-<ul>
-<li>Tirons un échantillon de 50 valeurs suivant la loi uniforme sur [0,1] et calculons la moyenne</li>
-<li>Répétons cette opération 5000 fois et affichons la distribution des moyennes empiriques obtenues</li>
-</ul>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Paramètres</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">200</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>nb_sim <span class="ot">&lt;-</span> <span class="dv">5000</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>taille_ech <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>u_min <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>u_max <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>E <span class="ot">&lt;-</span> (u_max <span class="sc">-</span> u_min) <span class="sc">/</span> <span class="dv">2</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>V <span class="ot">&lt;-</span> (u_max <span class="sc">-</span> u_min)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="dv">12</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulations</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">numeric</span>(nb_sim)</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nb_sim) {</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  ech <span class="ot">&lt;-</span> <span class="fu">runif</span>(taille_ech, <span class="at">min =</span> u_min, <span class="at">max =</span> u_max)</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  res[i] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(taille_ech) <span class="sc">/</span> <span class="fu">sqrt</span>(V) <span class="sc">*</span> (<span class="fu">mean</span>(ech) <span class="sc">-</span> E)</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Tracé de l'histogramme et de la densité</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(res), <span class="fu">aes</span>(<span class="at">x =</span> res)) <span class="sc">+</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.2</span>, </span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"darkcyan"</span>, </span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">"black"</span>, </span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density))) <span class="sc">+</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="fu">aes</span>(<span class="at">linetype =</span> <span class="st">"N(0,1)"</span>), </span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>                <span class="at">fun =</span> dnorm, </span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>                <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>), </span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">"orange"</span>, </span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>                <span class="at">linewidth =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution des moyennes empiriques"</span>,</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Moyenne des échantillons"</span>,</span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Densité"</span>) <span class="sc">+</span></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_linetype_manual</span>(<span class="at">name =</span> <span class="st">""</span>, </span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>                        <span class="at">values =</span> <span class="st">"dashed"</span>,</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>                        <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"N(0,1)"</span>)) <span class="sc">+</span></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="probabilites_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="vidéo" class="level3" data-number="4.3">
-<h3 data-number="4.3" class="anchored" data-anchor-id="vidéo"><span class="header-section-number">4.3</span> Vidéo</h3>
-<p><a href="https://statquest.org/" target="_blank">StatQuest</a> by Joshua Starmer</p>
-<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/YAlJCEDH2uY" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
 
 
 </section>
@@ -1016,6 +1305,38 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>
   </div>
 </footer>
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","loop":false,"closeEffect":"zoom","descPosition":"bottom","openEffect":"zoom"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 
