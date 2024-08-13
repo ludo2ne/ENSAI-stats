@@ -150,9 +150,11 @@ summary(reg)
 La fonction *summary()* fournit le tableau des coefficients avec :
 
 - `Estimate` : les valeurs estimées des coefficients $\beta$
-- `Std. Error` : l'erreur standard associée à chaque coefficient. Cela donne une idée de la précision des estimations
-- `t value` :  utilisé pour tester l'hypothèse nulle selon laquelle le coefficient est égal à zéro (c'est-à-dire que la variable explicative n'a pas d'effet sur Y).
-- `Pr(>|t|)` : La p-valeur associée à chaque test t. Une p-valeur faible (souvent inférieure à 0,05) indique que le coefficient est statistiquement significatif
+- `Std. Error` : l'erreur standard associée à chaque coefficient
+  - cela donne une idée de la précision des estimations
+- `t value` : test de Student ($H_0$ : le coefficient est égal à zéro, i.e. la variable explicative n'a pas d'effet sur $Y$)
+- `Pr(>|t|)` : La p-valeur associée au test
+  - une p-valeur faible indique que le coefficient est statistiquement significatif
 - `***` : plus il y a d'étoiles plus le coefficient est significatif
 
 #### Stats globales
