@@ -27,6 +27,10 @@ website:
             text: "Régression Linéaire"
           - href: doc/tuto/stats/modeles-survie.qmd
             text: "Modèles de Survie"
+      - text: Data
+        menu:
+          - href: doc/tuto/data/datavisualisation.qmd
+            text: "Datavisualisation"
     right:
       - icon: github
         href: https://github.com/ludo2ne/ENSAI-Stats

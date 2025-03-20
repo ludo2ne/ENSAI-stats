@@ -76,7 +76,7 @@ var(X)     # p * (1-p)
 La Loi Forte des Grands Nombres nous dit que :
 
 - plus nous augmentons le nombre de lancers
-- plus la moyenne empirique converge vers l'espèrance
+- plus la moyenne empirique converge vers l'espérance
 
 Calculons les moyennes cumulées et traçons l'évolution lorsque le nombre de lancers augmente
 
