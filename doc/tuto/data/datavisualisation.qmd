@@ -1,0 +1,25 @@
+---
+title: "Datavisualisation"
+description: "Ressources utiles pour la dataviz"
+author: "Ludovic Deneuville"
+format:
+  html:
+    toc: true
+    toc-location: left
+    toc-expand: 3
+    df-print: paged
+    code-fold: true
+from: markdown+emoji
+number-sections: true
+---
+
+## Ressources
+
+- [La perception des objets mathématiques élémentaires : Formes géométriques, motifs et graphes](https://www.college-de-france.fr/fr/agenda/cours/la-perception-des-objets-mathematiques-elementaires-formes-geometriques-motifs-et-graphes){target="_blank"}, Stanislas DEHAENE, Collège de France
+- [La perception des graphiques : un nouvel exemple de recyclage neuronal](https://www.college-de-france.fr/fr/agenda/cours/la-perception-des-graphiques-un-nouvel-exemple-de-recyclage-neuronal){target="_blank"}, Stanislas DEHAENE, Collège de France
+- [La dataviz pour donner du sens aux données et communiquer un message](https://ssphub.netlify.app/talk/2024-02-29-mauviere/){target="_blank"}, Eric Mauvière
+
+
+### Python
+
+- [Python Graph Gallery](https://python-graph-gallery.com/){target="_blank"}, Yan Holtz

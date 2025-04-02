@@ -15,7 +15,7 @@ from: markdown+emoji
 
 ## :construction: Todo
 
-Reprendre le contenu de https://github.com/ludo2ne/R-tuto et mettre au format qmd
+Reprendre le contenu de <https://github.com/ludo2ne/R-tuto>{target="_blank"} et mettre au format qmd
 
 - [ ] Lois de probabilité discrétes
 - [ ] Classification non supervisée
